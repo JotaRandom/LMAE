@@ -21,14 +21,18 @@ Create your own Linux Mint Arch Edition.
 >> You can list available keymaps with:\
 >> `ls /usr/share/kbd/keymaps/**/*.map.gz`\
 >> Apply the keymap of your choice with:\
->> `loadkeys de-latin1` | Example for the german keymap
+>> `loadkeys la-latin1` | Example for the latinamerican spanish keymap
 >
 >> ### 1.5 - Check if your internet connection is working
 >> Ensure your network interface is listed and enabled. You can check this with:\
 >> `ip link`
 >>
+>> In case of a WIFI connection you can use:\
+>> `iwctl`
+>> And folow the help within the command\
+>>
 >> Check, if you can establish a connection:\
->> `ping 1.1.1.1`
+>> `ping 8.8.8.8`
 >
 >> ### 1.6 - Update the system clock
 >> Ensure the system clock is accurate:\
@@ -163,8 +167,7 @@ Create your own Linux Mint Arch Edition.
 >> ### 1.13 - Important changes to the new system
 >> - Enable "NetworkManager":
 >>
->>       systemctl enable NetworkManager
->>       systemctl start NetworkManager
+>>       systemctl enable --now NetworkManager
 
 > ## Step 2 - Setting up the desktop environment:
 >> ### 2.1 - Adding a system user
@@ -177,8 +180,7 @@ Create your own Linux Mint Arch Edition.
 >> `pacman -S xorg lightdm lightdm-gtk-greeter lightdm-gtk-greeter-setings cinnamon gnome-terminal`
 >> - Second, we need start "lightdm", to open our desktop:
 >>
->>       systemctl enable lightdm
->>       systemctl start lightdm
+>>       systemctl enable --now lightdm
 >> - The last step is to login to our desktop using the password of the user we created before.
 >
 >> ### 2.3 - Changing the keyboard layout
@@ -238,8 +240,7 @@ Create your own Linux Mint Arch Edition.
 >
 >> ### 2.7 - Adding printer support
 >> - `yay -S cups system-config-printer`
->> - `sudo systemctl enable cups`
->> - `sudo systemctl start cups`
+>> - `sudo systemctl enable --now cups`
 >
 >> ### 2.8 - Installing the default Linux Mint programs
 >>> #### 2.8.1 - Installing programs from category "Accessories"
@@ -264,4 +265,4 @@ Create your own Linux Mint Arch Edition.
 >>> - `yay -S baobab gnome-logs timeshift`
 >>
 >>> #### 2.8.7 - Installing programs from category "Preferences"
->>> - `yay -S gufw blueberry mintlocale`
+>>> - `yay -S gufw blueberry mintlocale fingwit`
