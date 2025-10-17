@@ -174,7 +174,7 @@ Create your own Linux Mint Arch Edition.
 >
 >> ### 2.2 - Installing the desktop environment
 >> - First, we need to download the necessary packages:\
->> `pacman -S xorg lightdm lightdm-gtk-greeter cinnamon gnome-terminal`
+>> `pacman -S xorg lightdm lightdm-gtk-greeter lightdm-gtk-greeter-setings cinnamon gnome-terminal`
 >> - Second, we need start "lightdm", to open our desktop:
 >>
 >>       systemctl enable lightdm
@@ -231,7 +231,7 @@ Create your own Linux Mint Arch Edition.
 >>>
 >>
 >>> #### 2.6.2 - Installing the Mint-Themes and icons
->>> - `yay -S mint-themes mint-y-icons mint-x-icons`
+>>> - `yay -S mint-themes mint-l-themes mint-y-icons mint-x-icons mint-l-icons`
 >>> - Navigate to "cinnamon mennu -> Themes" and choose the mint themes, which you want to use."
 >>> - If you want to use the "Linux Mint backgrounds", you can install them by executing: `yay -S mint-backgrounds`\
 >>> Then just choose your favourite at "cinnamon menu -> Backgrounds"
