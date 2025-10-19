@@ -270,7 +270,7 @@ Then choose your favorite at `Cinnamon Menu -> Backgrounds`.
 `yay -S --needed celluloid hypnotix rhythmbox`
 
 #### 2.8.7 - Installing Programs from Category "Administration"
-`yay -S --needed baobab gnome-logs timeshift figwit`
+`yay -S --needed baobab gnome-logs timeshift fingwit`
 
 #### 2.8.8 - Installing Programs from Category "Preferences"
 `yay -S --needed gufw blueberry mintlocale`
