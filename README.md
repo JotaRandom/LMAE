@@ -98,7 +98,7 @@ If using UEFI, create the mount point `/mnt/boot` and mount the "EFI System" par
 
 ### 1.9 - Installation of the Base System
 Install the necessary packages to get the system up and running:  
-`pacstrap /mnt base linux linux-firmware networkmanager grub vim`
+`pacstrap /mnt base linux linux-firmware networkmanager grub vim sudo nano`
 
 ### 1.10 - Configure the System
 #### 1.10.1 - Generate an fstab
@@ -120,7 +120,7 @@ Sync the system time with the hardware clock:
 - Edit `/etc/locale.gen` with your favorite editor and uncomment the locales you want to use. Also, uncomment `en_US.UTF-8`.
 - Generate the locales: `locale-gen`
 - Create the file `/etc/locale.conf` and define your preferred locale, e.g., `LANG=en_US.UTF-8`.
-- Create the file `/etc/vconsole.conf` and set your keyboard layout, e.g., `KEYMAP=de-latin1` (replace with your preferred layout).
+- Create the file `/etc/vconsole.conf` and set your keyboard layout, e.g., `KEYMAP=la-latin1` (replace with your preferred layout).
 
 #### 1.10.5 - Network Configuration
 - Create and edit `/etc/hostname`. Choose a computer name and insert it.
@@ -164,6 +164,8 @@ Ensure the installation medium is disconnected before booting.
 ### 1.13 - Important Changes to the New System
 Enable NetworkManager:  
 `systemctl enable --now NetworkManager`
+- Inside your newly installed arch if you properly installed NewtorkManager
+  now you can summon it outside X11 or ayland by using `nmtui`.
 
 ## Step 2 - Setting Up the Desktop Environment
 
@@ -176,12 +178,12 @@ Create a system user for Cinnamon and set their password:
 - Install the necessary packages:  
 `pacman -S xorg xorg-apps xorg-drivers mesa lightdm lightdm-slick-greeter cinnamon gnome-terminal`
 - Linux Mint use lightdm-slick-greeter which need some configurations.
+  Edit your /etc/lightdm/lightdm.conf and add this at the bottom
 ```
-# Edit your /etc/lightdm/lightdm.conf and add this at the bottom
 [Seat:*]
 greeter-session=lightdm-slick-greeter
-# Or if you find the seccion within the file edir and uncoment if needed
 ```
+  Or if you find the seccion within the file edir and uncoment if needed
 - Now lets test if lightdm is adeuatelly created running
 `systemctl start lightdm` if you get into the login greeter you can enable
 permanently lightdm using `systemctl enable lightdm` from within any terminal
@@ -240,9 +242,14 @@ To use the AUR, install `yay`:
 
 #### 2.6.2 - Installing the Mint Themes and Icons
 - Install themes and icons:
-`yay -S --needed mint-themes mint-l-themes mint-y-icons mint-x-icons mint-l-icons`
+`yay -S --needed mint-themes mint-l-themes mint-y-icons mint-x-icons mint-l-icons bibata-cursor-theme`
 - Navigate to `Cinnamon Menu -> Themes` and choose the desired Mint themes.
+- Now with yay we can install the last piece of correctly integrate lightdm a-la mint:
+`yay -S --needed lightdm-settings`
 - For the full Linux Mint experience, install:
+  **WARNING*: mint-backgrounds will download all background from source,
+  this is multiple download of 70 MiB and beyond, don't attempt if you don't have
+  enough patience or don't have the time... or if you are on a meter'd connection.*
 `yay -S --needed mint-backgrounds mint-artwork`  
 Then choose your favorite at `Cinnamon Menu -> Backgrounds`.
 
@@ -274,4 +281,5 @@ Then choose your favorite at `Cinnamon Menu -> Backgrounds`.
 
 #### 2.8.8 - Installing Programs from Category "Preferences"
 `yay -S --needed gufw blueberry mintlocale`
+- Now you can enable `gufw` with a simple `systemctl enable --now ufwd`
 
