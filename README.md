@@ -265,7 +265,9 @@ Then choose your favorite at `Cinnamon Menu -> Backgrounds`.
 `yay -S --needed simple-scan pix drawing`
 
 #### 2.8.3 - Installing Programs from Category "Internet"
-`yay -S --needed firefox webapp-manager hexchat thunderbird transmission-gtk`
+`yay -S --needed firefox webapp-manager thunderbird transmission-gtk`
+- `hexchat` is part of the group but is also the only gtk2 application and is
+  unmaintained Hexchat and GTK2, I let they installation at your own risk.
 
 #### 2.8.4 - Installing Programs from Category "Office"
 `yay -S --needed gnome-calendar libreoffice-fresh`
