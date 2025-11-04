@@ -247,10 +247,10 @@ To use the AUR, install `yay`:
 - Now with yay we can install the last piece of correctly integrate lightdm a-la mint:
 `yay -S --needed lightdm-settings`
 - For the full Linux Mint experience, install:
-  **WARNING*: mint-backgrounds will download all background from source,
+- - **WARNING*: mint-backgrounds will download all background from source,
   this is multiple download of 70 MiB and beyond, don't attempt if you don't have
   enough patience or don't have the time... or if you are on a meter'd connection.*
-`yay -S --needed mint-backgrounds mint-artwork`  
+- `yay -S --needed mint-backgrounds mint-artwork`  
 Then choose your favorite at `Cinnamon Menu -> Backgrounds`.
 
 ### 2.7 - Adding Printer Support
