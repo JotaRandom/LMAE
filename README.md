@@ -165,7 +165,7 @@ Ensure the installation medium is disconnected before booting.
 Enable NetworkManager:  
 `systemctl enable --now NetworkManager`
 - Inside your newly installed arch if you properly installed NewtorkManager
-  now you can summon it outside X11 or ayland by using `nmtui`.
+  now you can summon it outside X11 or Wayland by using `nmtui` if you need it.
 
 ## Step 2 - Setting Up the Desktop Environment
 
