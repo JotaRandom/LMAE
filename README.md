@@ -283,5 +283,5 @@ Then choose your favorite at `Cinnamon Menu -> Backgrounds`.
 
 #### 2.8.8 - Installing Programs from Category "Preferences"
 `yay -S --needed gufw blueberry mintlocale`
-- Now you can enable `gufw` with a simple `systemctl enable --now ufwd`
+- Now you can enable `gufw` with a simple `systemctl enable --now ufw`
 
