@@ -141,10 +141,10 @@ Set a new password.
 If you want to install a different bootloader, you must do this yourself, as only GRUB is explained here.
 
 #### 1.11.1 - Set Up GRUB with BIOS
-`grub-install --target=i386-pc /dev/sda`
+`grub-install --verbose --target=i386-pc /dev/sda`
 
 #### 1.11.2 - Set Up GRUB with UEFI
-`grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB`
+`grub-install --verbose --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB`
 
 #### 1.11.3 - Enable Microcode Updates
 For Intel CPU: `pacman -S intel-ucode`  
@@ -227,7 +227,7 @@ To use the AUR, install `yay`:
 ### 2.6 - Making Cinnamon Look Like Linux Mint
 #### 2.6.1 - Installing the Fonts
 - Install noto fonts for international support:
-`yay -S --needed noto-fonts noto-fonts-emoji noto-cjk noto-extras`
+`yay -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra`
 - Install now the font we going to use for Cinnamon:
 `yay -S --needed ttf-ubuntu-font-family`
 - Navigate to `Cinnamon Menu -> Font Selection` and set the following:
