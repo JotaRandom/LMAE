@@ -281,6 +281,6 @@ Enable firewall: `systemctl enable --now ufw`
 *Note: The `rar` AUR package conflicts with `unrar`; choose accordingly.*
 
 - Other utilities
-- `yay -S --needd xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive gvfs-google`
+`yay -S --needd xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive gvfs-google`
 
 </DOCUMENT>
