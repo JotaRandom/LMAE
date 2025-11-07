@@ -280,7 +280,7 @@ Enable firewall: `systemctl enable --now ufw`
 `yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip cpio pax p7zip`  
 *Note: The `rar` AUR package conflicts with `unrar`; choose accordingly.*
 
-- Other utilities
+- Other utilities:  
 `yay -S --needd xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive gvfs-google`
 
 </DOCUMENT>
