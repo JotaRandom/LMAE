@@ -231,7 +231,7 @@ In `Cinnamon Menu -> Font Selection`:
 | Window title font | Ubuntu Medium      | 10   |
 
 #### 2.6.2 - Install Themes and Icons
-`yay -S --needed mint-themes mint-l-themes mint-y-icons mint-x-icons mint-l-icons bibata-cursor-theme`  
+`yay -S --needed mint-themes mint-l-themes mint-y-icons mint-x-icons mint-l-icons bibata-cursor-theme xapp-symbolic-icons`  
 Select Mint themes in `Cinnamon Menu -> Themes`.  
 
 `yay -S --needed lightdm-settings`  
@@ -253,7 +253,7 @@ Select backgrounds in `Cinnamon Menu -> Backgrounds`.
 
 #### 2.8.3 - Internet
 `yay -S --needed firefox webapp-manager thunderbird transmission-gtk`  
-*Note: `hexchat` is GTK2-based and unmaintained; install at your own risk.*
+*Note: `hexchat` is GTK2-based and unmaintained yet part of Linux Mint; install at your own risk.*
 
 #### 2.8.4 - Office
 `yay -S --needed gnome-calendar libreoffice-fresh`
@@ -279,4 +279,8 @@ Enable firewall: `systemctl enable --now ufw`
 - Archive compression:  
 `yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip cpio pax p7zip`  
 *Note: The `rar` AUR package conflicts with `unrar`; choose accordingly.*
+
+- Other utilities
+- `yay -S --needd xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive gvfs-google`
+
 </DOCUMENT>
