@@ -282,6 +282,14 @@ Then choose your favorite at `Cinnamon Menu -> Backgrounds`.
 `yay -S --needed baobab gnome-logs timeshift fingwit`
 
 #### 2.8.8 - Installing Programs from Category "Preferences"
-`yay -S --needed gufw blueberry mintlocale`
+`yay -S --needed gufw blueberry mintlocale gnome-online-accounts-gtk`
 - Now you can enable `gufw` with a simple `systemctl enable --now ufw`
 
+#### 2.8.9 - Utilities and command-line
+- Any utility we may need that don't fall under the previous categories
+- - First Filesystem interoperability 
+`yay -S --needed ntfs-3g dosfstools mtools exfatutils`
+- - - you can install other linux filesystem utilities if you want like `btrfs-progs` or `xfs-utils`
+- - Seccond archive compressioning
+`yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip cpio pax p7zip`
+- - - There is a `rar` utility on the `AUR` but its comlict with unrar, is up to you
