@@ -202,11 +202,18 @@ swapon /dev/sda1          # Activar la partición swap
 Si la descarga de paquetes es lenta, puedes optimizar la lista de mirrors antes de instalar:
 
 ```bash
-pacman -Sy reflector
+pacman -S --needed reflector
 reflector --country "Mexico,United States" --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
 *Reemplaza "Mexico,United States" con los países más cercanos a tu ubicación. Puedes ver la lista completa de países con `reflector --list-countries`.*
+
+**Automatización de reflector (opcional):** Si deseas que los mirrors se actualicen automáticamente cada semana, puedes habilitar el timer de reflector después de instalar el sistema base:
+```bash
+systemctl enable reflector.timer
+```
+
+Esto actualizará la lista de mirrors semanalmente. Puedes personalizar las opciones de reflector editando `/etc/xdg/reflector/reflector.conf` después de la instalación.
 
 ## 1.5 Instalando el Corazón del Sistema
 
@@ -331,6 +338,40 @@ Establece una contraseña para el usuario root:
 ```bash
 passwd
 ```
+
+### Configuraciones opcionales de pacman
+
+**Habilitando colores en pacman:**
+
+Edita `/etc/pacman.conf` y descomenta la línea `Color`:
+```bash
+nano /etc/pacman.conf
+```
+
+Busca y descomenta (quita el `#`):
+```ini
+# Misc options
+#UseSyslog
+Color
+#NoProgressBar
+```
+
+**Habilitando el repositorio multilib (para aplicaciones de 32 bits):**
+
+Si planeas usar aplicaciones de 32 bits, Steam, Wine, o algunos juegos, necesitas habilitar multilib.
+
+En el mismo archivo `/etc/pacman.conf`, descomenta estas líneas al final del archivo:
+```ini
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+
+Luego actualiza la base de datos de paquetes:
+```bash
+pacman -Syu
+```
+
+*Nota: Multilib es necesario para Steam, Wine, algunas aplicaciones propietarias de 32 bits, y drivers gráficos de 32 bits para juegos.*
 
 ## 1.7 El Gestor de Arranque GRUB
 
@@ -981,5 +1022,33 @@ Has completado la creación de tu Linux Mint Arch Edition. El sistema:
 1. Configura Timeshift para respaldos automáticos
 2. Personaliza el escritorio a tu gusto
 3. Explora el AUR para software adicional
-4. Mantén el sistema actualizado con `yay -Syu`
-5. Si instalaste TLP, revisa su configuración en `/etc/tlp.conf` para ajustes personalizados
+4. Si instalaste TLP, revisa su configuración en `/etc/tlp.conf` para ajustes personalizados
+
+## Mantenimiento del Sistema
+
+### Actualizando el sistema
+
+Arch Linux es una distribución rolling-release, lo que significa que recibes actualizaciones continuas. Es importante mantener el sistema actualizado regularmente.
+
+**Actualizar paquetes oficiales:**
+```bash
+sudo pacman -Syu
+```
+
+**Actualizar paquetes del AUR y oficiales:**
+```bash
+yay -Syu
+```
+
+**Recomendaciones:**
+- Actualiza al menos una vez por semana
+- Lee las noticias en [https://archlinux.org/](https://archlinux.org/) antes de actualizar para estar al tanto de cambios importantes
+- Si usas software del AUR, `yay -Syu` actualizará tanto los repositorios oficiales como el AUR
+- Después de actualizaciones importantes del kernel, considera reiniciar el sistema
+
+**Limpiar caché de paquetes (opcional):**
+```bash
+sudo pacman -Sc
+```
+
+Esto elimina paquetes antiguos del caché para liberar espacio en disco.
