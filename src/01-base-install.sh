@@ -23,13 +23,37 @@ else
     echo "✓ Boot mode detected: BIOS"
 fi
 
-# Ask for root partition
+# Ask for partition table type if BIOS
+if [ "$BOOT_MODE" == "BIOS" ]; then
+    echo ""
+    echo "Partition table type:"
+    echo "  1) MBR (msdos) - Traditional BIOS"
+    echo "  2) GPT - Modern (requires BIOS boot partition)"
+    read -p "Select [1-2]: " PT_CHOICE
+    
+    if [ "$PT_CHOICE" == "2" ]; then
+        PARTITION_TABLE="GPT"
+    else
+        PARTITION_TABLE="MBR"
+    fi
+    echo "✓ Partition table: $PARTITION_TABLE"
+fi
+
+# Ask for partitions
 echo ""
 read -p "Enter the root partition (e.g., /dev/sda3): " ROOT_PARTITION
 read -p "Enter the swap partition (e.g., /dev/sda2): " SWAP_PARTITION
 
 if [ "$BOOT_MODE" == "UEFI" ]; then
     read -p "Enter the EFI partition (e.g., /dev/sda1): " EFI_PARTITION
+elif [ "$PARTITION_TABLE" == "GPT" ]; then
+    read -p "Enter the BIOS boot partition (e.g., /dev/sda1): " BIOS_BOOT_PARTITION
+fi
+
+# Ask for separate home partition
+read -p "Do you have a separate /home partition? (y/N): " HAS_HOME
+if [[ $HAS_HOME =~ ^[Yy]$ ]]; then
+    read -p "Enter the /home partition (e.g., /dev/sda4): " HOME_PARTITION
 fi
 
 # Validate partitions
@@ -40,6 +64,16 @@ fi
 
 if [ "$BOOT_MODE" == "UEFI" ] && [ -z "$EFI_PARTITION" ]; then
     echo "ERROR: EFI partition is required for UEFI boot."
+    exit 1
+fi
+
+if [ "$BOOT_MODE" == "BIOS" ] && [ "$PARTITION_TABLE" == "GPT" ] && [ -z "$BIOS_BOOT_PARTITION" ]; then
+    echo "ERROR: BIOS boot partition is required for GPT on BIOS systems."
+    exit 1
+fi
+
+if [[ $HAS_HOME =~ ^[Yy]$ ]] && [ -z "$HOME_PARTITION" ]; then
+    echo "ERROR: /home partition path is required."
     exit 1
 fi
 
@@ -58,14 +92,32 @@ if [ "$BOOT_MODE" == "UEFI" ] && [ ! -b "$EFI_PARTITION" ]; then
     exit 1
 fi
 
+if [ "$BOOT_MODE" == "BIOS" ] && [ "$PARTITION_TABLE" == "GPT" ] && [ ! -b "$BIOS_BOOT_PARTITION" ]; then
+    echo "ERROR: $BIOS_BOOT_PARTITION is not a valid block device."
+    exit 1
+fi
+
+if [[ $HAS_HOME =~ ^[Yy]$ ]] && [ ! -b "$HOME_PARTITION" ]; then
+    echo "ERROR: $HOME_PARTITION is not a valid block device."
+    exit 1
+fi
+
 # Confirm
 echo ""
 echo "Configuration:"
 echo "  Boot mode: $BOOT_MODE"
+if [ "$BOOT_MODE" == "BIOS" ]; then
+    echo "  Partition table: $PARTITION_TABLE"
+fi
 echo "  Root: $ROOT_PARTITION"
 echo "  Swap: $SWAP_PARTITION"
 if [ "$BOOT_MODE" == "UEFI" ]; then
     echo "  EFI: $EFI_PARTITION"
+elif [ "$PARTITION_TABLE" == "GPT" ]; then
+    echo "  BIOS boot: $BIOS_BOOT_PARTITION"
+fi
+if [[ $HAS_HOME =~ ^[Yy]$ ]]; then
+    echo "  Home: $HOME_PARTITION"
 fi
 echo ""
 read -p "Continue with installation? (y/N): " CONFIRM
@@ -98,6 +150,12 @@ swapon "$SWAP_PARTITION"
 if [ "$BOOT_MODE" == "UEFI" ]; then
     mkdir -p /mnt/boot
     mount "$EFI_PARTITION" /mnt/boot
+fi
+
+# Mount home if separate
+if [[ $HAS_HOME =~ ^[Yy]$ ]]; then
+    mkdir -p /mnt/home
+    mount "$HOME_PARTITION" /mnt/home
 fi
 
 echo "✓ Partitions mounted successfully"
