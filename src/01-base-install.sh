@@ -17,6 +17,7 @@ echo ""
 # Detect boot mode
 if [ -d /sys/firmware/efi/efivars ]; then
     BOOT_MODE="UEFI"
+    PARTITION_TABLE=""  # Not applicable for UEFI
     echo "✓ Boot mode detected: UEFI"
 else
     BOOT_MODE="BIOS"
@@ -140,10 +141,26 @@ echo "==================================="
 echo "Mounting partitions..."
 echo "==================================="
 
+# Unmount if already mounted (for re-runs)
+if mountpoint -q /mnt/boot 2>/dev/null; then
+    umount /mnt/boot
+fi
+
+if mountpoint -q /mnt/home 2>/dev/null; then
+    umount /mnt/home
+fi
+
+if mountpoint -q /mnt 2>/dev/null; then
+    umount /mnt
+fi
+
 # Mount root
 mount "$ROOT_PARTITION" /mnt
 
-# Activate swap
+# Activate swap (deactivate first if already active)
+if swapon --show | grep -q "$SWAP_PARTITION"; then
+    swapoff "$SWAP_PARTITION"
+fi
 swapon "$SWAP_PARTITION"
 
 # Mount EFI if UEFI
@@ -185,6 +202,19 @@ echo "==================================="
 echo "Generating fstab..."
 echo "==================================="
 genfstab -pU /mnt >> /mnt/etc/fstab
+
+# Save installation info for next script
+echo ""
+echo "Saving installation configuration..."
+cat > /mnt/root/.lmae-install-info << EOF
+BOOT_MODE=$BOOT_MODE
+PARTITION_TABLE=$PARTITION_TABLE
+ROOT_PARTITION=$ROOT_PARTITION
+SWAP_PARTITION=$SWAP_PARTITION
+EFI_PARTITION=${EFI_PARTITION:-}
+BIOS_BOOT_PARTITION=${BIOS_BOOT_PARTITION:-}
+HOME_PARTITION=${HOME_PARTITION:-}
+EOF
 
 echo ""
 echo "==================================="
