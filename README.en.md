@@ -37,12 +37,12 @@ By default, the keyboard is configured for English. To change it, first list ava
 ls /usr/share/kbd/keymaps/**/*.map.gz
 ```
 
-Then apply the one you need. For example, for a Latin American keyboard:
+Then apply the one you need. For example, for a UK keyboard:
 ```bash
-loadkeys la-latin1
+loadkeys uk
 ```
 
-*If you use a Spanish keyboard from Spain, use `es` instead of `la-latin1`.*
+*Other common layouts: `de` (German), `fr` (French), `es` (Spanish), `us` (US English).*
 
 ### Verifying internet connection
 
@@ -434,7 +434,7 @@ passwd user
 Install the necessary components for the desktop:
 
 ```bash
-pacman -S xorg xorg-apps xorg-drivers mesa lightdm lightdm-slick-greeter cinnamon gnome-terminal
+pacman -S xorg xorg-apps xorg-drivers mesa lightdm lightdm-slick-greeter cinnamon cinnamon-translations gnome-terminal xdg-user-dirs xdg-user-dirs-gtk
 ```
 
 Installed components:
@@ -445,7 +445,10 @@ Installed components:
 - **lightdm**: Login manager (display manager)
 - **lightdm-slick-greeter**: Login screen with Linux Mint style
 - **cinnamon**: Linux Mint's desktop environment
+- **cinnamon-translations**: Translations for Cinnamon (language support)
 - **gnome-terminal**: Terminal emulator
+- **xdg-user-dirs**: Creates standard user directories (Downloads, Documents, etc.)
+- **xdg-user-dirs-gtk**: GTK integration for user directory management
 
 ### Configuring LightDM
 
@@ -633,6 +636,72 @@ sudo systemctl enable --now cups
 
 - **cups**: CUPS printing system (Common Unix Printing System)
 - **system-config-printer**: Graphical interface to configure printers
+
+### Audio (PipeWire)
+
+Modern Linux Mint and Arch Linux use PipeWire as the audio server, replacing PulseAudio and JACK. PipeWire offers better latency and support for professional audio.
+
+Install the necessary PipeWire components:
+
+```bash
+yay -S --needed pipewire-audio wireplumber pipewire-alsa pipewire-pulse pipewire-jack
+```
+
+Installed components:
+- **pipewire-audio**: Meta-package including PipeWire, WirePlumber and ALSA/PulseAudio/JACK support
+- **wireplumber**: Recommended session manager for PipeWire (replaces pipewire-media-session)
+- **pipewire-alsa**: ALSA support for PipeWire
+- **pipewire-pulse**: PulseAudio-compatible implementation (replaces PulseAudio)
+- **pipewire-jack**: JACK support for professional audio applications
+
+PipeWire user services start automatically when you log in. To verify it's working:
+
+```bash
+pactl info
+```
+
+You should see `Server Name: PulseAudio (on PipeWire x.y.z)` in the output.
+
+*Note: Cinnamon has its own built-in volume control. If you need more advanced controls (e.g., to change device profiles or configure individual applications), you can optionally install:*
+
+```bash
+yay -S --needed pavucontrol
+```
+
+- **pavucontrol**: Advanced volume control (optional, works with PipeWire via PulseAudio compatibility)
+
+### Bluetooth
+
+For complete Bluetooth support (keyboards, mice, headphones, etc.):
+
+```bash
+yay -S --needed bluez bluez-utils
+sudo systemctl enable --now bluetooth
+```
+
+Installed components:
+- **bluez**: Bluetooth protocol stack for Linux
+- **bluez-utils**: Command-line tools (bluetoothctl, etc.)
+
+To pair devices from the terminal, use `bluetoothctl`:
+
+```bash
+bluetoothctl
+```
+
+Basic commands in bluetoothctl:
+- `power on` - Turn on the Bluetooth adapter
+- `scan on` - Search for nearby devices
+- `pair XX:XX:XX:XX:XX:XX` - Pair with a device (replace XX... with the MAC address)
+- `trust XX:XX:XX:XX:XX:XX` - Trust the device for automatic reconnection
+- `connect XX:XX:XX:XX:XX:XX` - Connect to the device
+- `exit` - Exit bluetoothctl
+
+*Note: Later in the guide we'll install Blueberry, Linux Mint's graphical Bluetooth manager, which makes pairing easier from the GUI.*
+
+**For Bluetooth headphones/speakers:**
+
+Bluetooth audio support is already included with `pipewire-audio`. Bluetooth audio devices should automatically appear as available audio outputs once paired and connected.
 
 # Chapter 3: Completing the Experience - Linux Mint Applications
 

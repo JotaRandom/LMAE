@@ -434,7 +434,7 @@ passwd usuario
 Instala los componentes necesarios para el escritorio:
 
 ```bash
-pacman -S xorg xorg-apps xorg-drivers mesa lightdm lightdm-slick-greeter cinnamon gnome-terminal
+pacman -S xorg xorg-apps xorg-drivers mesa lightdm lightdm-slick-greeter cinnamon cinnamon-translations gnome-terminal xdg-user-dirs xdg-user-dirs-gtk
 ```
 
 Componentes instalados:
@@ -445,7 +445,10 @@ Componentes instalados:
 - **lightdm**: Gestor de inicio de sesión (display manager)
 - **lightdm-slick-greeter**: Pantalla de login con el estilo de Linux Mint
 - **cinnamon**: El entorno de escritorio de Linux Mint
+- **cinnamon-translations**: Traducciones para Cinnamon (soporte de idiomas)
 - **gnome-terminal**: Emulador de terminal
+- **xdg-user-dirs**: Crea directorios estándar del usuario (Descargas, Documentos, etc.)
+- **xdg-user-dirs-gtk**: Integración GTK para gestión de directorios del usuario
 
 ### Configurando LightDM
 
@@ -633,6 +636,72 @@ sudo systemctl enable --now cups
 
 - **cups**: Sistema de impresión CUPS (Common Unix Printing System)
 - **system-config-printer**: Interfaz gráfica para configurar impresoras
+
+### Audio (PipeWire)
+
+Linux Mint y Arch Linux modernos utilizan PipeWire como servidor de audio, que reemplaza a PulseAudio y JACK. PipeWire ofrece mejor latencia y soporte para audio profesional.
+
+Instala los componentes necesarios de PipeWire:
+
+```bash
+yay -S --needed pipewire-audio wireplumber pipewire-alsa pipewire-pulse pipewire-jack
+```
+
+Componentes instalados:
+- **pipewire-audio**: Metapaquete que incluye PipeWire, WirePlumber y soporte para ALSA/PulseAudio/JACK
+- **wireplumber**: Gestor de sesión recomendado para PipeWire (reemplaza pipewire-media-session)
+- **pipewire-alsa**: Soporte ALSA para PipeWire
+- **pipewire-pulse**: Implementación compatible con PulseAudio (reemplaza PulseAudio)
+- **pipewire-jack**: Soporte JACK para aplicaciones de audio profesional
+
+Los servicios de usuario de PipeWire se inician automáticamente al iniciar sesión. Para verificar que funciona:
+
+```bash
+pactl info
+```
+
+Deberías ver `Server Name: PulseAudio (on PipeWire x.y.z)` en la salida.
+
+*Nota: Cinnamon tiene su propio control de volumen integrado. Si necesitas controles más avanzados (por ejemplo, para cambiar perfiles de dispositivos o configurar aplicaciones individuales), puedes instalar opcionalmente:*
+
+```bash
+yay -S --needed pavucontrol
+```
+
+- **pavucontrol**: Control de volumen avanzado (opcional, funciona con PipeWire vía compatibilidad PulseAudio)
+
+### Bluetooth
+
+Para soporte completo de Bluetooth (teclados, ratones, auriculares, etc.):
+
+```bash
+yay -S --needed bluez bluez-utils
+sudo systemctl enable --now bluetooth
+```
+
+Componentes instalados:
+- **bluez**: Stack de protocolo Bluetooth para Linux
+- **bluez-utils**: Herramientas de línea de comandos (bluetoothctl, etc.)
+
+Para emparejar dispositivos desde la terminal, usa `bluetoothctl`:
+
+```bash
+bluetoothctl
+```
+
+Comandos básicos en bluetoothctl:
+- `power on` - Enciende el adaptador Bluetooth
+- `scan on` - Busca dispositivos cercanos
+- `pair XX:XX:XX:XX:XX:XX` - Empareja con un dispositivo (reemplaza XX... con la dirección MAC)
+- `trust XX:XX:XX:XX:XX:XX` - Confía en el dispositivo para reconexión automática
+- `connect XX:XX:XX:XX:XX:XX` - Conecta al dispositivo
+- `exit` - Sale de bluetoothctl
+
+*Nota: Más adelante en la guía instalaremos Blueberry, el gestor gráfico de Bluetooth de Linux Mint, que facilita el emparejamiento desde la interfaz gráfica.*
+
+**Para auriculares/altavoces Bluetooth:**
+
+El soporte de audio Bluetooth ya está incluido con `pipewire-audio`. Los dispositivos de audio Bluetooth deberían aparecer automáticamente como salidas de audio disponibles una vez emparejados y conectados.
 
 # Capítulo 3: Completando la Experiencia - Las Aplicaciones de Linux Mint
 
