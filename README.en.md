@@ -885,6 +885,89 @@ yay -S --needed xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive gvfs-goog
 - **gvfs-onedrive**: OneDrive access from file manager
 - **gvfs-google**: Google Drive access from file manager
 
+## 3.9 Laptop Optimizations (Optional)
+
+If you're installing on a laptop, these tools can significantly improve power management and overall experience:
+
+### Power and battery management
+
+You have two main options (choose only one):
+
+**Option 1: TLP (recommended for maximum power saving)**
+
+```bash
+yay -S --needed tlp tlp-rdw
+sudo systemctl enable --now tlp
+sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
+```
+
+- **tlp**: Advanced power management for laptops (automatically optimizes battery)
+- **tlp-rdw**: Extension for managing radio devices (WiFi, Bluetooth) with TLP
+
+*The `mask` commands are necessary because TLP manages rfkill directly.*
+
+**Useful optional dependencies for TLP:**
+
+```bash
+yay -S --needed ethtool smartmontools
+```
+
+- **ethtool**: Allows disabling Wake-on-LAN to save power
+- **smartmontools**: Displays disk S.M.A.R.T. data in `tlp-stat`
+
+**Option 2: Power Profiles Daemon (simpler, desktop integration)**
+
+```bash
+yay -S --needed power-profiles-daemon
+sudo systemctl enable --now power-profiles-daemon
+```
+
+- **power-profiles-daemon**: Power profile management (Performance, Balanced, Power Saver)
+
+*Simpler than TLP but less configurable. Better integration with desktop applets.*
+
+⚠️ **Important**: Don't install both at the same time, as they conflict. Choose TLP for maximum control or power-profiles-daemon for simplicity.
+
+### Kernel tools for laptops
+
+```bash
+yay -S --needed linux-tools-meta
+```
+
+- **linux-tools-meta**: Meta-package including useful kernel tools like `cpupower`, `turbostat`, etc.
+
+### System information and sensors
+
+```bash
+yay -S --needed lm_sensors
+sudo sensors-detect
+```
+
+- **lm_sensors**: Detects and displays hardware sensor information (temperature, fans, voltage)
+
+Run `sensors-detect` and accept the default options. Then you can use `sensors` to view temperatures.
+
+### Screen brightness control
+
+Brightness control should work automatically with Cinnamon, but if you have issues:
+
+```bash
+yay -S --needed brightnessctl
+```
+
+- **brightnessctl**: Utility to control screen brightness from the command line
+
+### Advanced touchpad support
+
+```bash
+yay -S --needed xf86-input-synaptics libinput-gestures
+```
+
+- **xf86-input-synaptics**: Improved driver for Synaptics touchpads
+- **libinput-gestures**: Touch gestures for touchpad (multi-finger swipes, etc.)
+
+*Note: Most modern touchpads work fine with the default libinput driver. Only install these if you need additional features.*
+
 ## Conclusion
 
 You have completed creating your Linux Mint Arch Edition. The system:
@@ -899,3 +982,4 @@ You have completed creating your Linux Mint Arch Edition. The system:
 2. Customize the desktop to your liking
 3. Explore the AUR for additional software
 4. Keep the system updated with `yay -Syu`
+5. If you installed TLP, review its configuration in `/etc/tlp.conf` for custom tweaks
