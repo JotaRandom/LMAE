@@ -46,8 +46,9 @@ echo ""
 echo "==================================="
 echo "Configuring locale..."
 echo "==================================="
-# Remove duplicates first
-sed -i '/^'$LOCALE' UTF-8/d' /etc/locale.gen 2>/dev/null || true
+# Remove duplicates first (escape special characters in locale)
+ESCAPED_LOCALE=$(printf '%s\n' "$LOCALE" | sed 's/[.[\*^$/]/\\&/g')
+sed -i "/^${ESCAPED_LOCALE} UTF-8/d" /etc/locale.gen 2>/dev/null || true
 sed -i '/^en_US.UTF-8 UTF-8/d' /etc/locale.gen 2>/dev/null || true
 # Add locales
 echo "$LOCALE UTF-8" >> /etc/locale.gen
@@ -114,7 +115,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # Enable NetworkManager
 systemctl enable NetworkManager
 
-# Enable reflector timer
+# Install and enable reflector timer
+pacman -S --needed --noconfirm reflector
 systemctl enable reflector.timer
 
 echo ""

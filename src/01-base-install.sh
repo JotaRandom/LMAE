@@ -32,6 +32,32 @@ if [ "$BOOT_MODE" == "UEFI" ]; then
     read -p "Enter the EFI partition (e.g., /dev/sda1): " EFI_PARTITION
 fi
 
+# Validate partitions
+if [ -z "$ROOT_PARTITION" ] || [ -z "$SWAP_PARTITION" ]; then
+    echo "ERROR: Root and swap partitions are required."
+    exit 1
+fi
+
+if [ "$BOOT_MODE" == "UEFI" ] && [ -z "$EFI_PARTITION" ]; then
+    echo "ERROR: EFI partition is required for UEFI boot."
+    exit 1
+fi
+
+if [ ! -b "$ROOT_PARTITION" ]; then
+    echo "ERROR: $ROOT_PARTITION is not a valid block device."
+    exit 1
+fi
+
+if [ ! -b "$SWAP_PARTITION" ]; then
+    echo "ERROR: $SWAP_PARTITION is not a valid block device."
+    exit 1
+fi
+
+if [ "$BOOT_MODE" == "UEFI" ] && [ ! -b "$EFI_PARTITION" ]; then
+    echo "ERROR: $EFI_PARTITION is not a valid block device."
+    exit 1
+fi
+
 # Confirm
 echo ""
 echo "Configuration:"

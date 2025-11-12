@@ -30,13 +30,13 @@ fi
 
 # Install yay
 echo "Installing yay AUR helper..."
-cd ~
+cd ~ || exit 1
 # Remove old yay directory if exists
 rm -rf ./yay/
 git clone https://aur.archlinux.org/yay.git
-cd yay
+cd yay || exit 1
 makepkg -si --noconfirm
-cd ..
+cd .. || exit 1
 rm -rf ./yay/
 
 # Update package database

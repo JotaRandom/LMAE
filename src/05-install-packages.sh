@@ -132,7 +132,7 @@ echo ""
 echo "==================================="
 echo "Installing filesystem support..."
 echo "==================================="
-yay -S --needed --noconfirm ntfs-3g exfat-utils dosfstools btrfs-progs xfsprogs f2fs-tools
+yay -S --needed --noconfirm ntfs-3g exfatprogs dosfstools btrfs-progs xfsprogs f2fs-tools
 
 # Compression tools
 echo ""
@@ -162,7 +162,7 @@ if [[ $IS_LAPTOP =~ ^[Yy]$ ]]; then
         sudo systemctl enable --now tlp
     fi
     
-    yay -S --needed --noconfirm linux-tools-meta lm_sensors brightnessctl libinput-gestures xf86-input-libinput
+    yay -S --needed --noconfirm linux-tools lm_sensors brightnessctl libinput-gestures xf86-input-libinput
 fi
 
 echo ""
