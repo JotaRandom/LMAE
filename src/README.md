@@ -2,6 +2,21 @@
 
 Scripts de instalación automatizada para Linux Mint Arch Edition.
 
+## ⚠️ ADVERTENCIA - ESTADO EXPERIMENTAL
+
+**Estos scripts son experimentales y se proporcionan tal cual (AS-IS) sin garantías.**
+
+- **NO** son un reemplazo del instalador oficial de Arch Linux
+- **NO** han sido probados exhaustivamente en todos los escenarios posibles
+- **Pueden contener errores** que resulten en un sistema no booteable o pérdida de datos
+- **Se recomienda encarecidamente** seguir la guía manual del README principal para entender cada paso
+- Úsalos bajo tu propio riesgo, especialmente en sistemas de producción o datos importantes
+- **Haz copias de seguridad** antes de usar estos scripts
+
+**Para usuarios nuevos:** Se recomienda seguir la guía manual paso a paso para comprender el proceso de instalación.
+
+**Para usuarios experimentados:** Estos scripts pueden ahorrar tiempo en reinstalaciones, pero revisa el código antes de ejecutarlo.
+
 ## Descripción
 
 Estos scripts automatizan el proceso de instalación descrito en el README principal, dividiendo el proceso en pasos manejables y seguros.

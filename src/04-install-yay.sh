@@ -1,6 +1,10 @@
 #!/bin/bash
 # LMAE YAY Installation Script
 # This script should be run as the regular user (not root)
+#
+# ⚠️ WARNING: EXPERIMENTAL SCRIPT
+# This script is provided AS-IS without warranties.
+# Review the code before running and use at your own risk.
 
 set -e  # Exit on error
 

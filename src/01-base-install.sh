@@ -1,6 +1,11 @@
 #!/bin/bash
 # LMAE Base System Installation Script
 # This script should be run from the Arch Linux installation media after partitioning
+#
+# ⚠️ WARNING: EXPERIMENTAL SCRIPT
+# This script is provided AS-IS without warranties.
+# Review the code before running and use at your own risk.
+# Make sure you have backups of any important data.
 
 set -e  # Exit on error
 
