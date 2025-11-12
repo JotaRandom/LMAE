@@ -21,16 +21,23 @@ echo ""
 echo "==================================="
 echo "Creating user..."
 echo "==================================="
-useradd -m -G wheel $USERNAME
-echo "Set password for $USERNAME:"
-passwd $USERNAME
+if id "$USERNAME" &>/dev/null; then
+    echo "User $USERNAME already exists. Skipping user creation."
+else
+    useradd -m -G wheel $USERNAME
+    echo "Set password for $USERNAME:"
+    passwd $USERNAME
+fi
 
 # Configure sudo
 echo ""
 echo "==================================="
 echo "Configuring sudo..."
 echo "==================================="
-sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+# Uncomment wheel group line if not already done
+if ! grep -q "^%wheel ALL=(ALL) ALL" /etc/sudoers; then
+    sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+fi
 
 # Install desktop environment
 echo ""

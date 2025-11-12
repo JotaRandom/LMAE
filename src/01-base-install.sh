@@ -56,6 +56,26 @@ echo "Synchronizing system clock..."
 echo "==================================="
 timedatectl set-ntp true
 
+# Mount partitions
+echo ""
+echo "==================================="
+echo "Mounting partitions..."
+echo "==================================="
+
+# Mount root
+mount "$ROOT_PARTITION" /mnt
+
+# Activate swap
+swapon "$SWAP_PARTITION"
+
+# Mount EFI if UEFI
+if [ "$BOOT_MODE" == "UEFI" ]; then
+    mkdir -p /mnt/boot
+    mount "$EFI_PARTITION" /mnt/boot
+fi
+
+echo "✓ Partitions mounted successfully"
+
 # Install reflector and optimize mirrors
 echo ""
 echo "==================================="

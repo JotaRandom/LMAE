@@ -36,7 +36,7 @@ print_error() {
 # Function to detect environment
 detect_environment() {
     # Check if running in chroot
-    if [ "$(stat -c %d:%i /)" != "$(stat -c %d:%i /proc/1/root/.)" ]; then
+    if [ "$(stat -c %d:%i /)" != "$(stat -c %d:%i /proc/1/root/.)" ] 2>/dev/null; then
         echo "chroot"
         return
     fi
@@ -48,9 +48,9 @@ detect_environment() {
     fi
     
     # Check if system is installed (has /etc/arch-release and not live)
-    if [ -f /etc/arch-release ] && [ ! -f /run/archiso/bootmnt/arch/boot/x86_64/vmlinuz-linux ]; then
+    if [ -f /etc/arch-release ] && [ ! -f /run/archiso/bootmnt/arch/boot/x86_64/vmlinuz-linux ] 2>/dev/null; then
         # Check if desktop is installed
-        if systemctl list-unit-files | grep -q lightdm.service; then
+        if systemctl list-unit-files 2>/dev/null | grep -q lightdm.service; then
             echo "installed-desktop"
         else
             echo "installed-base"

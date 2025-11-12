@@ -46,6 +46,10 @@ echo ""
 echo "==================================="
 echo "Configuring locale..."
 echo "==================================="
+# Remove duplicates first
+sed -i '/^'$LOCALE' UTF-8/d' /etc/locale.gen 2>/dev/null || true
+sed -i '/^en_US.UTF-8 UTF-8/d' /etc/locale.gen 2>/dev/null || true
+# Add locales
 echo "$LOCALE UTF-8" >> /etc/locale.gen
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
@@ -60,7 +64,8 @@ echo "==================================="
 echo "Configuring network..."
 echo "==================================="
 echo "$HOSTNAME" > /etc/hostname
-cat >> /etc/hosts << EOF
+# Create hosts file
+cat > /etc/hosts << EOF
 127.0.0.1      localhost
 ::1            localhost
 127.0.1.1      $HOSTNAME

@@ -19,9 +19,20 @@ echo "LMAE YAY Installation Script"
 echo "==================================="
 echo ""
 
+# Check if yay is already installed
+if command -v yay &> /dev/null; then
+    echo "YAY is already installed. Updating package database..."
+    yay -Syy
+    echo ""
+    echo "YAY is ready to use!"
+    exit 0
+fi
+
 # Install yay
 echo "Installing yay AUR helper..."
 cd ~
+# Remove old yay directory if exists
+rm -rf ./yay/
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si --noconfirm
