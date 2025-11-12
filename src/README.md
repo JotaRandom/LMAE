@@ -21,13 +21,47 @@ Scripts de instalación automatizada para Linux Mint Arch Edition.
 
 Estos scripts automatizan el proceso de instalación descrito en el README principal, dividiendo el proceso en pasos manejables y seguros.
 
+## Uso Rápido (Recomendado)
+
+El script maestro `00-install-lmae.sh` detecta automáticamente el entorno y ejecuta el script apropiado:
+
+```bash
+bash 00-install-lmae.sh
+```
+
+Este script detecta si estás en:
+- **Live CD**: Ejecuta instalación base
+- **Chroot**: Ejecuta configuración del sistema
+- **Sistema instalado sin escritorio**: Ejecuta instalación de escritorio
+- **Sistema con escritorio**: Permite instalar YAY y paquetes
+
+## Uso Manual (Avanzado)
+
+Si prefieres control total, puedes ejecutar cada script individualmente en orden.
+
 ## Requisitos Previos
 
 - Medio de instalación de Arch Linux arrancado
 - Particiones ya creadas y formateadas
 - Conexión a internet configurada
 
-## Orden de Ejecución
+## Scripts Disponibles
+
+### 0. `00-install-lmae.sh` (Script Maestro - Recomendado)
+
+Detecta el entorno actual y ejecuta el script apropiado automáticamente.
+
+**Cuándo ejecutar:** En cualquier momento del proceso de instalación.
+
+```bash
+bash 00-install-lmae.sh
+```
+
+**Qué hace:**
+- Detecta si estás en live CD, chroot, o sistema instalado
+- Presenta opciones apropiadas según el entorno
+- Ejecuta el script correspondiente
+- Valida permisos (root/usuario según sea necesario)
 
 ### 1. `01-base-install.sh` (Desde el medio de instalación)
 
@@ -122,6 +156,17 @@ bash 05-install-packages.sh
 - Opcionalmente instala optimizaciones para laptops
 
 ## Proceso Completo
+
+### Usando el Script Maestro (Recomendado)
+
+```bash
+# En cada etapa, simplemente ejecuta:
+bash 00-install-lmae.sh
+
+# El script detectará automáticamente dónde estás y qué hacer
+```
+
+### Usando Scripts Individuales (Manual)
 
 ```bash
 # 1. Desde el medio de instalación (después de particionar)
