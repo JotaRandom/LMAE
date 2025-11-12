@@ -172,6 +172,57 @@ mkswap /dev/sda1          # Partición swap
 mkfs.ext4 /dev/sda2       # Sistema de archivos principal (ext4)
 ```
 
+**Información adicional sobre sistemas de archivos:**
+
+Si deseas explorar otras opciones de formateo, aquí están los comandos más comunes con sus opciones recomendadas:
+
+*Particiones EFI/ESP (paquete: dosfstools):*
+```bash
+mkfs.fat -F 32 /dev/sdaX               # Siempre FAT32 (-F 32) para particiones EFI
+mkfs.fat -F 32 -n "EFI" /dev/sdaX      # Con etiqueta de volumen (-n)
+```
+
+*Partición swap (paquete: util-linux - incluido en base):*
+```bash
+mkswap /dev/sdaX                       # Sin opciones adicionales necesarias
+mkswap -L "swap" /dev/sdaX             # Con etiqueta de volumen (-L)
+```
+
+*Sistema de archivos principal:*
+
+- **ext4** (paquete: e2fsprogs - incluido en base) - recomendado para la mayoría, estable y maduro:
+```bash
+mkfs.ext4 /dev/sdaX                              # Opciones por defecto (recomendado)
+mkfs.ext4 -L "ArchLinux" /dev/sdaX               # Con etiqueta de volumen (-L)
+mkfs.ext4 -L "ArchLinux" -O metadata_csum,64bit -E lazy_itable_init=0,lazy_journal_init=0 /dev/sdaX  # Opciones optimizadas para SSD
+```
+
+- **XFS** (paquete: xfsprogs) - bueno para archivos grandes y alto rendimiento, no se puede reducir:
+```bash
+mkfs.xfs /dev/sdaX                               # Opciones por defecto
+mkfs.xfs -L "ArchLinux" /dev/sdaX                # Con etiqueta de volumen (-L)
+mkfs.xfs -L "ArchLinux" -m crc=1,finobt=1 /dev/sdaX  # Opciones modernas recomendadas
+```
+
+- **Btrfs** (paquete: btrfs-progs) - moderno, con snapshots y compresión, requiere más conocimiento:
+```bash
+mkfs.btrfs /dev/sdaX                             # Opciones por defecto
+mkfs.btrfs -L "ArchLinux" /dev/sdaX              # Con etiqueta de volumen (-L)
+mkfs.btrfs -L "ArchLinux" -f /dev/sdaX           # Forzar formateo (-f) si la partición ya tiene datos
+```
+
+*Opciones explicadas:*
+- `-L` o `-n`: Establece una etiqueta de volumen (útil para identificación y montaje por etiqueta)
+- `-f`: Fuerza el formateo incluso si hay datos (usar con precaución)
+- Para ext4 en SSD: `metadata_csum` mejora integridad, `lazy_*=0` inicializa todo inmediatamente
+- Para XFS: `crc=1` habilita checksums de metadata, `finobt=1` mejora rendimiento con muchos archivos
+
+*Nota: Para desktop/laptop, ext4 es la opción más segura y probada. XFS ofrece buen rendimiento para workstations con archivos grandes (no se puede reducir). Btrfs ofrece características avanzadas (snapshots, compresión, deduplicación) pero requiere más conocimiento para mantenimiento y recuperación.*
+
+**Consideración importante sobre backups con Timeshift:**
+- **Btrfs**: Timeshift puede crear snapshots instantáneos del sistema usando las capacidades nativas de Btrfs. Esto es muy rápido y eficiente en espacio.
+- **ext4/XFS/otros**: Timeshift utiliza rsync para hacer copias completas de archivos, lo cual consume más tiempo y espacio en disco.
+
 ### Montando las particiones
 
 Monta las particiones para poder trabajar con ellas:
