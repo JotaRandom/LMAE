@@ -154,8 +154,29 @@ if mountpoint -q /mnt 2>/dev/null; then
     umount /mnt
 fi
 
-# Mount root
-mount "$ROOT_PARTITION" /mnt
+# Detect filesystem type for root partition
+ROOT_FS=$(blkid -o value -s TYPE "$ROOT_PARTITION")
+echo "Detected root filesystem: $ROOT_FS"
+
+# Set mount options based on filesystem
+case "$ROOT_FS" in
+    ext4)
+        MOUNT_OPTS="defaults,noatime,commit=60"
+        ;;
+    btrfs)
+        MOUNT_OPTS="defaults,noatime,compress=zstd,space_cache=v2"
+        ;;
+    xfs)
+        MOUNT_OPTS="defaults,noatime,inode64"
+        ;;
+    *)
+        MOUNT_OPTS="defaults,relatime"
+        ;;
+esac
+
+# Mount root with optimized options
+mount -o "$MOUNT_OPTS" "$ROOT_PARTITION" /mnt
+echo "Mounted root with options: $MOUNT_OPTS"
 
 # Activate swap (deactivate first if already active)
 if swapon --show | grep -q "$SWAP_PARTITION"; then
@@ -169,10 +190,28 @@ if [ "$BOOT_MODE" == "UEFI" ]; then
     mount "$EFI_PARTITION" /mnt/boot
 fi
 
-# Mount home if separate
+# Mount home if separate (with same optimizations)
 if [[ $HAS_HOME =~ ^[Yy]$ ]]; then
     mkdir -p /mnt/home
-    mount "$HOME_PARTITION" /mnt/home
+    HOME_FS=$(blkid -o value -s TYPE "$HOME_PARTITION")
+    
+    case "$HOME_FS" in
+        ext4)
+            HOME_OPTS="defaults,noatime,commit=60"
+            ;;
+        btrfs)
+            HOME_OPTS="defaults,noatime,compress=zstd,space_cache=v2"
+            ;;
+        xfs)
+            HOME_OPTS="defaults,noatime,inode64"
+            ;;
+        *)
+            HOME_OPTS="defaults,relatime"
+            ;;
+    esac
+    
+    mount -o "$HOME_OPTS" "$HOME_PARTITION" /mnt/home
+    echo "Mounted /home with options: $HOME_OPTS"
 fi
 
 echo "✓ Partitions mounted successfully"
