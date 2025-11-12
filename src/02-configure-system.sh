@@ -20,6 +20,38 @@ read -p "Enter locale (e.g., en_US.UTF-8): " LOCALE
 read -p "Enter keyboard layout (e.g., la-latin1): " KEYMAP
 read -p "CPU vendor (intel/amd): " CPU_VENDOR
 
+# Validate inputs
+if [ -z "$HOSTNAME" ]; then
+    echo "ERROR: Hostname cannot be empty."
+    exit 1
+fi
+
+if ! [[ "$HOSTNAME" =~ ^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$ ]]; then
+    echo "ERROR: Invalid hostname. Use only letters, numbers, and hyphens."
+    exit 1
+fi
+
+if [ -z "$TIMEZONE" ] || [ ! -f "/usr/share/zoneinfo/$TIMEZONE" ]; then
+    echo "ERROR: Invalid timezone '$TIMEZONE'."
+    echo "Check available timezones in /usr/share/zoneinfo/"
+    exit 1
+fi
+
+if [ -z "$LOCALE" ]; then
+    echo "ERROR: Locale cannot be empty."
+    exit 1
+fi
+
+if [ -z "$KEYMAP" ]; then
+    echo "ERROR: Keyboard layout cannot be empty."
+    exit 1
+fi
+
+if [ "$CPU_VENDOR" != "intel" ] && [ "$CPU_VENDOR" != "amd" ]; then
+    echo "ERROR: CPU vendor must be 'intel' or 'amd'."
+    exit 1
+fi
+
 # Detect boot mode
 if [ -d /sys/firmware/efi/efivars ]; then
     BOOT_MODE="UEFI"
@@ -31,6 +63,16 @@ fi
 
 if [ "$BOOT_MODE" == "BIOS" ]; then
     read -p "Enter disk for GRUB (e.g., /dev/sda): " GRUB_DISK
+    
+    if [ -z "$GRUB_DISK" ]; then
+        echo "ERROR: GRUB disk cannot be empty for BIOS mode."
+        exit 1
+    fi
+    
+    if [ ! -b "$GRUB_DISK" ]; then
+        echo "ERROR: $GRUB_DISK is not a valid block device."
+        exit 1
+    fi
 fi
 
 # Configure timezone

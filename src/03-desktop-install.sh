@@ -16,6 +16,18 @@ echo ""
 # Get user information
 read -p "Enter username for desktop user: " USERNAME
 
+# Validate username
+if [ -z "$USERNAME" ]; then
+    echo "ERROR: Username cannot be empty."
+    exit 1
+fi
+
+if ! [[ "$USERNAME" =~ ^[a-z_]([a-z0-9_-]{0,31}|[a-z0-9_-]{0,30}\$)$ ]]; then
+    echo "ERROR: Invalid username. Use only lowercase letters, numbers, underscores, and hyphens."
+    echo "Must start with a letter or underscore."
+    exit 1
+fi
+
 # Create user
 echo ""
 echo "==================================="
