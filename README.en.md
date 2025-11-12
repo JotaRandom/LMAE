@@ -7,6 +7,8 @@ This guide explains how to combine the solid rolling-release foundation of Arch 
 
 The process is divided into three main stages: Arch Linux installation, Cinnamon desktop environment configuration, and installation of Linux Mint's characteristic applications. Each section includes clear explanations of the necessary commands and configurations.
 
+**💡 Prefer automated installation?** Check out the [installation scripts](src/) in the `src/` folder that automate the entire process described in this guide.
+
 # Chapter 1: The Foundation - Installing Arch Linux
 
 Installing Arch Linux will be the system's foundation. Although Arch has a reputation for being complex, following these steps in order makes the process quite straightforward.
