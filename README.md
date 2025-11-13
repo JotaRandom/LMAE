@@ -27,10 +27,9 @@
 
 ## 🎯 About This Project
 
-This project provides **two approaches** to creating a Linux Mint-like experience on Arch Linux:
+This project provides **one approache** to creating a Linux Mint-like experience on Arch Linux:
 
 1. **Manual Guides** (Recommended) - Learn by doing, full understanding
-2. **Automated Scripts** (Experimental) - Faster, but requires trust
 
 Both approaches result in the same system:
 - Latest Arch Linux packages
@@ -44,8 +43,6 @@ Both approaches result in the same system:
 
 - [English Manual Guide](README.en.md)
 - [Spanish Manual Guide](README.es.md)
-- [Automated Installer Documentation](src/README.md)
-- [Changelog](src/docs/CHANGELOG.md)
 
 ---
 
