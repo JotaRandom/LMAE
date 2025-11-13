@@ -25,21 +25,6 @@
 
 ---
 
-## 🚀 Automated Installer (Advanced Users)
-
-For experienced users who want automated installation:
-
-**👉 See the [src/ directory](src/)** for experimental automation scripts.
-
-```bash
-cd src/
-bash lmae.sh
-```
-
-⚠️ **Note**: Scripts are experimental. Manual guides are recommended for most users.
-
----
-
 ## 🎯 About This Project
 
 This project provides **two approaches** to creating a Linux Mint-like experience on Arch Linux:
