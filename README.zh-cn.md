@@ -614,8 +614,8 @@ passwd user
 安装桌面所需的组件：
 
 ```bash
-pacman -S xorg xorg-apps xorg-drivers mesa lightdm lightdm-slick-greeter
-cinnamon cinnamon-translations gnome-terminal xdg-user-dirs
+pacman -S xorg xorg-apps xorg-drivers mesa lightdm lightdm-slick-greeter \
+cinnamon cinnamon-translations gnome-terminal xdg-user-dirs \
 xdg-user-dirs-gtk
 ```
 
@@ -745,7 +745,8 @@ yay -Syy
 安装必要的字体：
 
 ```bash
-yay -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra
+yay -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk \
+noto-fonts-extra
 yay -S --needed ttf-ubuntu-font-family
 ```
 
@@ -768,7 +769,7 @@ yay -S --needed ttf-ubuntu-font-family
 安装 Linux Mint 主题和图标：
 
 ```bash
-yay -S --needed mint-themes mint-l-theme mint-y-icons mint-x-icons
+yay -S --needed mint-themes mint-l-theme mint-y-icons mint-x-icons \
 mint-l-icons bibata-cursor-theme xapp-symbolic-icons
 ```
 
