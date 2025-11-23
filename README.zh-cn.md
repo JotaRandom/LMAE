@@ -327,12 +327,13 @@ systemctl enable reflector.timer
 
 **对于 BIOS 系统：**
 ```bash
-pacstrap /mnt base linux linux-firmware networkmanager grub vim sudo nano
+pacstrap /mnt base linux linux-firmware networkmanager \
+grub vim sudo nano
 ```
 
 **对于 UEFI 系统（添加 efibootmgr）：**
 ```bash
-pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr
+pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr \
 vim sudo nano
 ```
 
@@ -340,7 +341,7 @@ vim sudo nano
 
 如果您有 BIOS：
 ```bash
-pacstrap /mnt base linux linux-firmware networkmanager grub os-prober
+pacstrap /mnt base linux linux-firmware networkmanager grub os-prober \
 vim sudo nano
 ```
 
@@ -913,9 +914,10 @@ bluetoothctl 中的基本命令：
 基本 Linux Mint 应用程序：
 
 ```bash
-yay -S --needed file-roller yelp warpinator mintstick xed gnome-screenshot
-redshift seahorse onboard sticky xviewer gnome-font-viewer bulky xreader
-gnome-disk-utility gucharmap gnome-calculator
+yay -S --needed file-roller yelp warpinator mintstick xed \
+gnome-screenshot redshift seahorse onboard sticky xviewer \
+gnome-font-viewer bulky xreader gnome-disk-utility gucharmap \
+gnome-calculator
 ```
 
 每个应用程序的功能：
@@ -952,7 +954,8 @@ yay -S --needed simple-scan pix drawing
 ## 3.2 互联网和通信应用程序
 
 ```bash
-yay -S --needed firefox webapp-manager thunderbird transmission-gtk
+yay -S --needed firefox webapp-manager thunderbird \
+transmission-gtk
 ```
 
 - **firefox**：网页浏览器
@@ -1056,7 +1059,8 @@ yay -S --needed btrfs-progs xfsprogs e2fsprogs
 使用任何压缩文件格式：
 
 ```bash
-yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip cpio pax p7zip
+yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip \
+cpio pax p7zip
 ```
 
 - **unrar**：RAR 文件解压缩器
@@ -1075,8 +1079,8 @@ yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip cpio pax p7zip
 ### 与 Nemo 文件管理器的附加集成
 
 ```bash
-yay -S --needed xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive
-gvfs-google
+yay -S --needed xviewer-plugins nemo-fileroller gvfs-goa \
+gvfs-onedrive gvfs-google
 ```
 
 - **xviewer-plugins**：图像查看器的附加插件
