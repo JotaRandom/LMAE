@@ -59,7 +59,9 @@
 
 ### 下载安装映像
 
-从官方 Arch Linux 网站下载最新的 ISO 映像：[https://archlinux.org/download/](https://archlinux.org/download/)。
+从官方 Arch Linux 网站下载最新的 ISO 映像：
+
+[https://archlinux.org/download/](https://archlinux.org/download/)。
 
 确保使用官方版本以避免安全问题。
 
@@ -415,7 +417,8 @@ hwclock --systohc
 
 ### 语言和本地化配置
 
-编辑 `/etc/locale.gen`（使用 `nano /etc/locale.gen` 或 `vim /etc/locale.gen`）并取消注释您需要的语言。至少包括 `en_US.UTF-8` 和您的本地语言（例如，`zh_CN.UTF-8`）。
+编辑 `/etc/locale.gen`（使用 `nano /etc/locale.gen` 或 `vim /etc/locale.gen`）
+并取消注释您需要的语言。至少包括 `en_US.UTF-8` 和您的本地语言（例如，`zh_CN.UTF-8`）。
 
 生成语言：
 ```bash
@@ -431,7 +434,7 @@ echo "LANG=zh_CN.UTF-8" > /etc/locale.conf
 
 在 `/etc/vconsole.conf` 中永久配置键盘：
 ```bash
-echo "KEYMAP=la-latin1" > /etc/vconsole.conf
+echo "KEYMAP=us" > /etc/vconsole.conf
 ```
 
 ### 网络配置
