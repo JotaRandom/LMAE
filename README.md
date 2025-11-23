@@ -14,6 +14,9 @@
 
 - 🇬🇧 **[English Manual Guide](README.en.md)** - Complete installation instructions
 - 🇪🇸 **[Guía Manual en Español](README.es.md)** - Instrucciones completas de instalación
+- 🇨🇳 **[中文手册指南](README.zh-cn.md)** - 完整安装说明
+
+**Note:** Translations are automated and may contain errors.
 
 ### What You'll Build
 
@@ -44,6 +47,7 @@ Both approaches result in the same system:
 
 - [English Manual Guide](README.en.md)
 - [Spanish Manual Guide](README.es.md)
+- [中文手册指南](README.zh-cn.md)
 
 ---
 
