@@ -308,11 +308,11 @@ mount /dev/sda1 /mnt/boot # 挂载引导加载器分区
 
 ```bash
 pacman -S --needed reflector
-reflector --country "Mexico, United States" --age 12 --protocol https \
+reflector --country "China, Japan, South Korea" --age 12 --protocol https \
 --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
-*将 "Mexico, United States" 替换为您位置最近的国家。您可以使用 `reflector --list-countries` 查看完整国家列表。*
+*将 "China, Japan, South Korea" 替换为您位置最近的国家。您可以使用 `reflector --list-countries` 查看完整国家列表。*
 
 **Reflector 自动化（可选）：** 如果您希望每周自动更新镜像，您可以在安装基础系统后启用 reflector 计时器：
 ```bash
