@@ -1,21 +1,71 @@
 # LMAE: Linux Mint Arch Edition
-*A comprehensive guide to creating your own Arch Linux-based distribution with the elegance of Linux Mint*
+*A comprehensive guide to creating your own Arch Linux-based distribution*
+*with the elegance of Linux Mint*
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Chapter 1: The Foundation - Installing Arch Linux](#chapter-1-the-foundation---installing-arch-linux)
+  - [1.1 Preparing the Ground](#11-preparing-the-ground)
+  - [1.2 Initial System Configuration](#12-initial-system-configuration)
+  - [1.3 The Art of Partitioning](#13-the-art-of-partitioning)
+  - [1.4 Optimizing Mirrors (Optional but Recommended)](#14-optimizing-mirrors-optional-but-recommended)
+  - [1.5 Installing the System Core](#15-installing-the-system-core)
+  - [1.6 Configuration of the Newly Installed System](#16-configuration-of-the-newly-installed-system)
+  - [1.7 The GRUB Boot Loader](#17-the-grub-boot-loader)
+  - [1.8 The First Boot](#18-the-first-boot)
+- [Chapter 2: The Transformation - Creating the Desktop Environment](#chapter-2-the-transformation---creating-the-desktop-environment)
+  - [2.1 Preparing the Stage](#21-preparing-the-stage)
+  - [2.2 Installing the Visual Components](#22-installing-the-visual-components)
+  - [2.3 Essential Configurations](#23-essential-configurations)
+  - [2.4 Enabling the AUR - The Magic of Arch](#24-enabling-the-aur---the-magic-of-arch)
+  - [2.5 The Visual Metamorphosis - Making it Look Like Linux Mint](#25-the-visual-metamorphosis---making-it-look-like-linux-mint)
+  - [2.6 Additional Functionality](#26-additional-functionality)
+- [Chapter 3: Completing the Experience - Linux Mint Applications](#chapter-3-completing-the-experience---linux-mint-applications)
+  - [3.1 Productivity Applications and Utilities](#31-productivity-applications-and-utilities)
+  - [3.2 Internet and Communication Applications](#32-internet-and-communication-applications)
+  - [3.3 Office Suite](#33-office-suite)
+  - [3.4 Development Tools](#34-development-tools)
+  - [3.5 Multimedia](#35-multimedia)
+  - [3.6 Administration Tools](#36-administration-tools)
+  - [3.7 Configuration and Preferences](#37-configuration-and-preferences)
+  - [3.8 System Tools and Command Line](#38-system-tools-and-command-line)
+  - [3.9 Laptop Optimizations (Optional)](#39-laptop-optimizations-optional)
+- [Conclusion](#conclusion)
+- [System Maintenance](#system-maintenance)
+
+---
 
 ## Introduction
 
-This guide explains how to combine the solid rolling-release foundation of Arch Linux with the Cinnamon desktop environment and Linux Mint applications. The result is a system that maintains Arch's flexibility while offering the visual and functional experience of Linux Mint.
+This guide explains how to combine the solid rolling-release foundation
+of Arch Linux with the Cinnamon desktop environment and Linux Mint
+applications. The result is a system that maintains Arch's flexibility
+while offering the visual and functional experience of Linux Mint.
 
-The process is divided into three main stages: Arch Linux installation, Cinnamon desktop environment configuration, and installation of Linux Mint's characteristic applications. Each section includes clear explanations of the necessary commands and configurations.
+The process is divided into three main stages:
+- Arch Linux installation
+- Cinnamon desktop environment configuration
+- Installation of Linux Mint's characteristic applications
+
+Each section includes clear explanations of the necessary commands and
+configurations.
 
 # Chapter 1: The Foundation - Installing Arch Linux
 
-Installing Arch Linux will be the system's foundation. Although Arch has a reputation for being complex, following these steps in order makes the process quite straightforward.
+Installing Arch Linux will be the system's foundation.
+
+Although Arch has a reputation for being complex, following these steps
+in order makes the process quite straightforward.
 
 ## 1.1 Preparing the Ground
 
 ### Downloading the installation image
 
-Download the latest ISO image from the official Arch Linux website at [https://archlinux.org/download/](https://archlinux.org/download/). Make sure to use the official version to avoid security issues.
+Download the latest ISO image from the official Arch Linux website at
+[https://archlinux.org/download/](https://archlinux.org/download/).
+
+Make sure to use the official version to avoid security issues.
 
 ### Creating the installation media
 
@@ -26,13 +76,16 @@ Once the ISO is downloaded, burn it to a USB or DVD using one of these tools:
 
 ### Booting from the installation media
 
-Boot your computer from the USB or DVD you just created. This may require changing the boot order in BIOS/UEFI.
+Boot your computer from the USB or DVD you just created.
+
+This may require changing the boot order in BIOS/UEFI.
 
 ## 1.2 Initial System Configuration
 
 ### Adjusting the keyboard to your language
 
-By default, the keyboard is configured for English. To change it, first list available keyboard maps:
+By default, the keyboard is configured for English. To change it, first
+list available keyboard maps:
 ```bash
 ls /usr/share/kbd/keymaps/**/*.map.gz
 ```
@@ -42,11 +95,14 @@ Then apply the one you need. For example, for a UK keyboard:
 loadkeys uk
 ```
 
-*Other common layouts: `de` (German), `fr` (French), `es` (Spanish), `us` (US English).*
+> **Note:** Other common layouts: `de` (German), `fr` (French),
+> `es` (Spanish), `us` (US English).
 
 ### Verifying internet connection
 
-Arch Linux needs an internet connection to download packages during installation. Verify your network interface is available:
+Arch Linux needs an internet connection to download packages during
+installation.
+Verify your network interface is available:
 ```bash
 ip link
 ```
@@ -67,7 +123,8 @@ If you see responses, the connection is working correctly.
 
 ### Synchronizing the system clock
 
-Set the correct time using internet time servers to avoid issues with security certificates:
+Set the correct time using internet time servers to avoid issues with
+security certificates:
 
 ```bash
 timedatectl set-ntp true
@@ -75,13 +132,16 @@ timedatectl set-ntp true
 
 ### Identifying the boot mode
 
-Modern systems can boot in UEFI or legacy BIOS mode. Identify which you're using:
+Modern systems can boot in UEFI or legacy BIOS mode. Identify which
+you're using:
 
 ```bash
 ls /sys/firmware/efi/efivars
 ```
 
-If the command shows files, you're in UEFI mode. If it shows "No such file or directory", you're in legacy BIOS mode. This information will be important for the following steps.
+If the command shows files, you're in UEFI mode. If it shows "No such
+file or directory", you're in legacy BIOS mode. This information will be
+important for the following steps.
 
 ## 1.3 The Art of Partitioning
 
@@ -95,42 +155,43 @@ List all available disks:
 fdisk -l
 ```
 
-Identify your main disk: usually it will be `/dev/sda` (SATA/IDE disks), `/dev/nvme0n1` (NVMe disks), or `/dev/mmcblk0` (SD/eMMC cards). **Carefully verify which is your target disk** before continuing.
+Identify your main disk: usually it will be `/dev/sda` (SATA/IDE disks),
+`/dev/nvme0n1` (NVMe disks), or `/dev/mmcblk0` (SD/eMMC cards).
+
+**Carefully verify which is your target disk** before continuing.
 
 ### Creating the partitions
 
 We'll use the GPT partition scheme. The configuration depends on the boot mode:
 
 **For UEFI systems with GPT:**
-
-| Partition    | Partition type    | Suggested size  | Mount point (during installation) |
-|--------------|-------------------|-----------------|-----------------------------------|
-| `/dev/sda1`  | EFI System        | 1024 MiB or more| `/mnt/boot`                       |
-| `/dev/sda2`  | Linux swap        | See note below  | (swap)                            |
-| `/dev/sda3`  | Linux filesystem  | Rest of disk    | `/mnt`                            |
+- `/dev/sda1`: EFI System, 1024 MiB or more, mount: `/mnt/boot`
+- `/dev/sda2`: Linux swap, see note below, mount: (swap)
+- `/dev/sda3`: Linux filesystem, rest of disk, mount: `/mnt`
 
 **For BIOS systems with GPT:**
-
-| Partition    | Partition type    | Suggested size  | Mount point (during installation) |
-|--------------|-------------------|-----------------|-----------------------------------|
-| `/dev/sda1`  | BIOS boot         | 1 MiB           | (not mounted)                     |
-| `/dev/sda2`  | Linux swap        | See note below  | (swap)                            |
-| `/dev/sda3`  | Linux filesystem  | Rest of disk    | `/mnt`                            |
+- `/dev/sda1`: BIOS boot, 8 MiB, mount: (not mounted)
+- `/dev/sda2`: EFI boot, 1024 MiB or more, mount: `/mnt/boot`
+- `/dev/sda3`: Linux swap, see note below, mount: (swap)
+- `/dev/sda4`: Linux filesystem, rest of disk, mount: `/mnt`
 
 **For BIOS systems with MBR (DOS partition table):**
-
-| Partition    | Partition type    | Suggested size  | Mount point (during installation) |
-|--------------|-------------------|-----------------|-----------------------------------|
-| `/dev/sda1`  | Linux swap        | See note below  | (swap)                            |
-| `/dev/sda2`  | Linux             | Rest of disk    | `/mnt`                            |
+- `/dev/sda1`: Bootloader, 1024 MiB or more, mount: `/mnt/boot`
+- `/dev/sda2`: Linux swap, see note below, mount: (swap)
+- `/dev/sda3`: Linux, rest of disk, mount: `/mnt`
 
 **Swap size recommendations:**
-- **Up to 4 GB RAM**: Swap = 1.5 × RAM (if you want hibernation) or equal to RAM (without hibernation)
+- **Up to 4 GB RAM**: Swap = 1.5 × RAM (if you want hibernation) or
+  equal to RAM (without hibernation)
 - **4-16 GB RAM**: 4 GB swap is usually sufficient
 - **More than 16 GB RAM**: 4 GB + (0.1 × total RAM) is a good general rule
 - **Recommended minimum**: 2 GB in any case
 
-*Note: The mount points `/mnt` and `/mnt/boot` are specific to the installation environment. Once the system is installed, they will be mounted as `/` and `/boot` respectively.*
+> **Note:** The mount points `/mnt` and `/mnt/boot` are specific to the
+
+> installation environment. Once the system is installed, they will be
+
+> mounted as `/` and `/boot` respectively.
 
 Open `cfdisk` to create the partitions:
 
@@ -138,12 +199,12 @@ Open `cfdisk` to create the partitions:
 cfdisk /dev/sda
 ```
 
-*Replace `/dev/sda` with your disk.*
+> **Note:** Replace `/dev/sda` with your disk.
 
 Steps in `cfdisk`:
 1. If the disk is empty, select the table type:
    - **"gpt"** for UEFI or modern BIOS systems (recommended)
-   - **"dos"** only if you need MBR for very old BIOS systems
+   - **"msdos"** only if you need MBR for very old BIOS systems
 2. Create partitions according to your boot mode scheme
 3. Assign the correct types to each partition
 4. Write changes and exit
@@ -162,19 +223,22 @@ mkfs.ext4 /dev/sda3       # Main file system (ext4)
 **For BIOS systems with GPT:**
 ```bash
 # The BIOS boot partition (/dev/sda1) is not formatted
-mkswap /dev/sda2          # Swap partition
-mkfs.ext4 /dev/sda3       # Main file system (ext4)
+mkfs.fat -F 32 /dev/sda2  # EFI boot partition (FAT32)
+mkswap /dev/sda3          # Swap partition
+mkfs.ext4 /dev/sda4       # Main file system (ext4)
 ```
 
 **For BIOS systems with MBR:**
 ```bash
-mkswap /dev/sda1          # Swap partition
-mkfs.ext4 /dev/sda2       # Main file system (ext4)
+mkfs.fat -F 32 /dev/sda1  # Bootloader partition (FAT32)
+mkswap /dev/sda2          # Swap partition
+mkfs.ext4 /dev/sda3       # Main file system (ext4)
 ```
 
 **Additional information about file systems:**
 
-If you want to explore other formatting options, here are the most common commands with their recommended options:
+If you want to explore other formatting options, here are the most
+common commands with their recommended options:
 
 *EFI/ESP partitions (package: dosfstools):*
 ```bash
@@ -194,34 +258,48 @@ mkswap -L "swap" /dev/sdaX             # With volume label (-L)
 ```bash
 mkfs.ext4 /dev/sdaX                              # Default options (recommended)
 mkfs.ext4 -L "ArchLinux" /dev/sdaX               # With volume label (-L)
-mkfs.ext4 -L "ArchLinux" -O metadata_csum,64bit -E lazy_itable_init=0,lazy_journal_init=0 /dev/sdaX  # Optimized options for SSD
+mkfs.ext4 -L "ArchLinux" -O metadata_csum,64bit -E lazy_itable_init=0,\
+lazy_journal_init=0 /dev/sdaX  # Optimized options for SSD
 ```
 
 - **XFS** (package: xfsprogs) - good for large files and high performance, cannot be shrunk:
 ```bash
 mkfs.xfs /dev/sdaX                               # Default options
 mkfs.xfs -L "ArchLinux" /dev/sdaX                # With volume label (-L)
-mkfs.xfs -L "ArchLinux" -m crc=1,finobt=1 /dev/sdaX  # Recommended modern options
+mkfs.xfs -L "ArchLinux" -m crc=1,finobt=1 /dev/sdaX  # Recommended
+modern options
 ```
 
 - **Btrfs** (package: btrfs-progs) - modern, with snapshots and compression, requires more knowledge:
 ```bash
 mkfs.btrfs /dev/sdaX                             # Default options
 mkfs.btrfs -L "ArchLinux" /dev/sdaX              # With volume label (-L)
-mkfs.btrfs -L "ArchLinux" -f /dev/sdaX           # Force format (-f) if partition already has data
+mkfs.btrfs -L "ArchLinux" -f /dev/sdaX           # Force format (-f)
+if partition already has data
 ```
 
 *Options explained:*
-- `-L` or `-n`: Sets a volume label (useful for identification and mounting by label)
+- `-L` or `-n`: Sets a volume label (useful for identification and
+  mounting by label)
 - `-f`: Forces formatting even if there is data (use with caution)
-- For ext4 on SSD: `metadata_csum` improves integrity, `lazy_*=0` initializes everything immediately
-- For XFS: `crc=1` enables metadata checksums, `finobt=1` improves performance with many files
+- For ext4 on SSD: `metadata_csum` improves integrity, `lazy_*=0`
+  initializes everything immediately
+- For XFS: `crc=1` enables metadata checksums, `finobt=1` improves
+  performance with many files
 
-*Note: For desktop/laptop, ext4 is the safest and most proven option. XFS offers good performance for workstations with large files (cannot be shrunk). Btrfs offers advanced features (snapshots, compression, deduplication) but requires more knowledge for maintenance and recovery.*
+> **Note:** For desktop/laptop, ext4 is the safest and most proven option.
+
+> XFS offers good performance for workstations with large files (cannot be shrunk).
+
+> Btrfs offers advanced features (snapshots, compression, deduplication) but requires
+
+> more knowledge for maintenance and recovery.
 
 **Important consideration about backups with Timeshift:**
-- **Btrfs**: Timeshift can create instant system snapshots using Btrfs native capabilities. This is very fast and space-efficient.
-- **ext4/XFS/others**: Timeshift uses rsync to make full file copies, which consumes more time and disk space.
+- **Btrfs**: Timeshift can create instant system snapshots using Btrfs
+  native capabilities. This is very fast and space-efficient.
+- **ext4/XFS/others**: Timeshift uses rsync to make full file copies,
+  which consumes more time and disk space.
 
 ### Mounting the partitions
 
@@ -237,20 +315,25 @@ mount /dev/sda1 /mnt/boot # Mount the EFI partition
 
 **For BIOS systems with GPT:**
 ```bash
-mount /dev/sda3 /mnt      # Mount the main file system
-swapon /dev/sda2          # Activate swap partition
+mount /dev/sda4 /mnt      # Mount the main file system
+swapon /dev/sda3          # Activate swap partition
+mkdir /mnt/boot           # Create mount point for EFI
+mount /dev/sda2 /mnt/boot # Mount the EFI boot partition
 # The BIOS boot partition is not mounted
 ```
 
 **For BIOS systems with MBR:**
 ```bash
-mount /dev/sda2 /mnt      # Mount the main file system
-swapon /dev/sda1          # Activate swap partition
+mount /dev/sda3 /mnt      # Mount the main file system
+swapon /dev/sda2          # Activate swap partition
+mkdir /mnt/boot           # Create mount point for bootloader
+mount /dev/sda1 /mnt/boot # Mount the bootloader partition
 ```
 
 ## 1.4 Optimizing Mirrors (Optional but Recommended)
 
-If package downloads are slow, you can optimize the mirror list before installing:
+If package downloads are slow, you can optimize the mirror list before
+installing:
 
 ```bash
 pacman -S --needed reflector
@@ -259,12 +342,15 @@ reflector --country "Mexico,United States" --age 12 --protocol https --sort rate
 
 *Replace "Mexico,United States" with countries closest to your location. You can see the full list of countries with `reflector --list-countries`.*
 
-**Reflector automation (optional):** If you want mirrors to be automatically updated weekly, you can enable the reflector timer after installing the base system:
+**Reflector automation (optional):** If you want mirrors to be
+automatically updated weekly, you can enable the reflector timer after
+installing the base system:
 ```bash
 systemctl enable reflector.timer
 ```
 
-This will update the mirror list weekly. You can customize reflector options by editing `/etc/xdg/reflector/reflector.conf` after installation.
+This will update the mirror list weekly. You can customize reflector
+options by editing `/etc/xdg/reflector/reflector.conf` after installation.
 
 ## 1.5 Installing the System Core
 
@@ -277,19 +363,22 @@ pacstrap /mnt base linux linux-firmware networkmanager grub vim sudo nano
 
 **For UEFI systems (add efibootmgr):**
 ```bash
-pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr vim sudo nano
+pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr
+vim sudo nano
 ```
 
 **For dual boot systems (add os-prober):**
 
 If you have BIOS:
 ```bash
-pacstrap /mnt base linux linux-firmware networkmanager grub os-prober vim sudo nano
+pacstrap /mnt base linux linux-firmware networkmanager grub os-prober
+vim sudo nano
 ```
 
 If you have UEFI:
 ```bash
-pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr os-prober vim sudo nano
+pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr \
+os-prober vim sudo nano
 ```
 
 Installed components:
@@ -346,7 +435,9 @@ hwclock --systohc
 
 ### Language and localization configuration
 
-Edit `/etc/locale.gen` (with `nano /etc/locale.gen` or `vim /etc/locale.gen`) and uncomment the languages you need. Include at least `en_US.UTF-8` and your local language (for example, `es_ES.UTF-8` or `es_MX.UTF-8`).
+Edit `/etc/locale.gen` (with `nano /etc/locale.gen` or `vim /etc/locale.gen`)
+and uncomment the languages you need. Include at least `en_US.UTF-8` and
+your local language (for example, `es_ES.UTF-8` or `es_MX.UTF-8`).
 
 Generate the languages:
 ```bash
@@ -358,7 +449,7 @@ Create `/etc/locale.conf` with your primary language:
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 ```
 
-*You can use `LANG=es_ES.UTF-8` or another language as you prefer.*
+> **Note:** You can use `LANG=es_ES.UTF-8` or another language as you prefer.
 
 Configure the keyboard permanently in `/etc/vconsole.conf`:
 ```bash
@@ -381,7 +472,7 @@ cat >> /etc/hosts << EOF
 EOF
 ```
 
-*Use the same name you put in `/etc/hostname`.*
+> **Note:** Use the same name you put in `/etc/hostname`.
 
 ### Configuring the administrator password
 
@@ -409,9 +500,11 @@ Color
 
 **Enabling the multilib repository (for 32-bit applications):**
 
-If you plan to use 32-bit applications, Steam, Wine, or some games, you need to enable multilib.
+If you plan to use 32-bit applications, Steam, Wine, or some games, you
+need to enable multilib.
 
-In the same `/etc/pacman.conf` file, uncomment these lines at the end of the file:
+In the same `/etc/pacman.conf` file, uncomment these lines at the end
+of the file:
 ```ini
 [multilib]
 Include = /etc/pacman.d/mirrorlist
@@ -422,7 +515,8 @@ Then update the package database:
 pacman -Syu
 ```
 
-*Note: Multilib is necessary for Steam, Wine, some proprietary 32-bit applications, and 32-bit graphics drivers for games.*
+> **Note:** Multilib is necessary for Steam, Wine, some proprietary 32-bit applications,
+> and 32-bit graphics drivers for games.
 
 ## 1.7 The GRUB Boot Loader
 
@@ -434,17 +528,19 @@ GRUB allows the system to boot. Installation varies depending on the boot mode:
 grub-install --verbose --target=i386-pc /dev/sda
 ```
 
-*Replace `/dev/sda` with your disk (without partition number).*
+> **Note:** Replace `/dev/sda` with your disk (without partition number).
 
 ### For UEFI systems
 
 ```bash
-grub-install --verbose --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-install --verbose --target=x86_64-efi --efi-directory=/boot
+--bootloader-id=GRUB
 ```
 
 ### Enabling microcode updates
 
-Modern processors benefit from microcode updates to improve stability and security:
+Modern processors benefit from microcode updates to improve stability
+and security:
 
 **For Intel processors:**
 ```bash
@@ -472,7 +568,8 @@ echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-The command should detect your Arch Linux system and any other installed operating systems.
+The command should detect your Arch Linux system and any other installed
+operating systems.
 
 ## 1.8 The First Boot
 
@@ -485,7 +582,8 @@ sync                   # Synchronize disks
 reboot now            # Restart
 ```
 
-Remove the installation media before it boots. You should see the GRUB menu and then a text-mode login screen.
+Remove the installation media before it boots. You should see the GRUB
+menu and then a text-mode login screen.
 
 Log in as "root" with your password.
 
@@ -502,11 +600,41 @@ To configure the network in text mode, use:
 nmtui
 ```
 
-You have completed the Arch Linux base installation. The next chapter covers desktop environment installation.
+You have completed the Arch Linux base installation. The next chapter
+covers desktop environment installation.
+
+### Checklist - Chapter 1
+
+- [ ] Downloaded Arch Linux ISO image
+- [ ] Created installation media (USB/DVD)
+- [ ] Successfully booted from installation media
+- [ ] Keyboard configured correctly
+- [ ] Internet connection verified
+- [ ] System clock synchronized
+- [ ] Boot mode identified (UEFI/BIOS)
+- [ ] Disk identified and partitions created
+- [ ] Partitions formatted correctly
+- [ ] Partitions mounted to `/mnt`
+- [ ] Mirrors optimized (optional)
+- [ ] Base system installed with pacstrap
+- [ ] fstab file generated
+- [ ] Entered system with arch-chroot
+- [ ] Time zone configured
+- [ ] Language and localization configured
+- [ ] Network configured (hostname and hosts)
+- [ ] Root password set
+- [ ] Optional pacman configurations applied
+- [ ] GRUB installed and configured
+- [ ] Microcode installed (if applicable)
+- [ ] System rebooted and first boot successful
+- [ ] NetworkManager enabled
+
+---
 
 # Chapter 2: The Transformation - Creating the Desktop Environment
 
-This chapter covers the installation and configuration of the Cinnamon desktop environment, the same one used by Linux Mint.
+This chapter covers the installation and configuration of the Cinnamon
+desktop environment, the same one used by Linux Mint.
 
 ## 2.1 Preparing the Stage
 
@@ -519,14 +647,18 @@ useradd -m -G wheel user
 passwd user
 ```
 
-*Replace "user" with the name you prefer. The `-G wheel` option adds the user to the wheel group, which is standard practice in Arch for users with sudo privileges.*
+*Replace "user" with the name you prefer. The `-G wheel` option adds the
+user to the wheel group, which is standard practice in Arch for users
+with sudo privileges.*
 
 ## 2.2 Installing the Visual Components
 
 Install the necessary components for the desktop:
 
 ```bash
-pacman -S xorg xorg-apps xorg-drivers mesa lightdm lightdm-slick-greeter cinnamon cinnamon-translations gnome-terminal xdg-user-dirs xdg-user-dirs-gtk
+pacman -S xorg xorg-apps xorg-drivers mesa lightdm lightdm-slick-greeter
+cinnamon cinnamon-translations gnome-terminal xdg-user-dirs
+xdg-user-dirs-gtk
 ```
 
 Installed components:
@@ -539,12 +671,15 @@ Installed components:
 - **cinnamon**: Linux Mint's desktop environment
 - **cinnamon-translations**: Translations for Cinnamon (language support)
 - **gnome-terminal**: Terminal emulator
-- **xdg-user-dirs**: Creates standard user directories (Downloads, Documents, etc.)
+- **xdg-user-dirs**: Creates standard user directories (Downloads,
+  Documents, etc.)
 - **xdg-user-dirs-gtk**: GTK integration for user directory management
 
 ### Configuring LightDM
 
-Edit `/etc/lightdm/lightdm.conf` (with `nano /etc/lightdm/lightdm.conf` or `vim /etc/lightdm/lightdm.conf`) and in the `[Seat:*]` section, add or uncomment:
+Edit `/etc/lightdm/lightdm.conf` (with `nano /etc/lightdm/lightdm.conf` or
+`vim /etc/lightdm/lightdm.conf`) and in the `[Seat:*]` section, add or
+uncomment:
 
 ```ini
 [Seat:*]
@@ -578,11 +713,16 @@ Configure your keyboard in the graphical environment. Go to:
 - Add your layout with the (+) button
 - Remove ones you don't use with the (-) button
 
-**Note:** At the time of writing this guide (November 2025), keyboard layouts only work in X11 sessions. Wayland support is in development.
+> **Note:** At the time of writing this guide (November 2025), keyboard
+
+> layouts only work in X11 sessions. Wayland support is in development
+
+> and even today in 2025 KDE and GNOME have it by default.
 
 ### Configuring sudo for your user
 
-The sudo package is already installed, but you need to configure it so your user can execute administrative commands.
+The sudo package is already installed, but you need to configure it so
+your user can execute administrative commands.
 
 Switch to the root user:
 ```bash
@@ -610,7 +750,9 @@ root ALL=(ALL) ALL
 user ALL=(ALL) ALL
 ```
 
-*If you added your user to the wheel group in step 2.1, alternatively you can uncomment the line `%wheel ALL=(ALL) ALL` instead of adding your user individually.*
+*If you added your user to the wheel group in step 2.1, alternatively you
+can uncomment the line `%wheel ALL=(ALL) ALL` instead of adding your user
+individually.*
 
 If you prefer to use nano instead of vim:
 ```bash
@@ -626,7 +768,8 @@ su user
 
 ## 2.4 Enabling the AUR - The Magic of Arch
 
-The AUR (Arch User Repository) contains thousands of additional packages. Install `yay` for easy access:
+The AUR (Arch User Repository) contains thousands of additional packages.
+Install `yay` for easy access:
 
 ```bash
 sudo pacman -S --needed git base-devel
@@ -648,7 +791,8 @@ With `yay`, you have access to virtually any software available for Linux.
 
 ## 2.5 The Visual Metamorphosis - Making it Look Like Linux Mint
 
-Install the visual components that give Linux Mint its characteristic appearance.
+Install the visual components that give Linux Mint its characteristic
+appearance.
 
 ### Installing Linux Mint fonts
 
@@ -667,20 +811,19 @@ yay -S --needed ttf-ubuntu-font-family
 
 Configure them in **Cinnamon Menu → Font Selection**:
 
-| Category              | Font                | Size   |
-|-----------------------|---------------------|--------|
-| Default font          | Ubuntu Regular      | 10     |
-| Desktop font          | Ubuntu Regular      | 10     |
-| Document font         | Sans Regular        | 10     |
-| Monospace font        | Monospace Regular   | 10     |
-| Window title font     | Ubuntu Medium       | 10     |
+- Default font:      Ubuntu Regular,    size 10
+- Desktop font:      Ubuntu Regular,    size 10
+- Document font:     Sans Regular,      size 10
+- Monospace font:    Monospace Regular, size 10
+- Window title font: Ubuntu Medium,     size 10
 
 ### Installing official themes and icons
 
 Install Linux Mint themes and icons:
 
 ```bash
-yay -S --needed mint-themes mint-l-theme mint-y-icons mint-x-icons mint-l-icons bibata-cursor-theme xapp-symbolic-icons
+yay -S --needed mint-themes mint-l-theme mint-y-icons mint-x-icons
+mint-l-icons bibata-cursor-theme xapp-symbolic-icons
 ```
 
 - **mint-themes**: Official Linux Mint desktop themes
@@ -704,7 +847,8 @@ yay -S --needed lightdm-settings
 
 Install official wallpapers:
 
-**⚠️ Warning:** These packages download large files (70+ MiB each). Skip this step if you have limited connection.
+**⚠️ Warning:** These packages download large files (70+ MiB each). Skip
+this step if you have limited connection.
 
 ```bash
 yay -S --needed mint-backgrounds mint-artwork
@@ -731,30 +875,38 @@ sudo systemctl enable --now cups
 
 ### Audio (PipeWire)
 
-Modern Linux Mint and Arch Linux use PipeWire as the audio server, replacing PulseAudio and JACK. PipeWire offers better latency and support for professional audio.
+Modern Linux Mint and Arch Linux use PipeWire as the audio server,
+replacing PulseAudio and JACK. PipeWire offers better latency and support
+for professional audio.
 
 Install the necessary PipeWire components:
 
 ```bash
-yay -S --needed pipewire-audio wireplumber pipewire-alsa pipewire-pulse pipewire-jack
+yay -S --needed pipewire-audio wireplumber pipewire-alsa pipewire-pulse \
+pipewire-jack
 ```
 
 Installed components:
-- **pipewire-audio**: Meta-package including PipeWire, WirePlumber and ALSA/PulseAudio/JACK support
+- **pipewire-audio**: Meta-package including PipeWire, WirePlumber and
+  ALSA/PulseAudio/JACK support
 - **wireplumber**: Recommended session manager for PipeWire (replaces pipewire-media-session)
 - **pipewire-alsa**: ALSA support for PipeWire
 - **pipewire-pulse**: PulseAudio-compatible implementation (replaces PulseAudio)
 - **pipewire-jack**: JACK support for professional audio applications
 
-PipeWire user services start automatically when you log in. To verify it's working:
+PipeWire user services start automatically when you log in. To verify
+it's working:
 
 ```bash
 pactl info
 ```
 
-You should see `Server Name: PulseAudio (on PipeWire x.y.z)` in the output.
+You should see `Server Name: PulseAudio (on PipeWire x.y.z)` in the
+output.
 
-*Note: Cinnamon has its own built-in volume control. If you need more advanced controls (e.g., to change device profiles or configure individual applications), you can optionally install:*
+> **Note:** Cinnamon has its own built-in volume control. If you need more advanced controls
+> (e.g., to change device profiles or configure individual applications), you can optionally
+> install:
 
 ```bash
 yay -S --needed pavucontrol
@@ -784,20 +936,43 @@ bluetoothctl
 Basic commands in bluetoothctl:
 - `power on` - Turn on the Bluetooth adapter
 - `scan on` - Search for nearby devices
-- `pair XX:XX:XX:XX:XX:XX` - Pair with a device (replace XX... with the MAC address)
+- `pair XX:XX:XX:XX:XX:XX` - Pair with a device (replace XX... with the
+  MAC address)
 - `trust XX:XX:XX:XX:XX:XX` - Trust the device for automatic reconnection
 - `connect XX:XX:XX:XX:XX:XX` - Connect to the device
 - `exit` - Exit bluetoothctl
 
-*Note: Later in the guide we'll install Blueberry, Linux Mint's graphical Bluetooth manager, which makes pairing easier from the GUI.*
+> **Note:** Later in the guide we'll install Blueberry, Linux Mint's graphical Bluetooth manager,
+> which makes pairing easier from the GUI.
 
 **For Bluetooth headphones/speakers:**
 
-Bluetooth audio support is already included with `pipewire-audio`. Bluetooth audio devices should automatically appear as available audio outputs once paired and connected.
+Bluetooth audio support is already included with `pipewire-audio`.
+Bluetooth audio devices should automatically appear as available audio
+outputs once paired and connected.
+
+### Checklist - Chapter 2
+
+- [ ] Regular user created
+- [ ] Visual components installed (Xorg, LightDM, Cinnamon)
+- [ ] LightDM configured with Slick Greeter
+- [ ] Desktop tested and working
+- [ ] Keyboard layout configured in Cinnamon
+- [ ] Sudo configured for the user
+- [ ] Yay installed and AUR enabled
+- [ ] Linux Mint fonts installed and configured
+- [ ] Mint themes and icons installed
+- [ ] Mint wallpapers installed (optional)
+- [ ] Printer support installed (optional)
+- [ ] PipeWire installed and working
+- [ ] Bluetooth installed and configured (optional)
+
+---
 
 # Chapter 3: Completing the Experience - Linux Mint Applications
 
-This chapter covers the installation of applications that come by default in Linux Mint.
+This chapter covers the installation of applications that come by default
+in Linux Mint.
 
 ## 3.1 Productivity Applications and Utilities
 
@@ -806,7 +981,9 @@ This chapter covers the installation of applications that come by default in Lin
 Basic Linux Mint applications:
 
 ```bash
-yay -S --needed file-roller yelp warpinator mintstick xed gnome-screenshot redshift seahorse onboard sticky xviewer gnome-font-viewer bulky xreader gnome-disk-utility gucharmap gnome-calculator
+yay -S --needed file-roller yelp warpinator mintstick xed gnome-screenshot
+redshift seahorse onboard sticky xviewer gnome-font-viewer bulky xreader
+gnome-disk-utility gucharmap gnome-calculator
 ```
 
 Functions of each application:
@@ -851,7 +1028,11 @@ yay -S --needed firefox webapp-manager thunderbird transmission-gtk
 - **thunderbird**: Email client
 - **transmission-gtk**: BitTorrent client
 
-*Note about HexChat: This application is available in the AUR but requires GTK2, which is also in the AUR. Installing HexChat will involve compiling both GTK2 and HexChat with `yay`. Additionally, HexChat no longer receives active maintenance. While it's part of Linux Mint, its installation is left to user discretion based on whether the compilation effort is worthwhile.*
+> **Note:** About HexChat: This application is available in the AUR but requires GTK2,
+> which is also in the AUR. Installing HexChat will involve compiling both GTK2 and
+> HexChat with `yay`. Additionally, HexChat no longer receives active maintenance.
+> While it's part of Linux Mint, its installation is left to user discretion based on
+> whether the compilation effort is worthwhile.
 
 ## 3.3 Office Suite
 
@@ -906,17 +1087,21 @@ System customization:
 yay -S --needed gufw blueberry mintlocale gnome-online-accounts-gtk
 ```
 
-- **gufw**: Graphical interface for firewall (visual management of network rules)
-- **blueberry**: Bluetooth device manager (connection of headphones, keyboards, etc.)
+- **gufw**: Graphical interface for firewall (visual management of
+  network rules)
+- **blueberry**: Bluetooth device manager (connection of headphones,
+  keyboards, etc.)
 - **mintlocale**: System language configuration (Linux Mint interface)
-- **gnome-online-accounts-gtk**: Online account integration (Google, Microsoft, etc.)
+- **gnome-online-accounts-gtk**: Online account integration (Google,
+  Microsoft, etc.)
 
 Enable the firewall:
 ```bash
 sudo systemctl enable --now ufw
 ```
 
-- **ufw** (Uncomplicated Firewall): Firewall that protects your system from unauthorized connections
+- **ufw** (Uncomplicated Firewall): Firewall that protects your system
+  from unauthorized connections
 
 ## 3.8 System Tools and Command Line
 
@@ -961,14 +1146,16 @@ yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip cpio pax p7zip
 - **pax**: POSIX archive utility
 - **p7zip**: 7-Zip compressor/decompressor
 
-*Note: The `rar` package from the AUR may conflict with `unrar`. Choose according to your needs.*
+> **Note:** The `rar` package from the AUR may conflict with `unrar`.
+> Choose according to your needs.
 
 ### Additional integrations
 
 For full integration with Nemo file manager:
 
 ```bash
-yay -S --needed xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive gvfs-google
+yay -S --needed xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive
+gvfs-google
 ```
 
 - **xviewer-plugins**: Additional plugins for image viewer
@@ -979,7 +1166,8 @@ yay -S --needed xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive gvfs-goog
 
 ## 3.9 Laptop Optimizations (Optional)
 
-If you're installing on a laptop, these tools can significantly improve power management and overall experience:
+If you're installing on a laptop, these tools can significantly improve
+power management and overall experience:
 
 ### Power and battery management
 
@@ -993,7 +1181,8 @@ sudo systemctl enable --now tlp
 sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
 
-- **tlp**: Advanced power management for laptops (automatically optimizes battery)
+- **tlp**: Advanced power management for laptops (automatically
+  optimizes battery)
 - **tlp-rdw**: Extension for managing radio devices (WiFi, Bluetooth) with TLP
 
 *The `mask` commands are necessary because TLP manages rfkill directly.*
@@ -1014,11 +1203,14 @@ yay -S --needed power-profiles-daemon
 sudo systemctl enable --now power-profiles-daemon
 ```
 
-- **power-profiles-daemon**: Power profile management (Performance, Balanced, Power Saver)
+- **power-profiles-daemon**: Power profile management (Performance,
+  Balanced, Power Saver)
 
-*Simpler than TLP but less configurable. Better integration with desktop applets.*
+*Simpler than TLP but less configurable. Better integration with desktop
+applets.*
 
-⚠️ **Important**: Don't install both at the same time, as they conflict. Choose TLP for maximum control or power-profiles-daemon for simplicity.
+⚠️ **Important**: Don't install both at the same time, as they conflict.
+Choose TLP for maximum control or power-profiles-daemon for simplicity.
 
 ### Kernel tools for laptops
 
@@ -1026,7 +1218,8 @@ sudo systemctl enable --now power-profiles-daemon
 yay -S --needed linux-tools-meta
 ```
 
-- **linux-tools-meta**: Meta-package including useful kernel tools like `cpupower`, `turbostat`, etc.
+- **linux-tools-meta**: Meta-package including useful kernel tools like
+  `cpupower`, `turbostat`, etc.
 
 ### System information and sensors
 
@@ -1035,13 +1228,16 @@ yay -S --needed lm_sensors
 sudo sensors-detect
 ```
 
-- **lm_sensors**: Detects and displays hardware sensor information (temperature, fans, voltage)
+- **lm_sensors**: Detects and displays hardware sensor information
+  (temperature, fans, voltage)
 
-Run `sensors-detect` and accept the default options. Then you can use `sensors` to view temperatures.
+Run `sensors-detect` and accept the default options. Then you can use
+`sensors` to view temperatures.
 
 ### Screen brightness control
 
-Brightness control should work automatically with Cinnamon, but if you have issues:
+Brightness control should work automatically with Cinnamon, but if you
+have issues:
 
 ```bash
 yay -S --needed brightnessctl
@@ -1052,13 +1248,32 @@ yay -S --needed brightnessctl
 ### Advanced touchpad support
 
 ```bash
-yay -S --needed xf86-input-synaptics libinput-gestures
+yay -S --needed xf86-input-synaptics xf86-input-libinput
 ```
 
 - **xf86-input-synaptics**: Improved driver for Synaptics touchpads
-- **libinput-gestures**: Touch gestures for touchpad (multi-finger swipes, etc.)
+  (Driver in maintenance mode)
+- **xf86-input-libinput**: Modern and default driver for touchpads
+  and other similar input devices (libinput, etc.)
 
-*Note: Most modern touchpads work fine with the default libinput driver. Only install these if you need additional features.*
+> **Note:** Most modern touchpads work fine with the default libinput
+> driver. Only install synaptics if you need features not available in
+> libinput or for compatibility.
+
+### Checklist - Chapter 3
+
+- [ ] Productivity applications installed
+- [ ] Graphics applications installed
+- [ ] Internet applications installed
+- [ ] Office suite installed
+- [ ] Development tools installed
+- [ ] Multimedia applications installed
+- [ ] Administration tools installed
+- [ ] Configuration and preferences installed
+- [ ] System tools installed
+- [ ] Laptop optimizations applied (if applicable)
+
+---
 
 ## Conclusion
 
@@ -1073,13 +1288,15 @@ You have completed creating your Linux Mint Arch Edition. The system:
 1. Configure Timeshift for automatic backups
 2. Customize the desktop to your liking
 3. Explore the AUR for additional software
-4. If you installed TLP, review its configuration in `/etc/tlp.conf` for custom tweaks
+4. If you installed TLP, review its configuration in `/etc/tlp.conf` for
+custom tweaks
 
 ## System Maintenance
 
 ### Updating the system
 
-Arch Linux is a rolling-release distribution, which means you receive continuous updates. It's important to keep the system updated regularly.
+Arch Linux is a rolling-release distribution, which means you receive
+continuous updates. It's important to keep the system updated regularly.
 
 **Update official packages:**
 ```bash
@@ -1093,8 +1310,10 @@ yay -Syu
 
 **Recommendations:**
 - Update at least once a week
-- Read the news at [https://archlinux.org/](https://archlinux.org/) before updating to be aware of important changes
-- If you use AUR software, `yay -Syu` will update both official repositories and the AUR
+- Read the news at [https://archlinux.org/](https://archlinux.org/) before
+  updating to be aware of important changes
+- If you use AUR software, `yay -Syu` will update both official
+  repositories and the AUR
 - After important kernel updates, consider rebooting the system
 
 **Clean package cache (optional):**
@@ -1103,3 +1322,27 @@ sudo pacman -Sc
 ```
 
 This removes old packages from the cache to free up disk space.
+
+## Glossary
+
+- **AUR (Arch User Repository)**: Community-maintained package repository for Arch Linux,
+  allowing installation of software not available in official repositories.
+- **BIOS**: Basic Input/Output System, traditional firmware for booting.
+- **Cinnamon**: Modern and elegant desktop environment developed by Linux Mint.
+- **EFI (Extensible Firmware Interface)**: Extensible Firmware Interface.
+- **fstab**: File that defines how system partitions are mounted.
+- **GRUB**: Boot manager that allows selecting the operating system at startup.
+- **pacman**: Arch Linux package manager.
+- **PipeWire**: Modern audio and video server that replaces PulseAudio and JACK.
+- **UEFI**: Unified Extensible Firmware Interface,
+  modern standard for computer firmware.
+- **yay**: AUR helper that facilitates installing packages from the AUR.
+
+## Useful Links
+
+- [Official Arch Linux website](https://archlinux.org/)
+- [Arch Linux Wiki](https://wiki.archlinux.org/)
+- [Official Linux Mint website](https://linuxmint.com/)
+- [Cinnamon Documentation](https://linuxmint-user-guide.readthedocs.io/en/latest/)
+- [Arch Linux Forum](https://bbs.archlinux.org/)
+- [AUR (Arch User Repository)](https://aur.archlinux.org/)
