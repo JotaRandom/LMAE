@@ -279,11 +279,14 @@ mkfs.btrfs -L "ArchLinux" -f /dev/sdaX           # 强制格式化 (-f)
 
 > XFS 为具有大文件的工作站提供良好性能（无法缩小）。
 
-> Btrfs 提供高级功能（快照、压缩、重复数据删除），但需要维护和恢复的更多知识。
+> Btrfs 提供高级功能（快照、压缩、重复数据删除），
+> 但需要维护和恢复的更多知识。
 
 **关于 Timeshift 的备份重要考虑：**
-- **Btrfs**：Timeshift 可以使用 Btrfs 本机功能创建即时系统快照。这非常快且空间高效。
-- **ext4/XFS/其他**：Timeshift 使用 rsync 创建完整文件副本，这消耗更多时间和磁盘空间。
+- **Btrfs**：Timeshift 可以使用 Btrfs 本机功能创建即时系统快照。
+  这非常快且空间高效。
+- **ext4/XFS/其他**：Timeshift 使用 rsync 创建完整文件副本，
+  这消耗更多时间和磁盘空间。
 
 ### 挂载分区
 
