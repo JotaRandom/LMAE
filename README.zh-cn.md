@@ -327,14 +327,17 @@ reflector --country "China, Japan, South Korea" --age 12 --protocol https \
 --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
-*将 "China, Japan, South Korea" 替换为您位置最近的国家。您可以使用 `reflector --list-countries` 查看完整国家列表。*
+*将 "China, Japan, South Korea" 替换为您位置最近的国家。
+您可以使用 `reflector --list-countries` 查看完整国家列表。*
 
-**Reflector 自动化（可选）：** 如果您希望每周自动更新镜像，您可以在安装基础系统后启用 reflector 计时器：
+**Reflector 自动化（可选）：** 如果您希望每周自动更新镜像，
+您可以在安装基础系统后启用 reflector 计时器：
 ```bash
 systemctl enable reflector.timer
 ```
 
-这将每周更新镜像列表。您可以在安装后编辑 `/etc/xdg/reflector/reflector.conf` 来自定义 reflector 选项。
+这将每周更新镜像列表。您可以在安装后编辑
+`/etc/xdg/reflector/reflector.conf` 来自定义 reflector 选项。
 
 ## 1.5 安装系统核心
 
@@ -484,7 +487,8 @@ Color
 
 **启用 multilib 仓库（用于 32 位应用程序）：**
 
-如果您计划使用 32 位应用程序、Steam、Wine 或一些游戏，您需要启用 multilib。
+如果您计划使用 32 位应用程序、Steam、Wine 或一些游戏，
+您需要启用 multilib。
 
 在同一个 `/etc/pacman.conf` 文件中，在文件末尾取消注释这些行：
 ```ini
@@ -650,7 +654,8 @@ xdg-user-dirs-gtk
 
 ### 配置 LightDM
 
-编辑 `/etc/lightdm/lightdm.conf`（使用 `nano /etc/lightdm/lightdm.conf` 或 `vim /etc/lightdm/lightdm.conf`）并在 `[Seat:*]` 部分添加或取消注释：
+编辑 `/etc/lightdm/lightdm.conf`（使用 `nano /etc/lightdm/lightdm.conf` 或 `vim /etc/lightdm/lightdm.conf`）
+并在 `[Seat:*]` 部分添加或取消注释：
 
 ```ini
 [Seat:*]
@@ -684,7 +689,8 @@ systemctl enable lightdm
 - 使用 (+) 按钮添加您的布局
 - 使用 (-) 按钮移除您不使用的布局
 
-> **注意：** 在撰写本文时（2025 年 11 月），键盘布局仅在 X11 会话中工作。Wayland 支持正在开发中，即使在 2025 年，KDE 和 GNOME 默认也有它。
+> **注意：** 在撰写本文时（2025 年 11 月），键盘布局仅在 X11 会话中工作。
+> Wayland 支持正在开发中，即使在 2025 年，KDE 和 GNOME 默认也有它。
 
 ### 为您的用户配置 sudo
 
@@ -716,7 +722,8 @@ root ALL=(ALL) ALL
 user ALL=(ALL) ALL
 ```
 
-*如果您在步骤 2.1 中将用户添加到 wheel 组，则可以取消注释 `%wheel ALL=(ALL) ALL` 行而不是单独添加您的用户。*
+*如果您在步骤 2.1 中将用户添加到 wheel 组，
+则可以取消注释 `%wheel ALL=(ALL) ALL` 行而不是单独添加您的用户。*
 
 如果您更喜欢使用 nano 而不是 vim：
 ```bash
@@ -837,7 +844,8 @@ sudo systemctl enable --now cups
 
 ### 音频（PipeWire）
 
-现代 Linux Mint 和 Arch Linux 使用 PipeWire 作为音频服务器，替换 PulseAudio 和 JACK。PipeWire 提供更好的延迟和对专业音频的支持。
+现代 Linux Mint 和 Arch Linux 使用 PipeWire 作为音频服务器，
+替换 PulseAudio 和 JACK。PipeWire 提供更好的延迟和对专业音频的支持。
 
 安装必要的 PipeWire 组件：
 
@@ -861,7 +869,8 @@ pactl info
 
 您应该在输出中看到 `Server Name: PulseAudio (on PipeWire x.y.z)`。
 
-> **注意：** Cinnamon 有自己的内置音量控制。如果您需要更高级的控制（例如，更改设备配置文件或配置单个应用程序），您可以选择安装：
+> **注意：** Cinnamon 有自己的内置音量控制。
+> 如果您需要更高级的控制（例如，更改设备配置文件或配置单个应用程序），您可以选择安装：
 
 ```bash
 yay -S --needed pavucontrol
@@ -896,11 +905,13 @@ bluetoothctl 中的基本命令：
 - `connect XX:XX:XX:XX:XX:XX` - 连接到设备
 - `exit` - 退出 bluetoothctl
 
-> **注意：** 稍后在本指南中，我们将安装 Blueberry，Linux Mint 的图形蓝牙管理器，使从 GUI 配对更容易。
+> **注意：** 稍后在本指南中，我们将安装 Blueberry，
+> Linux Mint 的图形蓝牙管理器，使从 GUI 配对更容易。
 
 **对于蓝牙耳机/扬声器：**
 
-蓝牙音频支持已包含在 `pipewire-audio` 中。蓝牙音频设备一旦配对并连接，应该自动作为可用音频输出出现。
+蓝牙音频支持已包含在 `pipewire-audio` 中。
+蓝牙音频设备一旦配对并连接，应该自动作为可用音频输出出现。
 
 ### 第2章检查清单
 
@@ -980,7 +991,10 @@ transmission-gtk
 - **thunderbird**：电子邮件客户端
 - **transmission-gtk**：BitTorrent 客户端
 
-> **注意：** 关于 HexChat：此应用程序在 AUR 中可用但需要 GTK2，也在 AUR 中。安装 HexChat 将涉及使用 `yay` 编译 GTK2 和 HexChat。此外，HexChat 不再接收主动维护。虽然它是 Linux Mint 的一部分，但根据是否值得编译工作，将其安装留给用户自行决定。
+> **注意：** 关于 HexChat：此应用程序在 AUR 中可用但需要 GTK2，也在 AUR 中。
+> 安装 HexChat 将涉及使用 `yay` 编译 GTK2 和 HexChat。
+> 此外，HexChat 不再接收主动维护。虽然它是 Linux Mint 的一部分，
+> 但根据是否值得编译工作，将其安装留给用户自行决定。
 
 ## 3.3 办公套件
 
@@ -1147,7 +1161,8 @@ sudo systemctl enable --now power-profiles-daemon
 
 *比 TLP 简单但可配置性较差。更好的桌面小程序集成。*
 
-⚠️ **重要**：不要同时安装两者，因为它们冲突。选择 TLP 以获得最大控制，或 power-profiles-daemon 以获得简单。
+⚠️ **重要**：不要同时安装两者，因为它们冲突。
+选择 TLP 以获得最大控制，或 power-profiles-daemon 以获得简单。
 
 ### 笔记本内核工具
 
@@ -1187,7 +1202,8 @@ yay -S --needed xf86-input-synaptics xf86-input-libinput
 - **xf86-input-synaptics**：Synaptics 触摸板的改进驱动（维护模式中的驱动）
 - **xf86-input-libinput**：现代和默认触摸板和其他类似输入设备的驱动（libinput 等）
 
-> **注意：** 大多数现代触摸板在默认 libinput 驱动下工作良好。只有在 libinput 中没有可用功能或兼容性时才安装 synaptics。
+> **注意：** 大多数现代触摸板在默认 libinput 驱动下工作良好。
+> 只有在 libinput 中没有可用功能或兼容性时才安装 synaptics。
 
 ### 第3章检查清单
 
@@ -1223,7 +1239,8 @@ yay -S --needed xf86-input-synaptics xf86-input-libinput
 
 ### 更新系统
 
-Arch Linux 是一个滚动发布发行版，这意味着您接收连续更新。重要的是定期保持系统更新。
+Arch Linux 是一个滚动发布发行版，这意味着您接收连续更新。
+重要的是定期保持系统更新。
 
 **更新官方软件包：**
 ```bash
@@ -1237,7 +1254,8 @@ yay -Syu
 
 **建议：**
 - 至少每周更新一次
-- 更新前阅读 [https://archlinux.org/](https://archlinux.org/) 的新闻，以了解重要变化
+- 更新前阅读 [https://archlinux.org/](https://archlinux.org/) 的新闻，
+  以了解重要变化
 - 如果您使用 AUR 软件，`yay -Syu` 将同时更新官方仓库和 AUR
 - 重要内核更新后，考虑重启系统
 
