@@ -680,11 +680,11 @@ Configure them in **Cinnamon Menu → Font Selection**:
 Install Linux Mint themes and icons:
 
 ```bash
-yay -S --needed mint-themes mint-l-themes mint-y-icons mint-x-icons mint-l-icons bibata-cursor-theme xapp-symbolic-icons
+yay -S --needed mint-themes mint-l-theme mint-y-icons mint-x-icons mint-l-icons bibata-cursor-theme xapp-symbolic-icons
 ```
 
 - **mint-themes**: Official Linux Mint desktop themes
-- **mint-l-themes**: Linux Mint Legacy desktop themes
+- **mint-l-theme**: Linux Mint Legacy desktop themes
 - **mint-y-icons**: Mint-Y icon set (modern style)
 - **mint-x-icons**: Mint-X icon set (classic style)
 - **mint-l-icons**: Mint-L icon set

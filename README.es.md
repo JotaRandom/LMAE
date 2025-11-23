@@ -680,11 +680,11 @@ Configúralas en **Menú de Cinnamon → Selección de Fuentes**:
 Instala los temas e iconos de Linux Mint:
 
 ```bash
-yay -S --needed mint-themes mint-l-themes mint-y-icons mint-x-icons mint-l-icons bibata-cursor-theme xapp-symbolic-icons
+yay -S --needed mint-theme mint-l-themes mint-y-icons mint-x-icons mint-l-icons bibata-cursor-theme xapp-symbolic-icons
 ```
 
 - **mint-themes**: Temas de escritorio oficiales de Linux Mint
-- **mint-l-themes**: Temas de escritorio Linux Mint Legacy
+- **mint-l-theme**: Temas de escritorio Linux Mint Legacy
 - **mint-y-icons**: Set de iconos Mint-Y (estilo moderno)
 - **mint-x-icons**: Set de iconos Mint-X (estilo clásico)
 - **mint-l-icons**: Set de iconos Mint-L

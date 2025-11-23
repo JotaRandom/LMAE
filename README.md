@@ -1,42 +1,102 @@
-<DOCUMENT filename="README.md">
-# LMAE: Linux Mint Arch Edition
+﻿# LMAE: Linux Mint Arch Edition
 
-> **A comprehensive guide to creating your own Arch Linux-based distribution with the elegance of Linux Mint**
+**A comprehensive guide to recreating the Linux Mint experience on Arch Linux.**
 
----
-
-## 📖 Available Languages / Idiomas Disponibles
-
-### 🇬🇧 English
-**[Read in English](README.en.md)**  
-A complete guide to installing Arch Linux with Cinnamon desktop environment and Linux Mint applications. This guide covers everything from base installation to complete desktop setup with all Linux Mint's characteristic applications.
-
-### 🇪🇸 Español
-**[Leer en Español](README.es.md)**  
-Una guía completa para instalar Arch Linux con el entorno de escritorio Cinnamon y las aplicaciones de Linux Mint. Esta guía cubre todo desde la instalación base hasta la configuración completa del escritorio con todas las aplicaciones características de Linux Mint.
+> Combine Arch Linux's rolling-release model with Linux Mint's elegant Cinnamon desktop environment.
 
 ---
 
-## ℹ️ About This Project
+## 📖 Installation Guides
 
-This project provides detailed instructions for creating a custom Linux distribution that combines:
-- **Arch Linux**: Rolling-release base system with maximum flexibility
-- **Cinnamon Desktop**: Linux Mint's flagship desktop environment
-- **Linux Mint Applications**: The complete suite of applications that make Linux Mint so user-friendly
+**Step-by-step manual installation guides for building your own LMAE system:**
 
-The result is a system that maintains Arch's cutting-edge nature while offering the polished experience of Linux Mint.
+### Choose Your Language
+
+- 🇬🇧 **[English Manual Guide](README.en.md)** - Complete installation instructions
+- 🇪🇸 **[Guía Manual en Español](README.es.md)** - Instrucciones completas de instalación
+
+### What You'll Build
+
+- ✨ **Arch Linux** base system with rolling releases
+- 🖥️ **Cinnamon Desktop** - Linux Mint's flagship desktop environment
+- 🎨 **Mint Themes & Icons** - Beautiful, cohesive visual design
+- 📦 **Curated Applications** - Nemo, LibreOffice, multimedia tools, and more
+- 🔧 **Full Control** - Understand every component of your system
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Automated Installer (Advanced Users)
 
-1. Choose your preferred language above
-2. Follow the step-by-step instructions in the guide
-3. Enjoy your custom Arch-based Linux Mint system!
+For experienced users who want automated installation:
+
+**👉 See the [src/ directory](src/)** for experimental automation scripts.
+
+```bash
+cd src/
+bash lmae.sh
+```
+
+⚠️ **Note**: Scripts are experimental. Manual guides are recommended for most users.
 
 ---
 
-## 📝 License
+## 🎯 About This Project
 
-See [LICENSE](LICENSE) file for details.
+This project provides **two approaches** to creating a Linux Mint-like experience on Arch Linux:
 
+1. **Manual Guides** (Recommended) - Learn by doing, full understanding
+
+Both approaches result in the same system:
+- Latest Arch Linux packages
+- Cinnamon desktop environment  
+- Linux Mint's aesthetic and applications
+- Full customization freedom
+
+---
+
+## 📚 Documentation
+
+- [English Manual Guide](README.en.md)
+- [Spanish Manual Guide](README.es.md)
+- [Automated Installer Documentation](src/README.md)
+- [Changelog](src/docs/CHANGELOG.md)
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Whether improving documentation or automation scripts:
+
+1. Fork this repository
+2. Make your improvements
+3. Submit a pull request
+
+Please test thoroughly before submitting.
+
+---
+
+## 📜 License
+
+This project is licensed under the **GNU Affero General Public License v3.0**.
+
+See [LICENSE](LICENSE) for full details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Arch Linux Community** - For the incredible base distribution
+- **Linux Mint Team** - For the desktop environment and design inspiration
+- **Contributors** - Everyone who helps improve this project
+
+---
+
+## 💬 Support & Community
+
+- **Issues**: Report bugs or request features
+- **Discussions**: Share your LMAE setup and tips
+- **Pull Requests**: Contribute improvements
+
+---
+
+**Choose simplicity and elegance. Choose LMAE.** 🎨✨
