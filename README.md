@@ -25,20 +25,6 @@
 
 ---
 
-## 🚀 Automated Installer (Advanced Users)
-
-For experienced users who want automated installation:
-
-**👉 See the [src/ directory](src/)** for experimental automation scripts.
-
-```bash
-cd src/
-bash lmae.sh
-```
-
-⚠️ **Note**: Scripts are experimental. Manual guides are recommended for most users.
-
----
 
 ## 🎯 About This Project
 
@@ -58,8 +44,6 @@ Both approaches result in the same system:
 
 - [English Manual Guide](README.en.md)
 - [Spanish Manual Guide](README.es.md)
-- [Automated Installer Documentation](src/README.md)
-- [Changelog](src/docs/CHANGELOG.md)
 
 ---
 
