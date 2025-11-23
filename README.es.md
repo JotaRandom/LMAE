@@ -1090,7 +1090,7 @@ yay -S --needed celluloid hypnotix rhythmbox
 Gestión y monitoreo del sistema:
 
 ```bash
-yay -S --needed baobab gnome-logs timeshift
+yay -S --needed baobab gnome-logs timeshift fingwit
 ```
 
 - **baobab**: Analizador de uso de disco (visualiza el espacio usado)
