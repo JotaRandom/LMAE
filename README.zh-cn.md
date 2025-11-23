@@ -1034,7 +1034,7 @@ yay -S --needed celluloid hypnotix rhythmbox
 系统管理和监控：
 
 ```bash
-yay -S --needed baobab gnome-logs timeshift
+yay -S --needed baobab gnome-logs timeshift fingwit
 ```
 
 - **baobab**：磁盘使用分析器（图形化可视化使用空间）
