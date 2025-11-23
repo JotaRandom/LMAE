@@ -38,7 +38,9 @@
 
 ## 介绍
 
-本指南解释了如何将 Arch Linux 的坚实滚动发布基础与 Cinnamon 桌面环境和 Linux Mint 应用程序相结合。结果是一个保持 Arch 灵活性的系统，同时提供 Linux Mint 的视觉和功能体验。
+本指南解释了如何将 Arch Linux 的坚实滚动发布基础与 Cinnamon 桌面环境和 Linux Mint 应用程序相结合。
+
+结果是一个保持 Arch 灵活性的系统，同时提供 Linux Mint 的视觉和功能体验。
 
 过程分为三个主要阶段：
 - Arch Linux 安装
@@ -88,7 +90,9 @@ ls /usr/share/kbd/keymaps/**/*.map.gz
 loadkeys uk
 ```
 
-> **注意：** 其他常见布局：`de`（德语）、`fr`（法语）、`es`（西班牙语）、`us`（美国英语）。
+> **注意：** 其他常见布局：`de`（德语）、`fr`（法语）、`es`（西班牙语）、
+
+> `us`（美国英语）。
 
 ### 验证互联网连接
 
@@ -128,7 +132,9 @@ timedatectl set-ntp true
 ls /sys/firmware/efi/efivars
 ```
 
-如果命令显示文件，则您处于 UEFI 模式。如果显示“没有此类文件”，则您处于传统 BIOS 模式。此信息对于以下步骤很重要。
+如果命令显示文件，则您处于 UEFI 模式。如果显示“没有此类文件”，则您处于传统 BIOS 模式。
+
+此信息对于以下步骤很重要。
 
 ## 1.3 分区的艺术
 
@@ -142,7 +148,9 @@ ls /sys/firmware/efi/efivars
 fdisk -l
 ```
 
-识别您的主磁盘：通常是 `/dev/sda`（SATA/IDE 磁盘）、`/dev/nvme0n1`（NVMe 磁盘）或 `/dev/mmcblk0`（SD/eMMC 卡）。
+识别您的主磁盘：通常是 `/dev/sda`（SATA/IDE 磁盘）、`/dev/nvme0n1`（NVMe 磁盘）
+
+或 `/dev/mmcblk0`（SD/eMMC 卡）。
 
 **仔细验证哪个是您的目标磁盘**，然后继续。
 
@@ -172,7 +180,9 @@ fdisk -l
 - **超过 16 GB RAM**：4 GB + (0.1 × 总 RAM) 是一个很好的通用规则
 - **推荐最小值**：任何情况下 2 GB
 
-> **注意：** 挂载点 `/mnt` 和 `/mnt/boot` 是安装环境的特定点。一旦系统安装，它们将被挂载为 `/` 和 `/boot`。
+> **注意：** 挂载点 `/mnt` 和 `/mnt/boot` 是安装环境的特定点。
+
+> 一旦系统安装，它们将被挂载为 `/` 和 `/boot`。
 
 打开 `cfdisk` 创建分区：
 
@@ -405,7 +415,7 @@ hwclock --systohc
 
 ### 语言和本地化配置
 
-编辑 `/etc/locale.gen`（使用 `nano /etc/locale.gen` 或 `vim /etc/locale.gen`）并取消注释您需要的语言。至少包括 `en_US.UTF-8` 和您的本地语言（例如，`es_ES.UTF-8` 或 `es_MX.UTF-8`）。
+编辑 `/etc/locale.gen`（使用 `nano /etc/locale.gen` 或 `vim /etc/locale.gen`）并取消注释您需要的语言。至少包括 `en_US.UTF-8` 和您的本地语言（例如，`zh_CN.UTF-8`）。
 
 生成语言：
 ```bash
@@ -414,10 +424,10 @@ locale-gen
 
 为您的主要语言创建 `/etc/locale.conf`：
 ```bash
-echo "LANG=en_US.UTF-8" > /etc/locale.conf
+echo "LANG=zh_CN.UTF-8" > /etc/locale.conf
 ```
 
-> **注意：** 您可以使用 `LANG=es_ES.UTF-8` 或其他语言作为您喜欢的。
+> **注意：** 您可以使用 `LANG=en_US.UTF-8` 或其他语言作为您喜欢的。
 
 在 `/etc/vconsole.conf` 中永久配置键盘：
 ```bash
@@ -758,11 +768,11 @@ yay -S --needed ttf-ubuntu-font-family
 
 在 **Cinnamon 菜单 → 字体选择** 中配置它们：
 
-- 默认字体：      Ubuntu Regular,    大小 10
-- 桌面字体：      Ubuntu Regular,    大小 10
-- 文档字体：     Sans Regular,      大小 10
-- 等宽字体：    Monospace Regular, 大小 10
-- 窗口标题字体： Ubuntu Medium,     大小 10
+- 默认字体：        Ubuntu Regular,    大小 10
+- 桌面字体：        Ubuntu Regular,    大小 10
+- 文档字体：        Sans Regular,      大小 10
+- 等宽字体：        Monospace Regular, 大小 10
+- 窗口标题字体：    Ubuntu Medium,     大小 10
 
 ### 安装官方主题和图标
 
