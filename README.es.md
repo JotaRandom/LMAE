@@ -1049,8 +1049,16 @@ yay -S --needed firefox webapp-manager thunderbird transmission-gtk
 > pero requiere GTK2, que también está en el AUR.
 > Instalar HexChat implicará compilar tanto GTK2 como HexChat con `yay`.
 > Además, HexChat ya no recibe mantenimiento activo.
-> Y aunque forma parte de Linux Mint, su instalación queda a criterio
-> del usuario según si vale la pena el esfuerzo de compilación.
+> Y aunque formaba parte de Linux Mint, su instalación queda a criterio
+> del usuario en esta guía y según si vale la pena el esfuerzo de compilación.
+
+> **Nota sobre Elements:** Con el fin del desarollo de HexChat y el surgimiento
+> de alternativas, Linux Mint ahora trae un cliente Matrix, mas especificamente
+> `Elements`, este en la instalación original es una aplicacion web utilizando
+> `Webapp-manager`, sin embarco un cliente existe tambien.
+> Arch Linux contiene ambos en sus repositorios oficiales bajo los nombres de
+> `elements-desktop` y `elements-web`, así que queda a su discrecion
+> si desea instalar uno u el otro, o ninguno.
 
 ## 3.3 Suite de Oficina
 
