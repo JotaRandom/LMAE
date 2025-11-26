@@ -702,6 +702,24 @@ systemctl enable lightdm
 
 Restart and log in with your user. You'll see the Cinnamon desktop.
 
+### Checklist - Chapter 2
+
+- [ ] Regular user created
+- [ ] Visual components installed (Xorg, LightDM, Cinnamon)
+- [ ] LightDM configured with Slick Greeter
+- [ ] Desktop tested and working
+- [ ] Keyboard layout configured in Cinnamon
+- [ ] Sudo configured for the user
+- [ ] Yay installed and AUR enabled
+- [ ] Linux Mint fonts installed and configured
+- [ ] Mint themes and icons installed
+- [ ] Mint wallpapers installed (optional)
+- [ ] Printer support installed (optional)
+- [ ] PipeWire installed and working
+- [ ] Bluetooth installed and configured (optional)
+
+---
+
 ## 2.3 Essential Configurations
 
 ### Adjusting keyboard layout
@@ -1033,6 +1051,14 @@ yay -S --needed firefox webapp-manager thunderbird transmission-gtk
 > HexChat with `yay`. Additionally, HexChat no longer receives active maintenance.
 > While it's part of Linux Mint, its installation is left to user discretion based on
 > whether the compilation effort is worthwhile.
+
+> **Note about Elements:** With the end of HexChat development and the emergence
+> of alternatives, Linux Mint now includes a Matrix client, more specifically
+> `Elements`, which in the original installation is a web application using
+> `Webapp-manager`, however, a native client also exists.
+> Arch Linux contains both in its official repositories under the names
+> `element-desktop` and `element-web`, so it's up to your discretion
+> whether to install one or the other, or none.
 
 ## 3.3 Office Suite
 

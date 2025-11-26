@@ -1052,13 +1052,13 @@ yay -S --needed firefox webapp-manager thunderbird transmission-gtk
 > Y aunque formaba parte de Linux Mint, su instalación queda a criterio
 > del usuario en esta guía y según si vale la pena el esfuerzo de compilación.
 
-> **Nota sobre Elements:** Con el fin del desarollo de HexChat y el surgimiento
-> de alternativas, Linux Mint ahora trae un cliente Matrix, mas especificamente
-> `Elements`, este en la instalación original es una aplicacion web utilizando
-> `Webapp-manager`, sin embarco un cliente existe tambien.
+> **Nota sobre Elements:** Con el fin del desarrollo de HexChat y el surgimiento
+> de alternativas, Linux Mint ahora incluye un cliente Matrix, más específicamente
+> `Elements`, que en la instalación original es una aplicación web utilizando
+> `Webapp-manager`, sin embargo, un cliente nativo también existe.
 > Arch Linux contiene ambos en sus repositorios oficiales bajo los nombres de
-> `elements-desktop` y `elements-web`, así que queda a su discrecion
-> si desea instalar uno u el otro, o ninguno.
+> `element-desktop` y `element-web`, así que queda a su discreción
+> si desea instalar uno o el otro, o ninguno.
 
 ## 3.3 Suite de Oficina
 

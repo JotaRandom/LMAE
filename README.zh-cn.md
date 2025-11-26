@@ -678,6 +678,24 @@ systemctl enable lightdm
 
 重启并以您的用户身份登录。您将看到 Cinnamon 桌面。
 
+### 第2章检查清单
+
+- [ ] 常规用户创建
+- [ ] 视觉组件安装（Xorg、LightDM、Cinnamon）
+- [ ] LightDM 配置为 Slick Greeter
+- [ ] 桌面测试和工作
+- [ ] 在 Cinnamon 中配置键盘布局
+- [ ] 为用户配置 sudo
+- [ ] Yay 安装和 AUR 启用
+- [ ] Linux Mint 字体安装和配置
+- [ ] Mint 主题和图标安装
+- [ ] Mint 壁纸安装（可选）
+- [ ] 打印机支持安装（可选）
+- [ ] PipeWire 安装和工作
+- [ ] 蓝牙安装和配置（可选）
+
+---
+
 ## 2.3 基本配置
 
 ### 调整键盘布局
@@ -995,6 +1013,13 @@ transmission-gtk
 > 安装 HexChat 将涉及使用 `yay` 编译 GTK2 和 HexChat。
 > 此外，HexChat 不再接收主动维护。虽然它是 Linux Mint 的一部分，
 > 但根据是否值得编译工作，将其安装留给用户自行决定。
+
+> **关于 Elements 的注意：** 随着 HexChat 开发的结束和替代品的出现，
+> Linux Mint 现在包含了一个 Matrix 客户端，更具体地说是 `Elements`，
+> 在原始安装中它是一个使用 `Webapp-manager` 的 Web 应用程序，
+> 然而，本地客户端也存在。
+> Arch Linux 在其官方仓库中包含两者，名称为 `element-desktop` 和 `element-web`，
+> 所以由您决定是否安装其中一个或其他，或不安装。
 
 ## 3.3 办公套件
 
