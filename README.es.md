@@ -59,6 +59,32 @@ configurando el sistema base que servirá de fundamento para tu LMAE.
 Cubriremos desde la preparación del medio de instalación hasta el primer
 arranque del sistema.
 
+### Lista de Verificación - Capítulo 1
+
+- [ ] Descargada la imagen ISO de Arch Linux
+- [ ] Creado el medio de instalación (USB/DVD)
+- [ ] Arranque desde el medio de instalación exitoso
+- [ ] Teclado configurado correctamente
+- [ ] Conexión a internet verificada
+- [ ] Reloj del sistema sincronizado
+- [ ] Modo de arranque identificado (UEFI/BIOS)
+- [ ] Disco identificado y particiones creadas
+- [ ] Particiones formateadas correctamente
+- [ ] Particiones montadas en `/mnt`
+- [ ] Mirrors optimizados (opcional)
+- [ ] Sistema base instalado con pacstrap
+- [ ] Archivo fstab generado
+- [ ] Entrado al sistema con arch-chroot
+- [ ] Zona horaria configurada
+- [ ] Idioma y localización configurados
+- [ ] Red configurada (hostname y hosts)
+- [ ] Contraseña de root establecida
+- [ ] Configuraciones opcionales de pacman aplicadas
+- [ ] GRUB instalado y configurado
+- [ ] Microcódigo instalado (si aplica)
+- [ ] Sistema reiniciado y primer arranque exitoso
+- [ ] NetworkManager habilitado
+
 ## 1.1 Preparando el Terreno
 
 ### Descargando la imagen de instalación
@@ -607,32 +633,6 @@ nmtui
 
 Has completado la instalación base de Arch Linux. El siguiente capítulo
 cubre la instalación del entorno de escritorio.
-
-### Lista de Verificación - Capítulo 1
-
-- [ ] Descargada la imagen ISO de Arch Linux
-- [ ] Creado el medio de instalación (USB/DVD)
-- [ ] Arranque desde el medio de instalación exitoso
-- [ ] Teclado configurado correctamente
-- [ ] Conexión a internet verificada
-- [ ] Reloj del sistema sincronizado
-- [ ] Modo de arranque identificado (UEFI/BIOS)
-- [ ] Disco identificado y particiones creadas
-- [ ] Particiones formateadas correctamente
-- [ ] Particiones montadas en `/mnt`
-- [ ] Mirrors optimizados (opcional)
-- [ ] Sistema base instalado con pacstrap
-- [ ] Archivo fstab generado
-- [ ] Entrado al sistema con arch-chroot
-- [ ] Zona horaria configurada
-- [ ] Idioma y localización configurados
-- [ ] Red configurada (hostname y hosts)
-- [ ] Contraseña de root establecida
-- [ ] Configuraciones opcionales de pacman aplicadas
-- [ ] GRUB instalado y configurado
-- [ ] Microcódigo instalado (si aplica)
-- [ ] Sistema reiniciado y primer arranque exitoso
-- [ ] NetworkManager habilitado
 
 ---
 

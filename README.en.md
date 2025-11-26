@@ -58,6 +58,32 @@ Installing Arch Linux will be the system's foundation.
 Although Arch has a reputation for being complex, following these steps
 in order makes the process quite straightforward.
 
+### Checklist - Chapter 1
+
+- [ ] Downloaded Arch Linux ISO image
+- [ ] Created installation media (USB/DVD)
+- [ ] Successfully booted from installation media
+- [ ] Keyboard configured correctly
+- [ ] Internet connection verified
+- [ ] System clock synchronized
+- [ ] Boot mode identified (UEFI/BIOS)
+- [ ] Disk identified and partitions created
+- [ ] Partitions formatted correctly
+- [ ] Partitions mounted to `/mnt`
+- [ ] Mirrors optimized (optional)
+- [ ] Base system installed with pacstrap
+- [ ] fstab file generated
+- [ ] Entered system with arch-chroot
+- [ ] Time zone configured
+- [ ] Language and localization configured
+- [ ] Network configured (hostname and hosts)
+- [ ] Root password set
+- [ ] Optional pacman configurations applied
+- [ ] GRUB installed and configured
+- [ ] Microcode installed (if applicable)
+- [ ] System rebooted and first boot successful
+- [ ] NetworkManager enabled
+
 ## 1.1 Preparing the Ground
 
 ### Downloading the installation image
@@ -603,32 +629,6 @@ nmtui
 You have completed the Arch Linux base installation. The next chapter
 covers desktop environment installation.
 
-### Checklist - Chapter 1
-
-- [ ] Downloaded Arch Linux ISO image
-- [ ] Created installation media (USB/DVD)
-- [ ] Successfully booted from installation media
-- [ ] Keyboard configured correctly
-- [ ] Internet connection verified
-- [ ] System clock synchronized
-- [ ] Boot mode identified (UEFI/BIOS)
-- [ ] Disk identified and partitions created
-- [ ] Partitions formatted correctly
-- [ ] Partitions mounted to `/mnt`
-- [ ] Mirrors optimized (optional)
-- [ ] Base system installed with pacstrap
-- [ ] fstab file generated
-- [ ] Entered system with arch-chroot
-- [ ] Time zone configured
-- [ ] Language and localization configured
-- [ ] Network configured (hostname and hosts)
-- [ ] Root password set
-- [ ] Optional pacman configurations applied
-- [ ] GRUB installed and configured
-- [ ] Microcode installed (if applicable)
-- [ ] System rebooted and first boot successful
-- [ ] NetworkManager enabled
-
 ---
 
 # Chapter 2: The Transformation - Creating the Desktop Environment
@@ -968,22 +968,6 @@ Basic commands in bluetoothctl:
 Bluetooth audio support is already included with `pipewire-audio`.
 Bluetooth audio devices should automatically appear as available audio
 outputs once paired and connected.
-
-### Checklist - Chapter 2
-
-- [ ] Regular user created
-- [ ] Visual components installed (Xorg, LightDM, Cinnamon)
-- [ ] LightDM configured with Slick Greeter
-- [ ] Desktop tested and working
-- [ ] Keyboard layout configured in Cinnamon
-- [ ] Sudo configured for the user
-- [ ] Yay installed and AUR enabled
-- [ ] Linux Mint fonts installed and configured
-- [ ] Mint themes and icons installed
-- [ ] Mint wallpapers installed (optional)
-- [ ] Printer support installed (optional)
-- [ ] PipeWire installed and working
-- [ ] Bluetooth installed and configured (optional)
 
 ---
 
