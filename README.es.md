@@ -1185,7 +1185,18 @@ yay -S --needed xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive gvfs-goog
 - **gvfs-onedrive**: Acceso a OneDrive desde el gestor de archivos
 - **gvfs-google**: Acceso a Google Drive desde el gestor de archivos
 
-## 3.9 Optimizaciones para Laptops (Opcional)
+## 3.9 Miniaturas e integracion con las x-app
+
+Para tener miniaturas de diferente tipo instala:
+
+```bash
+yay -S --needed xapp-vorbiscomment-thumbnailer xapp-appimage-thumbnailer \
+xapp-epub-thumbnailer xapp-aiff-thumbnailer xapp-ora-thumbnailer \
+xapp-mp3-thumbnailer xapp-jxl-thumbnailer xapp-gimp-thumbnailer \
+xapp-raw-thumbnailer
+```
+
+## 3.10 Optimizaciones para Laptops (Opcional)
 
 Si estás instalando en una laptop, estas herramientas pueden mejorar
 significativamente la gestión de energía y la experiencia general:
@@ -1206,6 +1217,7 @@ sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 batería)
 - **tlp-rdw**: Extensión para gestión de radio devices (WiFi, Bluetooth) con
 TLP
+-
 
 *Los comandos `mask` son necesarios porque TLP maneja rfkill directamente.*
 
@@ -1231,7 +1243,7 @@ Ahorro de energía)
 *Más simple que TLP pero menos configurable. Se integra mejor con
 applets de escritorio.*
 
-**⚠️ Importante**: No instales ambos a la vez, ya que conflictúan.
+**Importante**: No instales ambos a la vez, ya que conflictúan.
 Elige TLP para máximo control o power-profiles-daemon para simplicidad.
 
 ### Herramientas del kernel para laptops
@@ -1293,6 +1305,7 @@ yay -S --needed xf86-input-synaptics xf86-input-libinput
 - [ ] Herramientas de administración instaladas
 - [ ] Configuración y preferencias instaladas
 - [ ] Herramientas del sistema instaladas
+- [ ] Miniaturas
 - [ ] Optimizaciones para laptops aplicadas (si aplica)
 
 ---
