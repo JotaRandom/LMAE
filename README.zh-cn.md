@@ -1,6 +1,7 @@
 # LMAE: Linux Mint Arch Edition
-*创建您自己的基于 Arch Linux 的发行版的综合指南*
-*具有 Linux Mint 的优雅*
+*逐步指南：在 Arch Linux (Cinnamon) 上重现 Linux Mint 的视觉和功能体验。*
+*包括基础安装、桌面设置、应用、缩略图和笔记本优化。*
+**注意：** 文档包含英文、西班牙文和中文版本。翻译为自动生成，可能包含错误；如有疑问，请参考英文原文。
 
 ## 目录
 
@@ -30,7 +31,8 @@
   - [3.6 管理工具](#36-管理工具)
   - [3.7 配置和偏好](#37-配置和偏好)
   - [3.8 系统工具和命令行](#38-系统工具和命令行)
-  - [3.9 笔记本优化（可选）](#39-笔记本优化可选)
+  - [3.9 缩略图与 x-app 集成](#39-缩略图与-x-app-集成)
+  - [3.10 笔记本优化（可选）](#310-笔记本优化可选)
 - [结论](#结论)
 - [系统维护](#系统维护)
 
@@ -1129,7 +1131,55 @@ gvfs-onedrive gvfs-google
 - **gvfs-onedrive**：从文件管理器访问 OneDrive
 - **gvfs-google**：从文件管理器访问 Google Drive
 
-## 3.9 笔记本优化（可选）
+## 3.9 缩略图与 x-app 集成
+
+缩略图（即文件预览）通过在文件管理器中显示图像、视频、文档等文件的小型预览来改善文件浏览体验。本节介绍为 x-app 和常见格式推荐的 thumbnailers、如何启用它们以及故障排除建议。
+
+为何安装缩略图
+- 在 Nemo、Nautilus、Thunar 等文件管理器中提升浏览体验。
+- 为 AppImage、EPUB、GIMP、RAW、JXL 等专门格式提供预览。
+- 有些缩略图生成器会提取音频文件的嵌入封面或元数据用于显示。
+
+推荐软件包
+```bash
+# X-Apps 缩略图生成器（Linux Mint 专用）
+yay -S --needed xapp-vorbiscomment-thumbnailer xapp-appimage-thumbnailer \
+  xapp-epub-thumbnailer xapp-aiff-thumbnailer xapp-ora-thumbnailer \
+  xapp-mp3-thumbnailer xapp-jxl-thumbnailer xapp-gimp-thumbnailer \
+  xapp-raw-thumbnailer
+
+# 视频和 PDF 生成器（推荐）
+yay -S --needed ffmpegthumbnailer poppler
+
+# 可选：AppImage 集成
+yay -S --needed appimagelauncher
+```
+
+在 Nemo（Cinnamon）中启用预览
+- 打开 `编辑 → 首选项 → 预览`
+- 在 "显示缩略图" 中选择 `始终` 或 `仅本地文件`，按需调整。
+- 如果需要可调整最大文件大小。
+
+重建或清空缩略图缓存
+```bash
+# 删除旧缓存以强制重新生成
+rm -rf ~/.cache/thumbnails/*
+
+# 重启文件管理器（例如：Nemo）或注销后重新登录
+nemo -q
+```
+
+故障排除
+- 视频缩略图不可见：安装 `ffmpegthumbnailer` 并重启文件管理器。
+- PDF 缩略图不可见：确保已安装 `poppler` 并在文件管理器中启用了预览功能。
+- 缩略图过大或生成缓慢：在文件管理器中减少最大预览文件大小或者使用 `ffmpegthumbnailer` 获取更快的预览。
+
+安全性
+- 缩略图生成器需要读取文件来创建预览，某些情况下可能存在安全问题。请勿把缩略图作为评估可疑文件的安全性依据。
+
+这些工具将补全桌面体验，让您无需打开文件即可快速识别文件。根据需要调整要安装的软件包（例如若不处理 RAW 图像可省略 `xapp-raw-thumbnailer`）。
+
+## 3.10 笔记本优化（可选）
 
 如果您在笔记本上安装，这些工具可以显著改善电源管理和整体体验：
 
