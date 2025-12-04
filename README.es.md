@@ -1188,16 +1188,79 @@ yay -S --needed xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive gvfs-goog
 - **gvfs-onedrive**: Acceso a OneDrive desde el gestor de archivos
 - **gvfs-google**: Acceso a Google Drive desde el gestor de archivos
 
-## 3.9 Miniaturas e integracion con las x-app
+## 3.9 Miniaturas e integración con las x-app
 
-Para tener miniaturas de diferente tipo instala:
+Las miniaturas (thumbnails) mejoran la navegación por archivos en el gestor
+de archivos mostrando una vista previa visual de imágenes, vídeos,
+documentos y otros formatos; así es más fácil identificar archivos sin
+abrirlos uno a uno. Linux Mint integra varios *thumbnailers* (programas que
+generan miniaturas) para la familia de `xapps` y formatos comunes.
 
+Por qué instalarlos
+- Mejoran la experiencia visual en el gestor de archivos (Nemo, Nautilus, Thunar).
+- Permiten previsualizar formatos específicos: AppImage, EPUB, GIMP, RAW, JXL, etc.
+- Algunas miniaturas muestran portada de audio o metadatos incrustados.
+
+Paquetes recomendados
+
+* X-Apps thumbnailers (Miniaturas especializadas de Linux Mint)
 ```bash
 yay -S --needed xapp-vorbiscomment-thumbnailer xapp-appimage-thumbnailer \
-xapp-epub-thumbnailer xapp-aiff-thumbnailer xapp-ora-thumbnailer \
-xapp-mp3-thumbnailer xapp-jxl-thumbnailer xapp-gimp-thumbnailer \
-xapp-raw-thumbnailer
+  xapp-epub-thumbnailer xapp-aiff-thumbnailer xapp-ora-thumbnailer \
+  xapp-mp3-thumbnailer xapp-jxl-thumbnailer xapp-gimp-thumbnailer \
+  xapp-raw-thumbnailer
 ```
+ 
+Funciones de los paquetes X-Apps
+- **xapp-vorbiscomment-thumbnailer**: extrae carátulas y metadatos de audio (vorbis comments) para generar miniaturas.
+- **xapp-appimage-thumbnailer**: genera miniaturas para archivos AppImage mostrando su icono o splash.
+- **xapp-epub-thumbnailer**: muestra la portada de archivos EPUB como miniatura.
+- **xapp-aiff-thumbnailer**: miniaturas para archivos de audio AIFF.
+- **xapp-ora-thumbnailer**: miniaturas para archivos de imagen OpenRaster (.ora).
+- **xapp-mp3-thumbnailer**: genera miniaturas y usa metadatos ID3 para mostrar carátulas en MP3.
+- **xapp-jxl-thumbnailer**: miniaturas para el moderno formato de imagen JPEG XL.
+- **xapp-gimp-thumbnailer**: previsualiza archivos de proyecto GIMP (.xcf) como miniaturas.
+- **xapp-raw-thumbnailer**: genera miniaturas para formatos RAW de cámara.
+
+* Miniaturizadores adicionales para vídeos y PDFs (recomendado)
+```bash
+yay -S --needed ffmpegthumbnailer poppler
+```
+ 
+Funciones de paquetes adicionales
+- **ffmpegthumbnailer**: crea miniaturas rápidas y eficientes para vídeos.
+- **poppler**: motor para renderizar y previsualizar PDFs (utilizado por gestores de archivos).
+
+```bash
+yay -S --needed appimagelauncher
+```
+- **appimagelauncher**: integra AppImage en el sistema (asocia, crea iconos y entradas de menú).
+* Opcional: AppImage launcher / integraciones adicionales
+
+Habilitar previsualización en Nemo (Cinnamon)
+- Abre `Editar → Preferencias → Previsualización`
+- En "Mostrar miniaturas", elige `Siempre` o `Sólo archivos locales` según prefieras.
+- Ajusta el tamaño máximo de archivo para previsualización si lo necesitas.
+
+Regenerar o limpiar caché de miniaturas
+```bash
+# Elimina la caché antigua para forzar regeneración
+rm -rf ~/.cache/thumbnails/*
+
+# Reinicia el gestor de archivos (ejemplo: Nemo) o cierra sesión para que
+# se reactiven las miniaturas
+nemo -q
+```
+
+Solución de problemas comunes
+- No aparecen miniaturas de vídeo: instala `ffmpegthumbnailer` y reinicia el gestor de archivos.
+- No aparecen miniaturas de PDF: asegúrate de tener `poppler` y que el gestor tenga previsualización habilitada.
+- Miniaturas grandes o lentas: reduce el límite de tamaño en las preferencias del gestor de archivos o usa `ffmpegthumbnailer` para thumbs más rápidos.
+
+Seguridad
+- Ten cuidado con miniaturas generadas de archivos descargados de internet; los thumbnailers procesan archivos y, en casos raros, pueden contener bugs de seguridad. No confíes en miniaturas para evaluar archivos sospechosos.
+
+Estas herramientas completan la experiencia de escritorio, facilitando la navegación y la identificación de archivos sin abrirlos. Ajusta los paquetes a tus necesidades (por ejemplo, omite `xapp-raw-thumbnailer` si no trabajas con imágenes RAW).
 
 ## 3.10 Optimizaciones para Laptops (Opcional)
 
