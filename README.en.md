@@ -1,6 +1,7 @@
 # LMAE: Linux Mint Arch Edition
-*A comprehensive guide to creating your own Arch Linux-based distribution*
-*with the elegance of Linux Mint*
+*A step-by-step guide to recreate Linux Mint's visual and functional experience on Arch Linux (Cinnamon).* 
+*Includes base installation, desktop setup, applications, thumbnails and laptop optimizations.*
+**Note:** Documentation available in English, Spanish and Chinese. Translations are automated and may contain errors; consult the English version for the original if in doubt.
 
 ## Table of Contents
 
@@ -30,7 +31,8 @@
   - [3.6 Administration Tools](#36-administration-tools)
   - [3.7 Configuration and Preferences](#37-configuration-and-preferences)
   - [3.8 System Tools and Command Line](#38-system-tools-and-command-line)
-  - [3.9 Laptop Optimizations (Optional)](#39-laptop-optimizations-optional)
+  - [3.9 Thumbnails & x-app integration](#39-thumbnails--x-app-integration)
+  - [3.10 Laptop Optimizations (Optional)](#310-laptop-optimizations-optional)
 - [Conclusion](#conclusion)
 - [System Maintenance](#system-maintenance)
 
@@ -1174,7 +1176,55 @@ gvfs-google
 - **gvfs-onedrive**: OneDrive access from file manager
 - **gvfs-google**: Google Drive access from file manager
 
-## 3.9 Laptop Optimizations (Optional)
+## 3.9 Thumbnails & x-app integration
+
+Thumbnails (visual file previews) improve file navigation in the file manager by showing small previews of images, video, documents and more. This section covers the recommended thumbnailers for x-apps and commonly used formats, how to enable them, and troubleshooting tips.
+
+Why install them
+- Improve file browsing experience in Nemo, Nautilus, Thunar, etc.
+- Provide previews for AppImage, EPUB, GIMP, RAW, JXL and more specific formats.
+- Some thumbnailers extract embedded metadata or cover art for audio files.
+
+Recommended packages
+```bash
+# X-Apps thumbnailers (Linux Mint specialized thumbnailers)
+yay -S --needed xapp-vorbiscomment-thumbnailer xapp-appimage-thumbnailer \
+  xapp-epub-thumbnailer xapp-aiff-thumbnailer xapp-ora-thumbnailer \
+  xapp-mp3-thumbnailer xapp-jxl-thumbnailer xapp-gimp-thumbnailer \
+  xapp-raw-thumbnailer
+
+# Additional thumbnailers for videos and PDFs
+yay -S --needed ffmpegthumbnailer poppler
+
+# Optional: AppImage launcher and integrators
+yay -S --needed appimagelauncher
+```
+
+Enable previews in Nemo (Cinnamon)
+- Open `Edit → Preferences → Preview`
+- Under "Show thumbnails" choose `Always` or `Only for local files` depending on preference.
+- Adjust maximum file size for previews if necessary.
+
+Regenerate or clear thumbnail cache
+```bash
+# Remove the old cache to force regeneration
+rm -rf ~/.cache/thumbnails/*
+
+# Restart the file manager (example: Nemo) or log out and back in
+nemo -q
+```
+
+Troubleshooting
+- No video thumbnails: install `ffmpegthumbnailer` and restart the file manager.
+- No PDF thumbnails: ensure `poppler` is installed and previews are enabled in the file manager settings.
+- Large or slow thumbnails: reduce the file size limit or rely on `ffmpegthumbnailer` for faster thumbs.
+
+Security
+- Thumbnailers process files to generate previews and could contain bugs. Avoid trusting thumbnails as a security measure for untrusted files.
+
+These tools complete the desktop experience by making it easier to quickly identify files without opening them. Adjust packages to your needs (for example omit `xapp-raw-thumbnailer` if you don't work with RAW images).
+
+## 3.10 Laptop Optimizations (Optional)
 
 If you're installing on a laptop, these tools can significantly improve
 power management and overall experience:
