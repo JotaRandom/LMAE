@@ -1200,6 +1200,22 @@ yay -S --needed ffmpegthumbnailer poppler
 yay -S --needed appimagelauncher
 ```
 
+Functions of the X-Apps packages
+- **xapp-vorbiscomment-thumbnailer**: extracts cover art and Vorbis comments from audio files to generate thumbnails.
+- **xapp-appimage-thumbnailer**: generates thumbnails for AppImage files by using the embedded icon or splash.
+- **xapp-epub-thumbnailer**: shows EPUB cover art as thumbnails.
+- **xapp-aiff-thumbnailer**: thumbnail support for AIFF audio files.
+- **xapp-ora-thumbnailer**: thumbnails for OpenRaster (.ora) files.
+- **xapp-mp3-thumbnailer**: generates thumbnails for MP3, using ID3 tags for cover art.
+- **xapp-jxl-thumbnailer**: thumbnails for JPEG XL images.
+- **xapp-gimp-thumbnailer**: previsualize GIMP project files (.xcf) as thumbnails.
+- **xapp-raw-thumbnailer**: generates thumbnails for camera RAW formats.
+
+Auxiliary packages
+- **ffmpegthumbnailer**: fast and efficient video thumbnail generator.
+- **poppler**: PDF rendering library used by file managers for PDF previews.
+- **appimagelauncher**: integrates AppImages into the system (associates, creates icons and menu entries).
+
 Enable previews in Nemo (Cinnamon)
 - Open `Edit → Preferences → Preview`
 - Under "Show thumbnails" choose `Always` or `Only for local files` depending on preference.

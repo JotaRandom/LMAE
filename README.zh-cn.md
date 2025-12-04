@@ -1155,6 +1155,22 @@ yay -S --needed ffmpegthumbnailer poppler
 yay -S --needed appimagelauncher
 ```
 
+每个软件包的功能
+- **xapp-vorbiscomment-thumbnailer**：提取音频文件中的封面和 Vorbis 注释以生成缩略图。
+- **xapp-appimage-thumbnailer**：为 AppImage 文件生成缩略图，通常使用嵌入的图标或启动闪屏。
+- **xapp-epub-thumbnailer**：显示 EPUB 文件封面作为缩略图。
+- **xapp-aiff-thumbnailer**：为 AIFF 音频文件生成缩略图。
+- **xapp-ora-thumbnailer**：为 OpenRaster (.ora) 文件生成缩略图。
+- **xapp-mp3-thumbnailer**：为 MP3 文件生成缩略图，并使用 ID3 标签提取封面。
+- **xapp-jxl-thumbnailer**：为 JPEG XL 图像生成缩略图。
+- **xapp-gimp-thumbnailer**：为 GIMP 项目文件 (.xcf) 生成缩略图预览。
+- **xapp-raw-thumbnailer**：为相机 RAW 格式生成缩略图。
+
+附加软件包
+- **ffmpegthumbnailer**：快速、高效的视频缩略图生成器。
+- **poppler**：用于渲染 PDF 以供文件管理器预览的库。
+- **appimagelauncher**：将 AppImage 集成到系统（创建图标、菜单项并进行文件关联）。
+
 在 Nemo（Cinnamon）中启用预览
 - 打开 `编辑 → 首选项 → 预览`
 - 在 "显示缩略图" 中选择 `始终` 或 `仅本地文件`，按需调整。
