@@ -1,6 +1,7 @@
 # LMAE: Linux Mint Arch Edition
-*Una guía completa para crear tu propia distribución basada en Arch Linux*
-*con la elegancia de Linux Mint*
+*Guía paso a paso para recrear la experiencia visual y funcional de Linux Mint sobre Arch Linux (Cinnamon).* 
+*Incluye instalación básica, configuración del escritorio, aplicaciones, miniaturas y optimizaciones para laptops.*
+**Nota:** Documentación disponible en Inglés, Español y Chino. Las traducciones son automáticas y pueden contener errores; consulta la versión en inglés para el original si dudas.
 
 ## Índice
 
@@ -30,7 +31,8 @@
   - [3.6 Herramientas de Administración](#36-herramientas-de-administración)
   - [3.7 Configuración y Preferencias](#37-configuración-y-preferencias)
   - [3.8 Herramientas del Sistema y Línea de Comandos](#38-herramientas-del-sistema-y-línea-de-comandos)
-  - [3.9 Optimizaciones para Laptops (Opcional)](#39-optimizaciones-para-laptops-opcional)
+  - [3.9 Miniaturas e integracion con las x-app](#39-miniaturas-e-integracion-con-las-x-app)
+  - [3.10 Optimizaciones para Laptops (Opcional)](#310-optimizaciones-para-laptops-opcional)
 - [Conclusión](#conclusión)
 - [Mantenimiento del Sistema](#mantenimiento-del-sistema)
 
@@ -44,10 +46,11 @@ aplicaciones de Linux Mint. El resultado es un sistema que mantiene
 la flexibilidad de Arch mientras ofrece la experiencia visual y
 funcional de Linux Mint.
 
-El proceso se divide en tres etapas principales:
+El proceso se divide en tres etapas principales y varias secciones opcionales (miniaturas, optimizaciones para laptops, etc.):
 - Instalación de Arch Linux
 - Configuración del entorno de escritorio Cinnamon
 - Instalación de las aplicaciones características de Linux Mint
+Las secciones opcionales (miniaturas, optimizaciones para laptops y ajustes avanzados) cubren pasos adicionales para adaptar y optimizar el sistema.
 
 Cada sección incluye explicaciones claras de los comandos y
 configuraciones necesarias.
