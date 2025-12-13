@@ -834,22 +834,23 @@ Instala las fuentes necesarias:
 
 ```bash
 yay -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra
-yay -S --needed ttf-ubuntu-font-family
+yay -S --needed ttf-ubuntu-font-family ttf-dejavu
 ```
 
 - **noto-fonts**: Familia de fuentes Noto (cobertura amplia de idiomas)
 - **noto-fonts-emoji**: Fuentes Noto con soporte de emojis
 - **noto-fonts-cjk**: Fuentes Noto para idiomas CJK (chino, japonés, coreano)
 - **noto-fonts-extra**: Fuentes Noto adicionales
-- **ttf-ubuntu-font-family**: Familia de fuentes Ubuntu (la predeterminada en Linux Mint)
+- **ttf-ubuntu-font-family**: Familia de fuentes Ubuntu, la predeterminada en Linux Mint
+- **tt-dejavu**: Familia de fuentes usada como monospaciada por Linux Mint
 
 Configúralas en **Menú de Cinnamon → Selección de Fuentes**:
 
-- Fuente predeterminada:   Ubuntu Regular,    tamaño 10
-- Fuente del escritorio:   Ubuntu Regular,    tamaño 10
-- Fuente de documento:     Sans Regular,      tamaño 10
-- Fuente monoespaciada:    Monospace Regular, tamaño 10
-- Fuente de título:        Ubuntu Medium,     tamaño 10
+- Fuente predeterminada:   Ubuntu Regular,        tamaño 10
+- Fuente del escritorio:   Ubuntu Regular,        tamaño 10
+- Fuente de documento:     Sans Regular,          tamaño 10
+- Fuente monoespaciada:    DejaVu Sans Mono Book, tamaño 10
+- Fuente de título:        Ubuntu Medium,         tamaño 10
 ### Instalando los temas e iconos oficiales
 
 Instala los temas e iconos de Linux Mint:
@@ -1274,7 +1275,7 @@ Tienes dos opciones principales (elige solo una):
 **Opción 1: TLP (recomendado para máximo ahorro de energía)**
 
 ```bash
-yay -S --needed tlp tlp-rdw
+yay -S --needed tlp tlp-rdw tlp-pd
 sudo systemctl enable --now tlp
 sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
@@ -1283,6 +1284,7 @@ sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 batería)
 - **tlp-rdw**: Extensión para gestión de radio devices (WiFi, Bluetooth) con
 TLP
+- **tlp-pd**: Con TLP 1.9.0 se introdujo un remplazo directo para `profiles-daemon`
 -
 
 *Los comandos `mask` son necesarios porque TLP maneja rfkill directamente.*
