@@ -61,32 +61,6 @@
 
 虽然 Arch 以复杂著称，但按照这些步骤依次操作可以使过程相当简单。
 
-### 第1章检查清单
-
-- [ ] 下载了 Arch Linux ISO 映像
-- [ ] 创建了安装媒体（USB/DVD）
-- [ ] 成功从安装媒体启动
-- [ ] 键盘正确配置
-- [ ] 互联网连接验证
-- [ ] 系统时钟同步
-- [ ] 启动模式识别（UEFI/BIOS）
-- [ ] 磁盘识别和分区创建
-- [ ] 分区正确格式化
-- [ ] 分区挂载到 `/mnt`
-- [ ] 镜像优化（可选）
-- [ ] 使用 pacstrap 安装基础系统
-- [ ] fstab 文件生成
-- [ ] 使用 arch-chroot 进入系统
-- [ ] 时区配置
-- [ ] 语言和本地化配置
-- [ ] 网络配置（主机名和主机）
-- [ ] Root 密码设置
-- [ ] 可选 pacman 配置应用
-- [ ] GRUB 安装和配置
-- [ ] 微码安装（如果适用）
-- [ ] 系统重启和首次启动成功
-- [ ] NetworkManager 启用
-
 ## 1.1 准备基础
 
 ### 下载安装映像
@@ -731,22 +705,6 @@ systemctl enable lightdm
 
 重启并以您的用户身份登录。您将看到 Cinnamon 桌面。
 
-### 第2章检查清单
-
-- [ ] 常规用户创建
-- [ ] 视觉组件安装（Xorg、LightDM、Cinnamon）
-- [ ] LightDM 配置为 Slick Greeter
-- [ ] 桌面测试和工作
-- [ ] 在 Cinnamon 中配置键盘布局
-- [ ] 为用户配置 sudo
-- [ ] Yay 安装和 AUR 启用
-- [ ] Linux Mint 字体安装和配置
-- [ ] Mint 主题和图标安装
-- [ ] Mint 壁纸安装（可选）
-- [ ] 打印机支持安装（可选）
-- [ ] PipeWire 安装和工作
-- [ ] 蓝牙安装和配置（可选）
-
 ---
 
 ## 2.3 基本配置
@@ -835,6 +793,10 @@ yay -Syy
 - **base-devel**：具有基本构建工具的软件包组
 - **yay**：简化从 AUR 安装社区软件包的 AUR 助手
 
+> [!NOTE]
+> 还有其他可用的 AUR 助手，如 `paru`、`pacaur`、`trizen` 等。
+> 本指南使用 `yay` 是因为其易用性和流行度，但您可以使用任何其他 AUR 助手。
+
 使用 `yay`，您可以访问 Linux 可用的几乎任何软件。
 
 ## 2.5 视觉变身 - 使其看起来像 Linux Mint
@@ -843,12 +805,11 @@ yay -Syy
 
 ### 安装 Linux Mint 字体
 
-安装必要的字体：
+首先从官方仓库安装字体：
 
 ```bash
-yay -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk \
-noto-fonts-extra
-yay -S --needed ttf-ubuntu-font-family ttf-dejavu
+sudo pacman -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk \
+noto-fonts-extra ttf-ubuntu-font-family ttf-dejavu
 ```
 
 - **noto-fonts**：Noto 字体家族（广泛语言覆盖）
@@ -915,7 +876,7 @@ yay -S --needed mint-backgrounds mint-artwork
 打印文档：
 
 ```bash
-yay -S --needed cups system-config-printer
+sudo pacman -S --needed cups system-config-printer
 sudo systemctl enable --now cups
 ```
 
@@ -930,7 +891,7 @@ sudo systemctl enable --now cups
 安装必要的 PipeWire 组件：
 
 ```bash
-yay -S --needed pipewire-audio wireplumber pipewire-alsa pipewire-pulse \
+sudo pacman -S --needed pipewire-audio wireplumber pipewire-alsa pipewire-pulse \
 pipewire-jack
 ```
 
@@ -950,11 +911,12 @@ pactl info
 
 您应该在输出中看到 `Server Name: PulseAudio (on PipeWire x.y.z)`。
 
-> **注意：** Cinnamon 有自己的内置音量控制。
+> [!NOTE]
+> Cinnamon 有自己的内置音量控制。
 > 如果您需要更高级的控制（例如，更改设备配置文件或配置单个应用程序），您可以选择安装：
 
 ```bash
-yay -S --needed pavucontrol
+sudo pacman -S --needed pavucontrol
 ```
 
 - **pavucontrol**：高级音量控制（可选，与 PipeWire 通过 PulseAudio 兼容性一起工作）
@@ -964,7 +926,7 @@ yay -S --needed pavucontrol
 完整蓝牙支持（键盘、鼠标、耳机等）：
 
 ```bash
-yay -S --needed bluez bluez-utils
+sudo pacman -S --needed bluez bluez-utils
 sudo systemctl enable --now bluetooth
 ```
 
@@ -1007,13 +969,18 @@ bluetoothctl 中的基本命令：
 
 ### 系统工具和附件
 
-基本 Linux Mint 应用程序：
+首先从官方仓库安装 GNOME 应用程序：
 
 ```bash
-yay -S --needed file-roller yelp warpinator mintstick xed \
-gnome-screenshot redshift seahorse onboard sticky xviewer \
-gnome-font-viewer bulky xreader gnome-disk-utility gucharmap \
+sudo pacman -S --needed file-roller yelp warpinator xed gnome-screenshot \
+redshift seahorse onboard gnome-font-viewer gnome-disk-utility gucharmap \
 gnome-calculator
+```
+
+然后从 AUR 安装 XApps：
+
+```bash
+yay -S --needed mintstick sticky xviewer bulky xreader
 ```
 
 每个应用程序的功能：
@@ -1038,10 +1005,16 @@ gnome-calculator
 
 ### 图形应用程序
 
-用于图像工作和扫描：
+安装 GNOME 图形应用程序：
 
 ```bash
-yay -S --needed simple-scan pix drawing
+sudo pacman -S --needed simple-scan drawing
+```
+
+从 AUR 安装 XApps 查看器：
+
+```bash
+yay -S --needed pix
 ```
 
 - **simple-scan**：扫描应用程序
@@ -1051,8 +1024,8 @@ yay -S --needed simple-scan pix drawing
 ## 3.2 互联网和通信应用程序
 
 ```bash
-yay -S --needed firefox webapp-manager thunderbird \
-transmission-gtk
+sudo pacman -S --needed firefox thunderbird transmission-gtk
+yay -S --needed webapp-manager
 ```
 
 - **firefox**：网页浏览器
@@ -1077,7 +1050,7 @@ transmission-gtk
 生产力和时间管理：
 
 ```bash
-yay -S --needed gnome-calendar libreoffice-fresh
+sudo pacman -S --needed gnome-calendar libreoffice-fresh
 ```
 
 - **gnome-calendar**：集成日历
@@ -1098,7 +1071,8 @@ yay -S --needed python
 音频和视频应用程序：
 
 ```bash
-yay -S --needed celluloid hypnotix rhythmbox
+sudo pacman -S --needed celluloid rhythmbox
+yay -S --needed hypnotix
 ```
 
 - **celluloid**：基于 MPV 的视频播放器
@@ -1110,7 +1084,8 @@ yay -S --needed celluloid hypnotix rhythmbox
 系统管理和监控：
 
 ```bash
-yay -S --needed baobab gnome-logs timeshift fingwit
+sudo pacman -S --needed baobab gnome-logs timeshift
+yay -S --needed fingwit
 ```
 
 - **baobab**：磁盘使用分析器（图形化可视化使用空间）
@@ -1122,7 +1097,8 @@ yay -S --needed baobab gnome-logs timeshift fingwit
 系统自定义：
 
 ```bash
-yay -S --needed gufw blueberry mintlocale gnome-online-accounts-gtk
+sudo pacman -S --needed gufw gnome-online-accounts-gtk
+yay -S --needed blueberry mintlocale
 ```
 
 - **gufw**：防火墙图形界面（可视化管理网络规则）
@@ -1144,19 +1120,10 @@ sudo systemctl enable --now ufw
 
 不同存储类型的兼容性：
 
-```bash
-yay -S --needed ntfs-3g dosfstools mtools exfatprogs
-```
+``bash
+sudo pacman -S --needed ntfs-3g dosfstools mtools exfatprogs btrfs-progs \
+xfsprogs e2fsprogs
 
-- **ntfs-3g**：NTFS 分区的读/写支持（Windows）
-- **dosfstools**：FAT 文件系统的实用工具
-- **mtools**：访问 MS-DOS 磁盘的工具
-- **exfatprogs**：exFAT 文件系统的支持
-
-*高级文件系统的可选：*
-
-```bash
-yay -S --needed btrfs-progs xfsprogs e2fsprogs
 ```
 
 - **btrfs-progs**：Btrfs 文件系统的实用工具
@@ -1168,8 +1135,8 @@ yay -S --needed btrfs-progs xfsprogs e2fsprogs
 使用任何压缩文件格式：
 
 ```bash
-yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip \
-cpio pax p7zip
+sudo pacman -S --needed unrar unzip zip cpio pax p7zip lzo lzop unace unarj arj
+yay -S --needed lha
 ```
 
 - **unrar**：RAR 文件解压缩器
@@ -1188,8 +1155,8 @@ cpio pax p7zip
 ### 与 Nemo 文件管理器的附加集成
 
 ```bash
-yay -S --needed xviewer-plugins nemo-fileroller gvfs-goa \
-gvfs-onedrive gvfs-google
+sudo pacman -S --needed gvfs-goa gvfs-onedrive gvfs-google
+yay -S --needed xviewer-plugins nemo-fileroller
 ```
 
 - **xviewer-plugins**：图像查看器的附加插件
@@ -1218,7 +1185,7 @@ yay -S --needed xapp-vorbiscomment-thumbnailer xapp-appimage-thumbnailer \
   xapp-raw-thumbnailer
 
 # 视频和 PDF 生成器（推荐）
-yay -S --needed ffmpegthumbnailer poppler
+sudo pacman -S --needed ffmpegthumbnailer poppler
 
 # 可选：AppImage 集成
 yay -S --needed appimagelauncher
@@ -1281,7 +1248,7 @@ nemo -q
 **选项 1：TLP（推荐用于最大电源节省）**
 
 ```bash
-yay -S --needed tlp tlp-rdw
+sudo pacman -S --needed tlp tlp-rdw tlp-pd
 sudo systemctl enable --now tlp
 sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
@@ -1294,7 +1261,7 @@ sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 **TLP 的有用可选依赖：**
 
 ```bash
-yay -S --needed ethtool smartmontools
+sudo pacman -S --needed ethtool smartmontools
 ```
 
 - **ethtool**：允许禁用 Wake-on-LAN 以节省电源
@@ -1303,7 +1270,7 @@ yay -S --needed ethtool smartmontools
 **选项 2：电源配置文件守护程序（更简单，桌面集成）**
 
 ```bash
-yay -S --needed power-profiles-daemon
+sudo pacman -S --needed power-profiles-daemon
 sudo systemctl enable --now power-profiles-daemon
 ```
 
@@ -1311,13 +1278,14 @@ sudo systemctl enable --now power-profiles-daemon
 
 *比 TLP 简单但可配置性较差。更好的桌面小程序集成。*
 
-⚠️ **重要**：不要同时安装两者，因为它们冲突。
-选择 TLP 以获得最大控制，或 power-profiles-daemon 以获得简单。
+> [!WARNING]
+> 不要同时安装两者，因为它们冲突。
+> 选择 TLP 以获得最大控制，或 power-profiles-daemon 以获得简单。
 
 ### 笔记本内核工具
 
 ```bash
-yay -S --needed linux-tools-meta
+sudo pacman -S --needed linux-tools-meta
 ```
 
 - **linux-tools-meta**：包含有用内核工具的元软件包，如 `cpupower`、`turbostat` 等。
@@ -1325,7 +1293,7 @@ yay -S --needed linux-tools-meta
 ### 系统信息和传感器
 
 ```bash
-yay -S --needed lm_sensors
+sudo pacman -S --needed lm_sensors
 sudo sensors-detect
 ```
 
@@ -1338,7 +1306,7 @@ sudo sensors-detect
 亮度控制应该自动与 Cinnamon 一起工作，但如果您有问题：
 
 ```bash
-yay -S --needed brightnessctl
+sudo pacman -S --needed brightnessctl
 ```
 
 - **brightnessctl**：从命令行控制屏幕亮度的实用工具
@@ -1346,28 +1314,15 @@ yay -S --needed brightnessctl
 ### 高级触摸板支持
 
 ```bash
-yay -S --needed xf86-input-synaptics xf86-input-libinput
+sudo pacman -S --needed xf86-input-synaptics xf86-input-libinput
 ```
 
 - **xf86-input-synaptics**：Synaptics 触摸板的改进驱动（维护模式中的驱动）
 - **xf86-input-libinput**：现代和默认触摸板和其他类似输入设备的驱动（libinput 等）
 
-> **注意：** 大多数现代触摸板在默认 libinput 驱动下工作良好。
+> [!NOTE]
+> 大多数现代触摸板在默认 libinput 驱动下工作良好。
 > 只有在 libinput 中没有可用功能或兼容性时才安装 synaptics。
-
-### 第3章检查清单
-
-- [ ] 生产力应用程序安装
-- [ ] 图形应用程序安装
-- [ ] 互联网应用程序安装
-- [ ] 办公套件安装
-- [ ] 开发工具安装
-- [ ] 多媒体应用程序安装
-- [ ] 管理工具安装
-- [ ] 配置和偏好安装
-- [ ] 系统工具安装
-- [ ] 缩略图
-- [ ] 笔记本优化应用（如果适用）
 
 ---
 

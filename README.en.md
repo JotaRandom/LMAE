@@ -64,32 +64,6 @@ Installing Arch Linux will be the system's foundation.
 Although Arch has a reputation for being complex, following these steps
 in order makes the process quite straightforward.
 
-### Checklist - Chapter 1
-
-- [ ] Downloaded Arch Linux ISO image
-- [ ] Created installation media (USB/DVD)
-- [ ] Successfully booted from installation media
-- [ ] Keyboard configured correctly
-- [ ] Internet connection verified
-- [ ] System clock synchronized
-- [ ] Boot mode identified (UEFI/BIOS)
-- [ ] Disk identified and partitions created
-- [ ] Partitions formatted correctly
-- [ ] Partitions mounted to `/mnt`
-- [ ] Mirrors optimized (optional)
-- [ ] Base system installed with pacstrap
-- [ ] fstab file generated
-- [ ] Entered system with arch-chroot
-- [ ] Time zone configured
-- [ ] Language and localization configured
-- [ ] Network configured (hostname and hosts)
-- [ ] Root password set
-- [ ] Optional pacman configurations applied
-- [ ] GRUB installed and configured
-- [ ] Microcode installed (if applicable)
-- [ ] System rebooted and first boot successful
-- [ ] NetworkManager enabled
-
 ## 1.1 Preparing the Ground
 
 ### Downloading the installation image
@@ -755,22 +729,6 @@ systemctl enable lightdm
 
 Restart and log in with your user. You'll see the Cinnamon desktop.
 
-### Checklist - Chapter 2
-
-- [ ] Regular user created
-- [ ] Visual components installed (Xorg, LightDM, Cinnamon)
-- [ ] LightDM configured with Slick Greeter
-- [ ] Desktop tested and working
-- [ ] Keyboard layout configured in Cinnamon
-- [ ] Sudo configured for the user
-- [ ] Yay installed and AUR enabled
-- [ ] Linux Mint fonts installed and configured
-- [ ] Mint themes and icons installed
-- [ ] Mint wallpapers installed (optional)
-- [ ] Printer support installed (optional)
-- [ ] PipeWire installed and working
-- [ ] Bluetooth installed and configured (optional)
-
 ---
 
 ## 2.3 Essential Configurations
@@ -865,6 +823,11 @@ Installed packages:
 - **base-devel**: Group of packages with essential build tools
 - **yay**: AUR helper that simplifies installing community packages
 
+> [!NOTE]
+> There are other AUR helpers available such as `paru`, `pacaur`, `trizen`, etc.
+> This guide uses `yay` for its ease of use and popularity, but you can
+> use any other AUR helper if you prefer.
+
 With `yay`, you have access to virtually any software available for Linux.
 
 ## 2.5 The Visual Metamorphosis - Making it Look Like Linux Mint
@@ -874,11 +837,11 @@ appearance.
 
 ### Installing Linux Mint fonts
 
-Install the necessary fonts:
+First install fonts from official repositories:
 
 ```bash
-yay -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra
-yay -S --needed ttf-ubuntu-font-family ttf-dejavu
+sudo pacman -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra \
+ttf-ubuntu-font-family ttf-dejavu
 ```
 
 - **noto-fonts**: Noto font family (wide language coverage)
@@ -946,7 +909,7 @@ Select wallpapers in **Cinnamon Menu → Backgrounds**.
 To print documents:
 
 ```bash
-yay -S --needed cups system-config-printer
+sudo pacman -S --needed cups system-config-printer
 sudo systemctl enable --now cups
 ```
 
@@ -962,7 +925,7 @@ for professional audio.
 Install the necessary PipeWire components:
 
 ```bash
-yay -S --needed pipewire-audio wireplumber pipewire-alsa pipewire-pulse \
+sudo pacman -S --needed pipewire-audio wireplumber pipewire-alsa pipewire-pulse \
 pipewire-jack
 ```
 
@@ -990,7 +953,7 @@ output.
 > install:
 
 ```bash
-yay -S --needed pavucontrol
+sudo pacman -S --needed pavucontrol
 ```
 
 - **pavucontrol**: Advanced volume control (optional, works with PipeWire via PulseAudio compatibility)
@@ -1000,7 +963,7 @@ yay -S --needed pavucontrol
 For complete Bluetooth support (keyboards, mice, headphones, etc.):
 
 ```bash
-yay -S --needed bluez bluez-utils
+sudo pacman -S --needed bluez bluez-utils
 sudo systemctl enable --now bluetooth
 ```
 
@@ -1048,10 +1011,18 @@ optimizations, you'll achieve a functional and complete system.
 
 Basic Linux Mint applications:
 
+First install GNOME applications from official repositories:
+
 ```bash
-yay -S --needed file-roller yelp warpinator mintstick xed gnome-screenshot
-redshift seahorse onboard sticky xviewer gnome-font-viewer bulky xreader
-gnome-disk-utility gucharmap gnome-calculator
+sudo pacman -S --needed file-roller yelp warpinator xed gnome-screenshot \
+redshift seahorse onboard gnome-font-viewer gnome-disk-utility gucharmap \
+gnome-calculator
+```
+
+Then install XApps from AUR:
+
+```bash
+yay -S --needed mintstick sticky xviewer bulky xreader
 ```
 
 Functions of each application:
@@ -1078,8 +1049,16 @@ Functions of each application:
 
 For image work and scanning:
 
+Install the GNOME graphics applications:
+
 ```bash
-yay -S --needed simple-scan pix drawing
+sudo pacman -S --needed simple-scan drawing
+```
+
+Install XApps viewer from AUR:
+
+```bash
+yay -S --needed pix
 ```
 
 - **simple-scan**: Scanning application
@@ -1116,7 +1095,7 @@ yay -S --needed firefox webapp-manager thunderbird transmission-gtk
 Productivity and time management:
 
 ```bash
-yay -S --needed gnome-calendar libreoffice-fresh
+sudo pacman -S --needed gnome-calendar libreoffice-fresh
 ```
 
 - **gnome-calendar**: Integrated calendar
@@ -1149,7 +1128,8 @@ yay -S --needed celluloid hypnotix rhythmbox
 System management and monitoring:
 
 ```bash
-yay -S --needed baobab gnome-logs timeshift fingwit
+sudo pacman -S --needed baobab gnome-logs timeshift
+yay -S --needed fingwit
 ```
 
 - **baobab**: Disk usage analyzer (graphically visualizes used space)
@@ -1161,7 +1141,8 @@ yay -S --needed baobab gnome-logs timeshift fingwit
 System customization:
 
 ```bash
-yay -S --needed gufw blueberry mintlocale gnome-online-accounts-gtk
+sudo pacman -S --needed gufw gnome-online-accounts-gtk
+yay -S --needed blueberry mintlocale
 ```
 
 - **gufw**: Graphical interface for firewall (visual management of
@@ -1188,30 +1169,17 @@ sudo systemctl enable --now ufw
 For compatibility with different storage types:
 
 ```bash
-yay -S --needed ntfs-3g dosfstools mtools exfatprogs
+sudo pacman -S --needed ntfs-3g dosfstools mtools exfatprogs btrfs-progs \
+xfsprogs e2fsprogs
 ```
-
-- **ntfs-3g**: Read/write support for NTFS partitions (Windows)
-- **dosfstools**: Utilities for FAT file systems
-- **mtools**: Tools to access MS-DOS disks
-- **exfatprogs**: Support for exFAT file systems
-
-*Optional for advanced file systems:*
-
-```bash
-yay -S --needed btrfs-progs xfsprogs e2fsprogs
-```
-
-- **btrfs-progs**: Utilities for Btrfs file system
-- **xfsprogs**: Utilities for XFS file system
-- **e2fsprogs**: Utilities for ext2/ext3/ext4 file systems
 
 ### Compression tools
 
 To work with any compressed file format:
 
 ```bash
-yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip cpio pax p7zip
+sudo pacman -S --needed unrar unzip zip cpio pax p7zip lzo lzop unace unarj arj
+yay -S --needed lha
 ```
 
 - **unrar**: RAR file decompressor
@@ -1327,7 +1295,7 @@ You have two main options (choose only one):
 **Option 1: TLP (recommended for maximum power saving)**
 
 ```bash
-yay -S --needed tlp tlp-rdw
+sudo pacman -S --needed tlp tlp-rdw tlp-pd
 sudo systemctl enable --now tlp
 sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
@@ -1341,7 +1309,7 @@ sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 **Useful optional dependencies for TLP:**
 
 ```bash
-yay -S --needed ethtool smartmontools
+sudo pacman -S --needed ethtool smartmontools
 ```
 
 - **ethtool**: Allows disabling Wake-on-LAN to save power
@@ -1350,7 +1318,7 @@ yay -S --needed ethtool smartmontools
 **Option 2: Power Profiles Daemon (simpler, desktop integration)**
 
 ```bash
-yay -S --needed power-profiles-daemon
+sudo pacman -S --needed power-profiles-daemon
 sudo systemctl enable --now power-profiles-daemon
 ```
 
@@ -1360,13 +1328,14 @@ sudo systemctl enable --now power-profiles-daemon
 *Simpler than TLP but less configurable. Better integration with desktop
 applets.*
 
-⚠️ **Important**: Don't install both at the same time, as they conflict.
-Choose TLP for maximum control or power-profiles-daemon for simplicity.
+> [!WARNING]
+> Don't install both at the same time, as they conflict.
+> Choose TLP for maximum control or power-profiles-daemon for simplicity.
 
 ### Kernel tools for laptops
 
 ```bash
-yay -S --needed linux-tools-meta
+sudo pacman -S --needed linux-tools-meta
 ```
 
 - **linux-tools-meta**: Meta-package including useful kernel tools like
@@ -1375,7 +1344,7 @@ yay -S --needed linux-tools-meta
 ### System information and sensors
 
 ```bash
-yay -S --needed lm_sensors
+sudo pacman -S --needed lm_sensors
 sudo sensors-detect
 ```
 
@@ -1391,7 +1360,7 @@ Brightness control should work automatically with Cinnamon, but if you
 have issues:
 
 ```bash
-yay -S --needed brightnessctl
+sudo pacman -S --needed brightnessctl
 ```
 
 - **brightnessctl**: Utility to control screen brightness from the command line
@@ -1399,7 +1368,7 @@ yay -S --needed brightnessctl
 ### Advanced touchpad support
 
 ```bash
-yay -S --needed xf86-input-synaptics xf86-input-libinput
+sudo pacman -S --needed xf86-input-synaptics xf86-input-libinput
 ```
 
 - **xf86-input-synaptics**: Improved driver for Synaptics touchpads
@@ -1410,20 +1379,6 @@ yay -S --needed xf86-input-synaptics xf86-input-libinput
 > **Note:** Most modern touchpads work fine with the default libinput
 > driver. Only install synaptics if you need features not available in
 > libinput or for compatibility.
-
-### Checklist - Chapter 3
-
-- [ ] Productivity applications installed
-- [ ] Graphics applications installed
-- [ ] Internet applications installed
-- [ ] Office suite installed
-- [ ] Development tools installed
-- [ ] Multimedia applications installed
-- [ ] Administration tools installed
-- [ ] Configuration and preferences installed
-- [ ] System tools installed
-- [ ] Thumbnails
-- [ ] Laptop optimizations applied (if applicable)
 
 ---
 

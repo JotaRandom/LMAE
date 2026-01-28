@@ -13,7 +13,7 @@
   - [1.3 El Arte del Particionado](#13-el-arte-del-particionado)
   - [1.4 Optimizando los Mirrors (Opcional pero Recomendado)](#14-optimizando-los-mirrors-opcional-pero-recomendado)
   - [1.5 Instalando el Corazón del Sistema](#15-instalando-el-corazón-del-sistema)
-  - [1.6 Configuración del Sistema Recién Instalado](#16-configuración-del-sistema-recén-instalado)
+  - [1.6 Configuración del Sistema Recién Instalado](#16-configuración-del-sistema-recién-instalado)
   - [1.7 El Gestor de Arranque GRUB](#17-el-gestor-de-arranque-grub)
   - [1.8 El Primer Arranque](#18-el-primer-arranque)
 - [Capítulo 2: La Transformación - Creando el Entorno de Escritorio](#capítulo-2-la-transformación---creando-el-entorno-de-escritorio)
@@ -63,32 +63,6 @@ En este capítulo aprenderás a instalar Arch Linux desde cero,
 configurando el sistema base que servirá de fundamento para tu LMAE.
 Cubriremos desde la preparación del medio de instalación hasta el primer
 arranque del sistema.
-
-### Lista de Verificación - Capítulo 1
-
-- [ ] Descargada la imagen ISO de Arch Linux
-- [ ] Creado el medio de instalación (USB/DVD)
-- [ ] Arranque desde el medio de instalación exitoso
-- [ ] Teclado configurado correctamente
-- [ ] Conexión a internet verificada
-- [ ] Reloj del sistema sincronizado
-- [ ] Modo de arranque identificado (UEFI/BIOS)
-- [ ] Disco identificado y particiones creadas
-- [ ] Particiones formateadas correctamente
-- [ ] Particiones montadas en `/mnt`
-- [ ] Mirrors optimizados (opcional)
-- [ ] Sistema base instalado con pacstrap
-- [ ] Archivo fstab generado
-- [ ] Entrado al sistema con arch-chroot
-- [ ] Zona horaria configurada
-- [ ] Idioma y localización configurados
-- [ ] Red configurada (hostname y hosts)
-- [ ] Contraseña de root establecida
-- [ ] Configuraciones opcionales de pacman aplicadas
-- [ ] GRUB instalado y configurado
-- [ ] Microcódigo instalado (si aplica)
-- [ ] Sistema reiniciado y primer arranque exitoso
-- [ ] NetworkManager habilitado
 
 ## 1.1 Preparando el Terreno
 
@@ -763,22 +737,6 @@ systemctl enable lightdm
 
 Reinicia e inicia sesión con tu usuario. Verás el escritorio Cinnamon.
 
-### Lista de Verificación - Capítulo 2
-
-- [ ] Usuario regular creado
-- [ ] Componentes visuales instalados (Xorg, LightDM, Cinnamon)
-- [ ] LightDM configurado con Slick Greeter
-- [ ] Escritorio probado y funcionando
-- [ ] Distribución de teclado configurada en Cinnamon
-- [ ] Sudo configurado para el usuario
-- [ ] Yay instalado y AUR habilitado
-- [ ] Fuentes de Linux Mint instaladas y configuradas
-- [ ] Temas e iconos de Mint instalados
-- [ ] Fondos de pantalla de Mint instalados (opcional)
-- [ ] Soporte para impresoras instalado (opcional)
-- [ ] PipeWire instalado y funcionando
-- [ ] Bluetooth instalado y configurado (opcional)
-
 ---
 
 ## 2.3 Configuraciones Esenciales
@@ -876,6 +834,11 @@ AUR)
 - **yay**: Ayudante del AUR que simplifica la instalación de paquetes de la
 comunidad
 
+> [!NOTE]
+> Existen otros AUR helpers disponibles como `paru`, `pacaur`, `trizen`, etc.
+> Esta guía utiliza `yay` por su facilidad de uso y popularidad, pero puedes
+> usar cualquier otro AUR helper si lo prefieres.
+
 Con `yay`, tienes acceso a prácticamente cualquier software disponible para
 Linux.
 
@@ -886,11 +849,11 @@ característica.
 
 ### Instalando las fuentes de Linux Mint
 
-Instala las fuentes necesarias:
+Primero instala las fuentes de los repositorios oficiales:
 
 ```bash
-yay -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra
-yay -S --needed ttf-ubuntu-font-family ttf-dejavu
+sudo pacman -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra \
+ttf-ubuntu-font-family ttf-dejavu
 ```
 
 - **noto-fonts**: Familia de fuentes Noto (cobertura amplia de idiomas)
@@ -898,7 +861,7 @@ yay -S --needed ttf-ubuntu-font-family ttf-dejavu
 - **noto-fonts-cjk**: Fuentes Noto para idiomas CJK (chino, japonés, coreano)
 - **noto-fonts-extra**: Fuentes Noto adicionales
 - **ttf-ubuntu-font-family**: Familia de fuentes Ubuntu, la predeterminada en Linux Mint
-- **tt-dejavu**: Familia de fuentes usada como monospaciada por Linux Mint
+- **ttf-dejavu**: Familia de fuentes usada como monospaciada por Linux Mint
 
 Configúralas en **Menú de Cinnamon → Selección de Fuentes**:
 
@@ -958,7 +921,7 @@ Selecciona los fondos en **Menú de Cinnamon → Fondos de Pantalla**.
 Para imprimir documentos:
 
 ```bash
-yay -S --needed cups system-config-printer
+sudo pacman -S --needed cups system-config-printer
 sudo systemctl enable --now cups
 ```
 
@@ -974,7 +937,7 @@ latencia y soporte para audio profesional.
 Instala los componentes necesarios de PipeWire:
 
 ```bash
-yay -S --needed pipewire-audio wireplumber pipewire-alsa pipewire-pulse \
+sudo pacman -S --needed pipewire-audio wireplumber pipewire-alsa pipewire-pulse \
 pipewire-jack
 ```
 
@@ -997,13 +960,14 @@ pactl info
 
 Deberías ver `Server Name: PulseAudio (on PipeWire x.y.z)` en la salida.
 
-> **Nota:** Cinnamon tiene su propio control de volumen integrado.
-> Si necesitas controles más avanzados (por ejemplo,
-> para cambiar perfiles de dispositivos o configurar aplicaciones individuales),
-> puedes instalar opcionalmente:
+> [!NOTE]
+> Cinnamon tiene su propio control de volumen integrado en el applet del panel.
+> `pavucontrol` **no es necesario** para uso básico. Solo instálalo si necesitas
+> controles avanzados como cambiar perfiles de dispositivos, configurar aplicaciones
+> individuales, o gestionar múltiples dispositivos de audio simultáneamente.
 
 ```bash
-yay -S --needed pavucontrol
+sudo pacman -S --needed pavucontrol
 ```
 
 - **pavucontrol**: Control de volumen avanzado (opcional, funciona con PipeWire vía compatibilidad PulseAudio)
@@ -1013,7 +977,7 @@ yay -S --needed pavucontrol
 Para soporte completo de Bluetooth (teclados, ratones, auriculares, etc.):
 
 ```bash
-yay -S --needed bluez bluez-utils
+sudo pacman -S --needed bluez bluez-utils
 sudo systemctl enable --now bluetooth
 ```
 
@@ -1060,12 +1024,18 @@ un sistema funcional y completo.
 
 ### Herramientas del sistema y accesorios
 
-Aplicaciones básicas de Linux Mint:
+Primero instala las aplicaciones de GNOME desde los repositorios oficiales:
 
 ```bash
-yay -S --needed file-roller yelp warpinator mintstick xed gnome-screenshot \
-redshift seahorse onboard sticky xviewer gnome-font-viewer bulky xreader \
-gnome-disk-utility gucharmap gnome-calculator
+sudo pacman -S --needed file-roller yelp warpinator xed gnome-screenshot \
+redshift seahorse onboard gnome-font-viewer gnome-disk-utility gucharmap \
+gnome-calculator
+```
+
+Luego instala las aplicaciones XApps desde el AUR:
+
+```bash
+yay -S --needed sticky xviewer bulky xreader mintstick
 ```
 
 Funciones de cada aplicación:
@@ -1093,7 +1063,8 @@ Funciones de cada aplicación:
 Para trabajo con imágenes y digitalización:
 
 ```bash
-yay -S --needed simple-scan pix drawing
+sudo pacman -S --needed simple-scan drawing
+yay -S --needed pix
 ```
 
 - **simple-scan**: Aplicación de escaneo
@@ -1103,7 +1074,8 @@ yay -S --needed simple-scan pix drawing
 ## 3.2 Aplicaciones de Internet y Comunicación
 
 ```bash
-yay -S --needed firefox webapp-manager thunderbird transmission-gtk
+sudo pacman -S --needed firefox thunderbird transmission-gtk
+yay -S --needed webapp-manager
 ```
 
 - **firefox**: Navegador web
@@ -1131,7 +1103,7 @@ yay -S --needed firefox webapp-manager thunderbird transmission-gtk
 Productividad y gestión del tiempo:
 
 ```bash
-yay -S --needed gnome-calendar libreoffice-fresh
+sudo pacman -S --needed gnome-calendar libreoffice-fresh
 ```
 
 - **gnome-calendar**: Calendario integrado
@@ -1142,7 +1114,7 @@ yay -S --needed gnome-calendar libreoffice-fresh
 Para programación:
 
 ```bash
-yay -S --needed python
+sudo pacman -S --needed python
 ```
 
 - **python**: Intérprete Python (fundamental para muchas aplicaciones)
@@ -1152,7 +1124,8 @@ yay -S --needed python
 Aplicaciones para audio y vídeo:
 
 ```bash
-yay -S --needed celluloid hypnotix rhythmbox
+sudo pacman -S --needed celluloid rhythmbox
+yay -S --needed hypnotix
 ```
 
 - **celluloid**: Reproductor de vídeo basado en MPV
@@ -1164,7 +1137,8 @@ yay -S --needed celluloid hypnotix rhythmbox
 Gestión y monitoreo del sistema:
 
 ```bash
-yay -S --needed baobab gnome-logs timeshift fingwit
+sudo pacman -S --needed baobab gnome-logs timeshift
+yay -S --needed fingwit
 ```
 
 - **baobab**: Analizador de uso de disco (visualiza el espacio usado)
@@ -1176,7 +1150,9 @@ yay -S --needed baobab gnome-logs timeshift fingwit
 Personalización del sistema:
 
 ```bash
-yay -S --needed gufw blueberry mintlocale gnome-online-accounts-gtk
+sudo pacman -S --needed gufw
+yay -S --needed blueberry mintlocale
+sudo pacman -S --needed gnome-online-accounts-gtk
 ```
 
 - **gufw**: Interfaz para el firewall (gestión visual de reglas de red)
@@ -1200,7 +1176,7 @@ autorizadas
 Para compatibilidad con diferentes tipos de almacenamiento:
 
 ```bash
-yay -S --needed ntfs-3g dosfstools mtools exfatprogs
+sudo pacman -S --needed ntfs-3g dosfstools mtools exfatprogs
 ```
 
 - **ntfs-3g**: Soporte de lectura/escritura para particiones NTFS (Windows)
@@ -1211,7 +1187,7 @@ yay -S --needed ntfs-3g dosfstools mtools exfatprogs
 *Opcional para sistemas de archivos avanzados:*
 
 ```bash
-yay -S --needed btrfs-progs xfsprogs e2fsprogs
+sudo pacman -S --needed btrfs-progs xfsprogs e2fsprogs
 ```
 
 - **btrfs-progs**: Utilidades para el sistema de archivos Btrfs
@@ -1223,7 +1199,8 @@ yay -S --needed btrfs-progs xfsprogs e2fsprogs
 Para trabajar con cualquier formato de archivo comprimido:
 
 ```bash
-yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip cpio pax p7zip
+sudo pacman -S --needed unrar unzip zip cpio pax p7zip lzo lzop unace unarj arj
+yay -S --needed lha
 ```
 
 - **unrar**: Descompresor de archivos RAR
@@ -1244,7 +1221,8 @@ yay -S --needed unrar unace unarj arj lha lzo lzop unzip zip cpio pax p7zip
 Para integración completa con el gestor de archivos Nemo:
 
 ```bash
-yay -S --needed xviewer-plugins nemo-fileroller gvfs-goa gvfs-onedrive gvfs-google
+sudo pacman -S --needed gvfs-goa gvfs-onedrive gvfs-google
+yay -S --needed xviewer-plugins nemo-fileroller
 ```
 
 - **xviewer-plugins**: Plugins adicionales para el visor de imágenes
@@ -1293,7 +1271,7 @@ Funciones de los paquetes X-Apps
 - Miniaturizadores adicionales para vídeos y PDFs (recomendado)
 
 ```bash
-yay -S --needed ffmpegthumbnailer poppler
+sudo pacman -S --needed ffmpegthumbnailer poppler
 ```
 
 Funciones de paquetes adicionales
@@ -1350,7 +1328,7 @@ Tienes dos opciones principales (elige solo una):
 **Opción 1: TLP (recomendado para máximo ahorro de energía)**
 
 ```bash
-yay -S --needed tlp tlp-rdw tlp-pd
+sudo pacman -S --needed tlp tlp-rdw tlp-pd
 sudo systemctl enable --now tlp
 sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 ```
@@ -1359,15 +1337,14 @@ sudo systemctl mask systemd-rfkill.service systemd-rfkill.socket
 batería)
 - **tlp-rdw**: Extensión para gestión de radio devices (WiFi, Bluetooth) con
 TLP
-- **tlp-pd**: Con TLP 1.9.0 se introdujo un remplazo directo para `profiles-daemon`
--
+- **tlp-pd**: Proporciona integración con gestores de escritorio para perfiles de energía (incluido desde TLP 1.9.0)
 
 *Los comandos `mask` son necesarios porque TLP maneja rfkill directamente.*
 
 **Dependencias opcionales útiles para TLP:**
 
 ```bash
-yay -S --needed ethtool smartmontools
+sudo pacman -S --needed ethtool smartmontools
 ```
 
 - **ethtool**: Permite desactivar Wake-on-LAN para ahorrar energía
@@ -1376,7 +1353,7 @@ yay -S --needed ethtool smartmontools
 **Opción 2: Power Profiles Daemon (más simple, integración con escritorio)**
 
 ```bash
-yay -S --needed power-profiles-daemon
+sudo pacman -S --needed power-profiles-daemon
 sudo systemctl enable --now power-profiles-daemon
 ```
 
@@ -1386,13 +1363,14 @@ Ahorro de energía)
 *Más simple que TLP pero menos configurable. Se integra mejor con
 applets de escritorio.*
 
-**Importante**: No instales ambos a la vez, ya que conflictúan.
-Elige TLP para máximo control o power-profiles-daemon para simplicidad.
+> [!WARNING]
+> No instales ambos a la vez, ya que conflictúan.
+> Elige TLP para máximo control o power-profiles-daemon para simplicidad.
 
 ### Herramientas del kernel para laptops
 
 ```bash
-yay -S --needed linux-tools-meta
+sudo pacman -S --needed linux-tools-meta
 ```
 
 - **linux-tools-meta**: Metapaquete que incluye herramientas útiles del kernel
@@ -1401,7 +1379,7 @@ como `cpupower`, `turbostat`, etc.
 ### Información del sistema y sensores
 
 ```bash
-yay -S --needed lm_sensors
+sudo pacman -S --needed lm_sensors
 sudo sensors-detect
 ```
 
@@ -1416,7 +1394,7 @@ puedes usar `sensors` para ver las temperaturas.
 El control de brillo debería funcionar automáticamente con Cinnamon, pero si tienes problemas:
 
 ```bash
-yay -S --needed brightnessctl
+sudo pacman -S --needed brightnessctl
 ```
 
 - **brightnessctl**: Utilidad para controlar el brillo de la pantalla desde línea de
@@ -1425,7 +1403,7 @@ comandos
 ### Soporte para touchpad avanzado
 
 ```bash
-yay -S --needed xf86-input-synaptics xf86-input-libinput
+sudo pacman -S --needed xf86-input-synaptics xf86-input-libinput
 ```
 
 - **xf86-input-synaptics**: Driver mejorado para touchpads Synaptics
@@ -1436,23 +1414,10 @@ yay -S --needed xf86-input-synaptics xf86-input-libinput
 
 > y otros dispositivos de entrada similares (libinput, etc.)
 
-> **Nota:** La mayoría de touchpads modernos funcionan bien con el driver
+> [!NOTE]
+> La mayoría de touchpads modernos funcionan bien con el driver
 > libinput predeterminado. Solo instala synaptics si necesitas características
 > no disponibles en el libinput o por compatibilidad.
-
-### Lista de Verificación - Capítulo 3
-
-- [ ] Aplicaciones de productividad instaladas
-- [ ] Aplicaciones gráficas instaladas
-- [ ] Aplicaciones de internet instaladas
-- [ ] Suite de oficina instalada
-- [ ] Herramientas de desarrollo instaladas
-- [ ] Aplicaciones multimedia instaladas
-- [ ] Herramientas de administración instaladas
-- [ ] Configuración y preferencias instaladas
-- [ ] Herramientas del sistema instaladas
-- [ ] Miniaturas
-- [ ] Optimizaciones para laptops aplicadas (si aplica)
 
 ---
 
