@@ -1,5 +1,6 @@
 # LMAE: Linux Mint Arch Edition
-*A step-by-step guide to recreate Linux Mint's visual and functional experience on Arch Linux (Cinnamon).* 
+
+*A step-by-step guide to recreate Linux Mint's visual and functional experience on Arch Linux (Cinnamon).*
 *Includes base installation, desktop setup, applications, thumbnails and laptop optimizations.*
 **Note:** Documentation available in English, Spanish and Chinese. Translations are automated and may contain errors; consult the English version for the original if in doubt.
 
@@ -46,9 +47,12 @@ applications. The result is a system that maintains Arch's flexibility
 while offering the visual and functional experience of Linux Mint.
 
 The process is divided into three main stages:
+
 - Arch Linux installation
 - Cinnamon desktop environment configuration
 - Installation of Linux Mint's characteristic applications
+
+Optional sections (thumbnails, laptop optimizations, and advanced configurations) cover additional steps to customize and optimize the system.
 
 Each section includes clear explanations of the necessary commands and
 configurations.
@@ -98,6 +102,7 @@ Make sure to use the official version to avoid security issues.
 ### Creating the installation media
 
 Once the ISO is downloaded, burn it to a USB or DVD using one of these tools:
+
 - **balenaEtcher**: Intuitive and cross-platform
 - **Rufus**: Fast and efficient for Windows
 - **Win32 Disk Imager**: A classic and reliable option
@@ -114,11 +119,13 @@ This may require changing the boot order in BIOS/UEFI.
 
 By default, the keyboard is configured for English. To change it, first
 list available keyboard maps:
+
 ```bash
 ls /usr/share/kbd/keymaps/**/*.map.gz
 ```
 
 Then apply the one you need. For example, for a UK keyboard:
+
 ```bash
 loadkeys uk
 ```
@@ -131,11 +138,13 @@ loadkeys uk
 Arch Linux needs an internet connection to download packages during
 installation.
 Verify your network interface is available:
+
 ```bash
 ip link
 ```
 
 If using Wi-Fi, configure it with:
+
 ```bash
 iwctl
 ```
@@ -143,6 +152,7 @@ iwctl
 Follow the on-screen instructions to connect to your network.
 
 Confirm the connection works:
+
 ```bash
 ping 8.8.8.8
 ```
@@ -193,22 +203,26 @@ Identify your main disk: usually it will be `/dev/sda` (SATA/IDE disks),
 We'll use the GPT partition scheme. The configuration depends on the boot mode:
 
 **For UEFI systems with GPT:**
+
 - `/dev/sda1`: EFI System, 1024 MiB or more, mount: `/mnt/boot`
 - `/dev/sda2`: Linux swap, see note below, mount: (swap)
 - `/dev/sda3`: Linux filesystem, rest of disk, mount: `/mnt`
 
 **For BIOS systems with GPT:**
+
 - `/dev/sda1`: BIOS boot, 8 MiB, mount: (not mounted)
 - `/dev/sda2`: EFI boot, 1024 MiB or more, mount: `/mnt/boot`
 - `/dev/sda3`: Linux swap, see note below, mount: (swap)
 - `/dev/sda4`: Linux filesystem, rest of disk, mount: `/mnt`
 
 **For BIOS systems with MBR (DOS partition table):**
+
 - `/dev/sda1`: Bootloader, 1024 MiB or more, mount: `/mnt/boot`
 - `/dev/sda2`: Linux swap, see note below, mount: (swap)
 - `/dev/sda3`: Linux, rest of disk, mount: `/mnt`
 
 **Swap size recommendations:**
+
 - **Up to 4 GB RAM**: Swap = 1.5 × RAM (if you want hibernation) or
   equal to RAM (without hibernation)
 - **4-16 GB RAM**: 4 GB swap is usually sufficient
@@ -230,6 +244,7 @@ cfdisk /dev/sda
 > **Note:** Replace `/dev/sda` with your disk.
 
 Steps in `cfdisk`:
+
 1. If the disk is empty, select the table type:
    - **"gpt"** for UEFI or modern BIOS systems (recommended)
    - **"msdos"** only if you need MBR for very old BIOS systems
@@ -242,6 +257,7 @@ Steps in `cfdisk`:
 Format the partitions with appropriate file systems:
 
 **For UEFI systems with GPT:**
+
 ```bash
 mkfs.fat -F 32 /dev/sda1  # EFI partition (FAT32)
 mkswap /dev/sda2          # Swap partition
@@ -249,6 +265,7 @@ mkfs.ext4 /dev/sda3       # Main file system (ext4)
 ```
 
 **For BIOS systems with GPT:**
+
 ```bash
 # The BIOS boot partition (/dev/sda1) is not formatted
 mkfs.fat -F 32 /dev/sda2  # EFI boot partition (FAT32)
@@ -257,6 +274,7 @@ mkfs.ext4 /dev/sda4       # Main file system (ext4)
 ```
 
 **For BIOS systems with MBR:**
+
 ```bash
 mkfs.fat -F 32 /dev/sda1  # Bootloader partition (FAT32)
 mkswap /dev/sda2          # Swap partition
@@ -269,12 +287,14 @@ If you want to explore other formatting options, here are the most
 common commands with their recommended options:
 
 *EFI/ESP partitions (package: dosfstools):*
+
 ```bash
 mkfs.fat -F 32 /dev/sdaX               # Always FAT32 (-F 32) for EFI partitions
 mkfs.fat -F 32 -n "EFI" /dev/sdaX      # With volume label (-n)
 ```
 
 *Swap partition (package: util-linux - included in base):*
+
 ```bash
 mkswap /dev/sdaX                       # No additional options needed
 mkswap -L "swap" /dev/sdaX             # With volume label (-L)
@@ -283,6 +303,7 @@ mkswap -L "swap" /dev/sdaX             # With volume label (-L)
 *Main file system:*
 
 - **ext4** (package: e2fsprogs - included in base) - recommended for most, stable and mature:
+
 ```bash
 mkfs.ext4 /dev/sdaX                              # Default options (recommended)
 mkfs.ext4 -L "ArchLinux" /dev/sdaX               # With volume label (-L)
@@ -291,6 +312,7 @@ lazy_journal_init=0 /dev/sdaX  # Optimized options for SSD
 ```
 
 - **XFS** (package: xfsprogs) - good for large files and high performance, cannot be shrunk:
+
 ```bash
 mkfs.xfs /dev/sdaX                               # Default options
 mkfs.xfs -L "ArchLinux" /dev/sdaX                # With volume label (-L)
@@ -299,6 +321,7 @@ modern options
 ```
 
 - **Btrfs** (package: btrfs-progs) - modern, with snapshots and compression, requires more knowledge:
+
 ```bash
 mkfs.btrfs /dev/sdaX                             # Default options
 mkfs.btrfs -L "ArchLinux" /dev/sdaX              # With volume label (-L)
@@ -307,6 +330,7 @@ if partition already has data
 ```
 
 *Options explained:*
+
 - `-L` or `-n`: Sets a volume label (useful for identification and
   mounting by label)
 - `-f`: Forces formatting even if there is data (use with caution)
@@ -324,6 +348,7 @@ if partition already has data
 > more knowledge for maintenance and recovery.
 
 **Important consideration about backups with Timeshift:**
+
 - **Btrfs**: Timeshift can create instant system snapshots using Btrfs
   native capabilities. This is very fast and space-efficient.
 - **ext4/XFS/others**: Timeshift uses rsync to make full file copies,
@@ -334,6 +359,7 @@ if partition already has data
 Mount the partitions to work with them:
 
 **For UEFI systems with GPT:**
+
 ```bash
 mount /dev/sda3 /mnt      # Mount the main file system
 swapon /dev/sda2          # Activate swap partition
@@ -342,6 +368,7 @@ mount /dev/sda1 /mnt/boot # Mount the EFI partition
 ```
 
 **For BIOS systems with GPT:**
+
 ```bash
 mount /dev/sda4 /mnt      # Mount the main file system
 swapon /dev/sda3          # Activate swap partition
@@ -351,6 +378,7 @@ mount /dev/sda2 /mnt/boot # Mount the EFI boot partition
 ```
 
 **For BIOS systems with MBR:**
+
 ```bash
 mount /dev/sda3 /mnt      # Mount the main file system
 swapon /dev/sda2          # Activate swap partition
@@ -373,6 +401,7 @@ reflector --country "Mexico,United States" --age 12 --protocol https --sort rate
 **Reflector automation (optional):** If you want mirrors to be
 automatically updated weekly, you can enable the reflector timer after
 installing the base system:
+
 ```bash
 systemctl enable reflector.timer
 ```
@@ -385,11 +414,13 @@ options by editing `/etc/xdg/reflector/reflector.conf` after installation.
 Install the Arch Linux base system with essential packages:
 
 **For BIOS systems:**
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub vim sudo nano
 ```
 
 **For UEFI systems (add efibootmgr):**
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr
 vim sudo nano
@@ -398,18 +429,21 @@ vim sudo nano
 **For dual boot systems (add os-prober):**
 
 If you have BIOS:
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub os-prober
 vim sudo nano
 ```
 
 If you have UEFI:
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr \
 os-prober vim sudo nano
 ```
 
 Installed components:
+
 - **base**: Arch Linux base system
 - **linux**: Linux kernel
 - **linux-firmware**: Firmware drivers for common hardware
@@ -452,11 +486,13 @@ ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
 ```
 
 Example for Mexico City:
+
 ```bash
 ln -sf /usr/share/zoneinfo/America/Mexico_City /etc/localtime
 ```
 
 Synchronize the hardware clock:
+
 ```bash
 hwclock --systohc
 ```
@@ -468,11 +504,13 @@ and uncomment the languages you need. Include at least `en_US.UTF-8` and
 your local language (for example, `es_ES.UTF-8` or `es_MX.UTF-8`).
 
 Generate the languages:
+
 ```bash
 locale-gen
 ```
 
 Create `/etc/locale.conf` with your primary language:
+
 ```bash
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 ```
@@ -480,6 +518,7 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 > **Note:** You can use `LANG=es_ES.UTF-8` or another language as you prefer.
 
 Configure the keyboard permanently in `/etc/vconsole.conf`:
+
 ```bash
 echo "KEYMAP=la-latin1" > /etc/vconsole.conf
 ```
@@ -487,11 +526,13 @@ echo "KEYMAP=la-latin1" > /etc/vconsole.conf
 ### Network configuration
 
 Assign a name to your computer in `/etc/hostname`:
+
 ```bash
 echo "my-arch-mint" > /etc/hostname
 ```
 
 Configure `/etc/hosts`:
+
 ```bash
 cat >> /etc/hosts << EOF
 127.0.0.1      localhost
@@ -505,6 +546,7 @@ EOF
 ### Configuring the administrator password
 
 Set a password for the root user:
+
 ```bash
 passwd
 ```
@@ -514,11 +556,13 @@ passwd
 **Enabling colors in pacman:**
 
 Edit `/etc/pacman.conf` and uncomment the `Color` line:
+
 ```bash
 nano /etc/pacman.conf
 ```
 
 Find and uncomment (remove the `#`):
+
 ```ini
 # Misc options
 #UseSyslog
@@ -533,12 +577,14 @@ need to enable multilib.
 
 In the same `/etc/pacman.conf` file, uncomment these lines at the end
 of the file:
+
 ```ini
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 ```
 
 Then update the package database:
+
 ```bash
 pacman -Syu
 ```
@@ -571,6 +617,7 @@ Modern processors benefit from microcode updates to improve stability
 and security:
 
 **For Intel processors:**
+
 ```bash
 pacman -S intel-ucode
 ```
@@ -578,6 +625,7 @@ pacman -S intel-ucode
 - **intel-ucode**: Microcode updates for Intel processors
 
 **For AMD processors:**
+
 ```bash
 pacman -S amd-ucode
 ```
@@ -591,6 +639,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 **If you installed `os-prober` for dual boot**, enable it first:
+
 ```bash
 echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -624,6 +673,7 @@ systemctl enable --now NetworkManager
 ```
 
 To configure the network in text mode, use:
+
 ```bash
 nmtui
 ```
@@ -664,6 +714,7 @@ xdg-user-dirs-gtk
 ```
 
 Installed components:
+
 - **xorg**: The X11 graphics server
 - **xorg-apps**: Basic applications for X11
 - **xorg-drivers**: Input drivers for X11
@@ -745,16 +796,19 @@ The sudo package is already installed, but you need to configure it so
 your user can execute administrative commands.
 
 Switch to the root user:
+
 ```bash
 su
 ```
 
 Edit the sudoers configuration file:
+
 ```bash
 EDITOR=vim visudo
 ```
 
 **Basic vim instructions:**
+
 1. Use arrow keys to move through the file
 2. Find the section that says `## User privilege specification`
 3. Position at the end of that section and press `o` to create a new line
@@ -763,6 +817,7 @@ EDITOR=vim visudo
 6. Type `:wq` and press `Enter` to save and exit
 
 **Example of how it should look:**
+
 ```bash
 ## User privilege specification
 ##
@@ -775,6 +830,7 @@ can uncomment the line `%wheel ALL=(ALL) ALL` instead of adding your user
 individually.*
 
 If you prefer to use nano instead of vim:
+
 ```bash
 EDITOR=nano visudo
 ```
@@ -782,6 +838,7 @@ EDITOR=nano visudo
 With nano it's simpler: edit the file, press `Ctrl+O` to save, `Enter` to confirm, and `Ctrl+X` to exit.
 
 Return to your user:
+
 ```bash
 su user
 ```
@@ -803,6 +860,7 @@ yay -Syy
 ```
 
 Installed packages:
+
 - **git**: Version control system (needed to clone AUR repositories)
 - **base-devel**: Group of packages with essential build tools
 - **yay**: AUR helper that simplifies installing community packages
@@ -820,7 +878,7 @@ Install the necessary fonts:
 
 ```bash
 yay -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra
-yay -S --needed ttf-ubuntu-font-family
+yay -S --needed ttf-ubuntu-font-family ttf-dejavu
 ```
 
 - **noto-fonts**: Noto font family (wide language coverage)
@@ -828,14 +886,15 @@ yay -S --needed ttf-ubuntu-font-family
 - **noto-fonts-cjk**: Noto fonts for CJK languages (Chinese, Japanese, Korean)
 - **noto-fonts-extra**: Additional Noto fonts
 - **ttf-ubuntu-font-family**: Ubuntu font family (the default in Linux Mint)
+- **ttf-dejavu**: DejaVu font family used as monospace font by Linux Mint
 
 Configure them in **Cinnamon Menu → Font Selection**:
 
-- Default font:      Ubuntu Regular,    size 10
-- Desktop font:      Ubuntu Regular,    size 10
-- Document font:     Sans Regular,      size 10
-- Monospace font:    Monospace Regular, size 10
-- Window title font: Ubuntu Medium,     size 10
+- Default font:      Ubuntu Regular,        size 10
+- Desktop font:      Ubuntu Regular,        size 10
+- Document font:     Sans Regular,          size 10
+- Monospace font:    DejaVu Sans Mono Book, size 10
+- Window title font: Ubuntu Medium,         size 10
 
 ### Installing official themes and icons
 
@@ -857,6 +916,7 @@ mint-l-icons bibata-cursor-theme xapp-symbolic-icons
 Select themes in **Cinnamon Menu → Themes**.
 
 For the login screen:
+
 ```bash
 yay -S --needed lightdm-settings
 ```
@@ -907,6 +967,7 @@ pipewire-jack
 ```
 
 Installed components:
+
 - **pipewire-audio**: Meta-package including PipeWire, WirePlumber and
   ALSA/PulseAudio/JACK support
 - **wireplumber**: Recommended session manager for PipeWire (replaces pipewire-media-session)
@@ -944,6 +1005,7 @@ sudo systemctl enable --now bluetooth
 ```
 
 Installed components:
+
 - **bluez**: Bluetooth protocol stack for Linux
 - **bluez-utils**: Command-line tools (bluetoothctl, etc.)
 
@@ -954,6 +1016,7 @@ bluetoothctl
 ```
 
 Basic commands in bluetoothctl:
+
 - `power on` - Turn on the Bluetooth adapter
 - `scan on` - Search for nearby devices
 - `pair XX:XX:XX:XX:XX:XX` - Pair with a device (replace XX... with the
@@ -975,8 +1038,9 @@ outputs once paired and connected.
 
 # Chapter 3: Completing the Experience - Linux Mint Applications
 
-This chapter covers the installation of applications that come by default
-in Linux Mint.
+In this chapter, we'll install Linux Mint's default applications to complete
+the user experience. From productivity tools to multimedia and laptop
+optimizations, you'll achieve a functional and complete system.
 
 ## 3.1 Productivity Applications and Utilities
 
@@ -991,6 +1055,7 @@ gnome-disk-utility gucharmap gnome-calculator
 ```
 
 Functions of each application:
+
 - **file-roller**: Archive manager
 - **yelp**: System help viewer
 - **warpinator**: File transfer between network devices
@@ -1108,6 +1173,7 @@ yay -S --needed gufw blueberry mintlocale gnome-online-accounts-gtk
   Microsoft, etc.)
 
 Enable the firewall:
+
 ```bash
 sudo systemctl enable --now ufw
 ```
@@ -1131,6 +1197,7 @@ yay -S --needed ntfs-3g dosfstools mtools exfatprogs
 - **exfatprogs**: Support for exFAT file systems
 
 *Optional for advanced file systems:*
+
 ```bash
 yay -S --needed btrfs-progs xfsprogs e2fsprogs
 ```
@@ -1181,11 +1248,13 @@ gvfs-google
 Thumbnails (visual file previews) improve file navigation in the file manager by showing small previews of images, video, documents and more. This section covers the recommended thumbnailers for x-apps and commonly used formats, how to enable them, and troubleshooting tips.
 
 Why install them
+
 - Improve file browsing experience in Nemo, Nautilus, Thunar, etc.
 - Provide previews for AppImage, EPUB, GIMP, RAW, JXL and more specific formats.
 - Some thumbnailers extract embedded metadata or cover art for audio files.
 
 Recommended packages
+
 ```bash
 # X-Apps thumbnailers (Linux Mint specialized thumbnailers)
 yay -S --needed xapp-vorbiscomment-thumbnailer xapp-appimage-thumbnailer \
@@ -1201,6 +1270,7 @@ yay -S --needed appimagelauncher
 ```
 
 Functions of the X-Apps packages
+
 - **xapp-vorbiscomment-thumbnailer**: extracts cover art and Vorbis comments from audio files to generate thumbnails.
 - **xapp-appimage-thumbnailer**: generates thumbnails for AppImage files by using the embedded icon or splash.
 - **xapp-epub-thumbnailer**: shows EPUB cover art as thumbnails.
@@ -1212,16 +1282,19 @@ Functions of the X-Apps packages
 - **xapp-raw-thumbnailer**: generates thumbnails for camera RAW formats.
 
 Auxiliary packages
+
 - **ffmpegthumbnailer**: fast and efficient video thumbnail generator.
 - **poppler**: PDF rendering library used by file managers for PDF previews.
 - **appimagelauncher**: integrates AppImages into the system (associates, creates icons and menu entries).
 
 Enable previews in Nemo (Cinnamon)
+
 - Open `Edit → Preferences → Preview`
 - Under "Show thumbnails" choose `Always` or `Only for local files` depending on preference.
 - Adjust maximum file size for previews if necessary.
 
 Regenerate or clear thumbnail cache
+
 ```bash
 # Remove the old cache to force regeneration
 rm -rf ~/.cache/thumbnails/*
@@ -1231,11 +1304,13 @@ nemo -q
 ```
 
 Troubleshooting
+
 - No video thumbnails: install `ffmpegthumbnailer` and restart the file manager.
 - No PDF thumbnails: ensure `poppler` is installed and previews are enabled in the file manager settings.
 - Large or slow thumbnails: reduce the file size limit or rely on `ffmpegthumbnailer` for faster thumbs.
 
 Security
+
 - Thumbnailers process files to generate previews and could contain bugs. Avoid trusting thumbnails as a security measure for untrusted files.
 
 These tools complete the desktop experience by making it easier to quickly identify files without opening them. Adjust packages to your needs (for example omit `xapp-raw-thumbnailer` if you don't work with RAW images).
@@ -1347,6 +1422,7 @@ yay -S --needed xf86-input-synaptics xf86-input-libinput
 - [ ] Administration tools installed
 - [ ] Configuration and preferences installed
 - [ ] System tools installed
+- [ ] Thumbnails
 - [ ] Laptop optimizations applied (if applicable)
 
 ---
@@ -1375,16 +1451,19 @@ Arch Linux is a rolling-release distribution, which means you receive
 continuous updates. It's important to keep the system updated regularly.
 
 **Update official packages:**
+
 ```bash
 sudo pacman -Syu
 ```
 
 **Update AUR and official packages:**
+
 ```bash
 yay -Syu
 ```
 
 **Recommendations:**
+
 - Update at least once a week
 - Read the news at [https://archlinux.org/](https://archlinux.org/) before
   updating to be aware of important changes
@@ -1393,6 +1472,7 @@ yay -Syu
 - After important kernel updates, consider rebooting the system
 
 **Clean package cache (optional):**
+
 ```bash
 sudo pacman -Sc
 ```

@@ -1,5 +1,6 @@
 # LMAE: Linux Mint Arch Edition
-*Guía paso a paso para recrear la experiencia visual y funcional de Linux Mint sobre Arch Linux (Cinnamon).* 
+
+*Guía paso a paso para recrear la experiencia visual y funcional de Linux Mint sobre Arch Linux (Cinnamon).*
 *Incluye instalación básica, configuración del escritorio, aplicaciones, miniaturas y optimizaciones para laptops.*
 **Nota:** Documentación disponible en Inglés, Español y Chino. Las traducciones son automáticas y pueden contener errores; consulta la versión en inglés para el original si dudas.
 
@@ -47,6 +48,7 @@ la flexibilidad de Arch mientras ofrece la experiencia visual y
 funcional de Linux Mint.
 
 El proceso se divide en tres etapas principales y varias secciones opcionales (miniaturas, optimizaciones para laptops, etc.):
+
 - Instalación de Arch Linux
 - Configuración del entorno de escritorio Cinnamon
 - Instalación de las aplicaciones características de Linux Mint
@@ -100,6 +102,7 @@ Asegúrate de usar la versión oficial para evitar problemas de seguridad.
 
 Una vez descargada la ISO, grábala en un USB o DVD usando alguna de estas
 herramientas:
+
 - **balenaEtcher**: Intuitivo y multiplataforma
 - **Rufus**: Rápido y eficiente para Windows
 - **Win32 Disk Imager**: Una opción clásica y confiable
@@ -115,11 +118,13 @@ Esto puede requerir cambiar el orden de arranque en la BIOS/UEFI.
 
 Por defecto, el teclado está configurado en inglés.
 Para cambiarlo, primero lista los mapas de teclado disponibles:
+
 ```bash
 ls /usr/share/kbd/keymaps/**/*.map.gz
 ```
 
 Luego aplica el que necesites. Por ejemplo, para teclado latinoamericano:
+
 ```bash
 loadkeys la-latin1
 ```
@@ -131,11 +136,13 @@ loadkeys la-latin1
 
 Arch Linux necesita conexión a internet para descargar paquetes durante
 la instalación. Verifica que tu interfaz de red esté disponible:
+
 ```bash
 ip link
 ```
 
 Si usas Wi-Fi, configúralo con:
+
 ```bash
 iwctl
 ```
@@ -143,6 +150,7 @@ iwctl
 Sigue las instrucciones en pantalla para conectarte a tu red.
 
 Confirma que la conexión funciona:
+
 ```bash
 ping 8.8.8.8
 ```
@@ -194,22 +202,26 @@ Usaremos el esquema de particiones GPT. La configuración depende del modo
 de arranque:
 
 **Para sistemas UEFI con GPT:**
+
 - `/dev/sda1`: EFI System, 1024 MiB o más, montaje: `/mnt/boot`
 - `/dev/sda2`: Linux swap, ver nota abajo, montaje: (swap)
 - `/dev/sda3`: Linux filesystem, resto del disco, montaje: `/mnt`
 
 **Para sistemas BIOS con GPT:**
+
 - `/dev/sda1`: BIOS boot, 8 MiB, montaje: (no se monta)
 - `/dev/sda2`: EFI boot, 1024 MiB o más, montaje: `/mnt/boot`
 - `/dev/sda3`: Linux swap, ver nota abajo, montaje: (swap)
 - `/dev/sda4`: Linux filesystem, resto del disco, montaje: `/mnt`
 
 **Para sistemas BIOS con MBR:**
+
 - `/dev/sda1`: Bootloader, 1024 MiB o más, montaje: `/mnt/boot`
 - `/dev/sda2`: Linux swap, ver nota abajo, montaje: (swap)
 - `/dev/sda3`: Linux, resto del disco, montaje: `/mnt`
 
 **Recomendaciones para el tamaño de swap:**
+
 - **Hasta 4 GB de RAM**: Swap = 1.5 × RAM (si quieres hibernación) o igual
   a RAM (sin hibernación)
 - **4-16 GB de RAM**: 4 GB de swap suele ser suficiente
@@ -229,6 +241,7 @@ cfdisk /dev/sda
 *Reemplaza `/dev/sda` con tu disco.*
 
 Pasos en `cfdisk`:
+
 1. Si el disco está vacío, selecciona el tipo de tabla:
    - **"gpt"** para sistemas UEFI o BIOS modernos (recomendado)
    - **"msdos"** solo si necesitas MBR para BIOS muy antiguos
@@ -241,6 +254,7 @@ Pasos en `cfdisk`:
 Formatea las particiones con los sistemas de archivos apropiados:
 
 **Para sistemas UEFI con GPT:**
+
 ```bash
 mkfs.fat -F 32 /dev/sda1  # Partición EFI (FAT32)
 mkswap /dev/sda2          # Partición swap
@@ -248,6 +262,7 @@ mkfs.ext4 /dev/sda3       # Sistema de archivos principal (ext4)
 ```
 
 **Para sistemas BIOS con GPT:**
+
 ```bash
 # La partición BIOS boot (/dev/sda1) no se formatea
 mkswap /dev/sda2          # Partición swap
@@ -255,6 +270,7 @@ mkfs.ext4 /dev/sda3       # Sistema de archivos principal (ext4)
 ```
 
 **Para sistemas BIOS con MBR:**
+
 ```bash
 mkswap /dev/sda1          # Partición swap
 mkfs.ext4 /dev/sda2       # Sistema de archivos principal (ext4)
@@ -266,6 +282,7 @@ Si deseas explorar otras opciones de formateo, aquí están los comandos más
 comunes con sus opciones recomendadas:
 
 *Particiones EFI/ESP (paquete: dosfstools):*
+
 ```bash
 mkfs.fat -F 32 /dev/sdaX               # Siempre FAT32 (-F 32) para particiones EFI
 mkfs.fat -F 32 -n "EFI" /dev/sdaX
@@ -273,6 +290,7 @@ mkfs.fat -F 32 -n "EFI" /dev/sdaX
 ```
 
 *Partición swap (paquete: util-linux - incluido en base):*
+
 ```bash
 mkswap /dev/sdaX                       # Sin opciones adicionales necesarias
 mkswap -L "swap" /dev/sdaX
@@ -284,6 +302,7 @@ mkswap -L "swap" /dev/sdaX
 - **ext4** (paquete: e2fsprogs - incluido en base) - recomendado para la mayoría,
 
 estable y maduro:
+
 ```bash
 mkfs.ext4 /dev/sdaX                              # Opciones por defecto (recomendado)
 mkfs.ext4 -L "ArchLinux" /dev/sdaX               # Con etiqueta de volumen (-L)
@@ -294,6 +313,7 @@ mkfs.ext4 -L "ArchLinux" -O metadata_csum,64bit -E lazy_itable_init=0,lazy_journ
 
 - **XFS** (paquete: xfsprogs) - bueno para archivos grandes y alto rendimiento,
 no se puede reducir:
+
 ```bash
 mkfs.xfs /dev/sdaX                               # Opciones por defecto
 mkfs.xfs -L "ArchLinux" /dev/sdaX                # Con etiqueta de volumen (-L)
@@ -303,6 +323,7 @@ mkfs.xfs -L "ArchLinux" -m crc=1,finobt=1 /dev/sdaX
 
 - **Btrfs** (paquete: btrfs-progs) - moderno, con snapshots y compresión,
 requiere más conocimiento:
+
 ```bash
 mkfs.btrfs /dev/sdaX                             # Opciones por defecto
 mkfs.btrfs -L "ArchLinux" /dev/sdaX              # Con etiqueta de volumen (-L)
@@ -311,6 +332,7 @@ mkfs.btrfs -L "ArchLinux" -f /dev/sdaX
 ```
 
 *Opciones explicadas:*
+
 - `-L` o `-n`: Establece una etiqueta de volumen (útil para identificación y
   montaje por etiqueta)
 - `-f`: Fuerza el formateo incluso si hay datos (usar con precaución)
@@ -325,6 +347,7 @@ mkfs.btrfs -L "ArchLinux" -f /dev/sdaX
 > pero requiere más conocimiento para mantenimiento y recuperación.
 
 **Consideración importante sobre backups con Timeshift:**
+
 - **Btrfs**: Timeshift puede crear snapshots instantáneos del sistema usando las
   capacidades nativas de Btrfs. Esto es muy rápido y eficiente en espacio.
 - **ext4/XFS/otros**: Timeshift utiliza rsync para hacer copias completas de
@@ -335,6 +358,7 @@ mkfs.btrfs -L "ArchLinux" -f /dev/sdaX
 Monta las particiones para poder trabajar con ellas:
 
 **Para sistemas UEFI con GPT:**
+
 ```bash
 mount /dev/sda3 /mnt      # Montar el sistema de archivos principal
 swapon /dev/sda2          # Activar la partición swap
@@ -343,6 +367,7 @@ mount /dev/sda1 /mnt/boot # Montar la partición EFI
 ```
 
 **Para sistemas BIOS con GPT:**
+
 ```bash
 mount /dev/sda3 /mnt      # Montar el sistema de archivos principal
 swapon /dev/sda2          # Activar la partición swap
@@ -350,6 +375,7 @@ swapon /dev/sda2          # Activar la partición swap
 ```
 
 **Para sistemas BIOS con MBR:**
+
 ```bash
 mount /dev/sda2 /mnt      # Montar el sistema de archivos principal
 swapon /dev/sda1          # Activar la partición swap
@@ -374,6 +400,7 @@ Puedes ver la lista completa de países con `reflector --list-countries`.*
 automáticamente cada semana, puedes habilitar el timer de reflector después de
 
 instalar el sistema base:
+
 ```bash
 systemctl enable reflector.timer
 ```
@@ -387,11 +414,13 @@ Puedes personalizar las opciones de reflector editando
 Instala el sistema base de Arch Linux con los paquetes esenciales:
 
 **Para sistemas BIOS:**
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub vim sudo nano
 ```
 
 **Para sistemas UEFI (añade efibootmgr):**
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub \
 efibootmgr vim sudo nano
@@ -400,17 +429,20 @@ efibootmgr vim sudo nano
 **Para sistemas con dual boot (añade os-prober):**
 
 Si tienes BIOS:
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub os-prober vim sudo nano
 ```
 
 Si tienes UEFI:
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr \
 os-prober vim sudo nano
 ```
 
 Componentes instalados:
+
 - **base**: El sistema base de Arch Linux
 - **linux**: El kernel de Linux
 - **linux-firmware**: Drivers de firmware para hardware común
@@ -455,11 +487,13 @@ ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
 ```
 
 Ejemplo para Ciudad de México:
+
 ```bash
 ln -sf /usr/share/zoneinfo/America/Mexico_City /etc/localtime
 ```
 
 Sincroniza el reloj del hardware:
+
 ```bash
 hwclock --systohc
 ```
@@ -472,11 +506,13 @@ Incluye al menos `en_US.UTF-8` y tu idioma local (por ejemplo,
 `es_ES.UTF-8` o `es_MX.UTF-8`).
 
 Genera los idiomas:
+
 ```bash
 locale-gen
 ```
 
 Crea `/etc/locale.conf` con tu idioma principal:
+
 ```bash
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 ```
@@ -484,6 +520,7 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 > **Nota:** Puedes usar `LANG=es_ES.UTF-8` u otro idioma según prefieras.
 
 Configura el teclado permanentemente en `/etc/vconsole.conf`:
+
 ```bash
 echo "KEYMAP=la-latin1" > /etc/vconsole.conf
 ```
@@ -491,11 +528,13 @@ echo "KEYMAP=la-latin1" > /etc/vconsole.conf
 ### Configuración de red
 
 Asigna un nombre a tu computadora en `/etc/hostname`:
+
 ```bash
 echo "mi-arch-mint" > /etc/hostname
 ```
 
 Configura `/etc/hosts`:
+
 ```bash
 cat >> /etc/hosts << EOF
 127.0.0.1      localhost
@@ -509,6 +548,7 @@ EOF
 ### Configurando la contraseña de administrador
 
 Establece una contraseña para el usuario root:
+
 ```bash
 passwd
 ```
@@ -518,11 +558,13 @@ passwd
 **Habilitando colores en pacman:**
 
 Edita `/etc/pacman.conf` y descomenta la línea `Color`:
+
 ```bash
 nano /etc/pacman.conf
 ```
 
 Busca y descomenta (quita el `#`):
+
 ```ini
 # Misc options
 #UseSyslog
@@ -537,18 +579,20 @@ necesitas habilitar multilib.
 
 En el mismo archivo `/etc/pacman.conf`, descomenta estas líneas al final del
 archivo:
+
 ```ini
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 ```
 
 Luego actualiza la base de datos de paquetes:
+
 ```bash
 pacman -Syu
 ```
 
 > **Nota:** Multilib es necesario para Steam, Wine,
-> algunas aplicaciones propietarias de 32 bits, 
+> algunas aplicaciones propietarias de 32 bits,
 > y drivers gráficos de 32 bits para juegos.
 
 ## 1.7 El Gestor de Arranque GRUB
@@ -577,6 +621,7 @@ Los procesadores modernos se benefician de las actualizaciones de
 microcódigo para mejorar estabilidad y seguridad:
 
 **Para procesadores Intel:**
+
 ```bash
 pacman -S intel-ucode
 ```
@@ -584,6 +629,7 @@ pacman -S intel-ucode
 - **intel-ucode**: Actualizaciones de microcódigo para procesadores Intel
 
 **Para procesadores AMD:**
+
 ```bash
 pacman -S amd-ucode
 ```
@@ -597,6 +643,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 **Si instalaste `os-prober` para dual boot**, habilítalo primero:
+
 ```bash
 echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -630,6 +677,7 @@ systemctl enable --now NetworkManager
 ```
 
 Para configurar la red en modo texto, usa:
+
 ```bash
 nmtui
 ```
@@ -673,6 +721,7 @@ cinnamon cinnamon-translations gnome-terminal xdg-user-dirs xdg-user-dirs-gtk
 ```
 
 Componentes instalados:
+
 - **xorg**: El servidor gráfico X11
 - **xorg-apps**: Aplicaciones básicas para X11
 - **xorg-drivers**: Controladores de entrada para X11
@@ -754,16 +803,19 @@ El paquete sudo ya está instalado, pero necesitas configurarlo para que tu usua
 administrativos.
 
 Cambia al usuario root:
+
 ```bash
 su
 ```
 
 Edita el archivo de configuración de sudoers:
+
 ```bash
 EDITOR=vim visudo
 ```
 
 **Instrucciones básicas de vim:**
+
 1. Usa las flechas del teclado para moverte por el archivo
 2. Busca la sección que dice `## User privilege specification`
 3. Posiciónate al final de esa sección y presiona `o` para crear una nueva
@@ -773,6 +825,7 @@ línea
 6. Escribe `:wq` y presiona `Enter` para guardar y salir
 
 **Ejemplo de cómo debería quedar:**
+
 ```bash
 ## User privilege specification
 ##
@@ -785,6 +838,7 @@ descomentar la línea `%wheel ALL=(ALL) ALL` en lugar de añadir tu usuario
 individualmente.*
 
 Si prefieres usar nano en lugar de vim:
+
 ```bash
 EDITOR=nano visudo
 ```
@@ -793,6 +847,7 @@ Con nano es más simple: edita el archivo, presiona `Ctrl+O` para guardar, `Ente
 salir.
 
 Regresa a tu usuario:
+
 ```bash
 su usuario
 ```
@@ -814,6 +869,7 @@ yay -Syy
 ```
 
 Paquetes instalados:
+
 - **git**: Sistema de control de versiones (necesario para clonar repositorios del
 AUR)
 - **base-devel**: Grupo de paquetes con herramientas de compilación esenciales
@@ -851,12 +907,13 @@ Configúralas en **Menú de Cinnamon → Selección de Fuentes**:
 - Fuente de documento:     Sans Regular,          tamaño 10
 - Fuente monoespaciada:    DejaVu Sans Mono Book, tamaño 10
 - Fuente de título:        Ubuntu Medium,         tamaño 10
+
 ### Instalando los temas e iconos oficiales
 
 Instala los temas e iconos de Linux Mint:
 
 ```bash
-yay -S --needed mint-theme mint-l-themes mint-y-icons mint-x-icons \
+yay -S --needed mint-themes mint-l-theme mint-y-icons mint-x-icons \
 mint-l-icons bibata-cursor-theme xapp-symbolic-icons
 ```
 
@@ -871,6 +928,7 @@ mint-l-icons bibata-cursor-theme xapp-symbolic-icons
 Selecciona los temas en **Menú de Cinnamon → Temas**.
 
 Para la pantalla de login:
+
 ```bash
 yay -S --needed lightdm-settings
 ```
@@ -921,6 +979,7 @@ pipewire-jack
 ```
 
 Componentes instalados:
+
 - **pipewire-audio**: Metapaquete que incluye PipeWire, WirePlumber y soporte para
 ALSA/PulseAudio/JACK
 - **wireplumber**: Gestor de sesión recomendado para PipeWire (reemplaza
@@ -959,6 +1018,7 @@ sudo systemctl enable --now bluetooth
 ```
 
 Componentes instalados:
+
 - **bluez**: Stack de protocolo Bluetooth para Linux
 - **bluez-utils**: Herramientas de línea de comandos (bluetoothctl, etc.)
 
@@ -969,6 +1029,7 @@ bluetoothctl
 ```
 
 Comandos básicos en bluetoothctl:
+
 - `power on` - Enciende el adaptador Bluetooth
 - `scan on` - Busca dispositivos cercanos
 - `pair XX:XX:XX:XX:XX:XX` - Empareja con un dispositivo (reemplaza XX... con la dirección
@@ -1008,6 +1069,7 @@ gnome-disk-utility gucharmap gnome-calculator
 ```
 
 Funciones de cada aplicación:
+
 - **file-roller**: Gestor de archivos comprimidos
 - **yelp**: Visor de ayuda del sistema
 - **warpinator**: Transferencia de archivos entre dispositivos de red
@@ -1123,6 +1185,7 @@ yay -S --needed gufw blueberry mintlocale gnome-online-accounts-gtk
 - **gnome-online-accounts-gtk**: Integración de cuentas online (Google, MSFT, etc.)
 
 Habilita el firewall:
+
 ```bash
 sudo systemctl enable --now ufw
 ```
@@ -1146,6 +1209,7 @@ yay -S --needed ntfs-3g dosfstools mtools exfatprogs
 - **exfatprogs**: Soporte para sistemas de archivos exFAT
 
 *Opcional para sistemas de archivos avanzados:*
+
 ```bash
 yay -S --needed btrfs-progs xfsprogs e2fsprogs
 ```
@@ -1198,21 +1262,24 @@ abrirlos uno a uno. Linux Mint integra varios *thumbnailers* (programas que
 generan miniaturas) para la familia de `xapps` y formatos comunes.
 
 Por qué instalarlos
+
 - Mejoran la experiencia visual en el gestor de archivos (Nemo, Nautilus, Thunar).
 - Permiten previsualizar formatos específicos: AppImage, EPUB, GIMP, RAW, JXL, etc.
 - Algunas miniaturas muestran portada de audio o metadatos incrustados.
 
 Paquetes recomendados
 
-* X-Apps thumbnailers (Miniaturas especializadas de Linux Mint)
+- X-Apps thumbnailers (Miniaturas especializadas de Linux Mint)
+
 ```bash
 yay -S --needed xapp-vorbiscomment-thumbnailer xapp-appimage-thumbnailer \
   xapp-epub-thumbnailer xapp-aiff-thumbnailer xapp-ora-thumbnailer \
   xapp-mp3-thumbnailer xapp-jxl-thumbnailer xapp-gimp-thumbnailer \
   xapp-raw-thumbnailer
 ```
- 
+
 Funciones de los paquetes X-Apps
+
 - **xapp-vorbiscomment-thumbnailer**: extrae carátulas y metadatos de audio (vorbis comments) para generar miniaturas.
 - **xapp-appimage-thumbnailer**: genera miniaturas para archivos AppImage mostrando su icono o splash.
 - **xapp-epub-thumbnailer**: muestra la portada de archivos EPUB como miniatura.
@@ -1223,27 +1290,33 @@ Funciones de los paquetes X-Apps
 - **xapp-gimp-thumbnailer**: previsualiza archivos de proyecto GIMP (.xcf) como miniaturas.
 - **xapp-raw-thumbnailer**: genera miniaturas para formatos RAW de cámara.
 
-* Miniaturizadores adicionales para vídeos y PDFs (recomendado)
+- Miniaturizadores adicionales para vídeos y PDFs (recomendado)
+
 ```bash
 yay -S --needed ffmpegthumbnailer poppler
 ```
- 
+
 Funciones de paquetes adicionales
+
 - **ffmpegthumbnailer**: crea miniaturas rápidas y eficientes para vídeos.
 - **poppler**: motor para renderizar y previsualizar PDFs (utilizado por gestores de archivos).
 
 ```bash
 yay -S --needed appimagelauncher
 ```
+
 - **appimagelauncher**: integra AppImage en el sistema (asocia, crea iconos y entradas de menú).
-* Opcional: AppImage launcher / integraciones adicionales
+
+- Opcional: AppImage launcher / integraciones adicionales
 
 Habilitar previsualización en Nemo (Cinnamon)
+
 - Abre `Editar → Preferencias → Previsualización`
 - En "Mostrar miniaturas", elige `Siempre` o `Sólo archivos locales` según prefieras.
 - Ajusta el tamaño máximo de archivo para previsualización si lo necesitas.
 
 Regenerar o limpiar caché de miniaturas
+
 ```bash
 # Elimina la caché antigua para forzar regeneración
 rm -rf ~/.cache/thumbnails/*
@@ -1254,11 +1327,13 @@ nemo -q
 ```
 
 Solución de problemas comunes
+
 - No aparecen miniaturas de vídeo: instala `ffmpegthumbnailer` y reinicia el gestor de archivos.
 - No aparecen miniaturas de PDF: asegúrate de tener `poppler` y que el gestor tenga previsualización habilitada.
 - Miniaturas grandes o lentas: reduce el límite de tamaño en las preferencias del gestor de archivos o usa `ffmpegthumbnailer` para thumbs más rápidos.
 
 Seguridad
+
 - Ten cuidado con miniaturas generadas de archivos descargados de internet; los thumbnailers procesan archivos y, en casos raros, pueden contener bugs de seguridad. No confíes en miniaturas para evaluar archivos sospechosos.
 
 Estas herramientas completan la experiencia de escritorio, facilitando la navegación y la identificación de archivos sin abrirlos. Ajusta los paquetes a tus necesidades (por ejemplo, omite `xapp-raw-thumbnailer` si no trabajas con imágenes RAW).
@@ -1353,9 +1428,12 @@ comandos
 yay -S --needed xf86-input-synaptics xf86-input-libinput
 ```
 
-- **xf86-input-synaptics**: Driver mejorado para touchpads Synaptics 
+- **xf86-input-synaptics**: Driver mejorado para touchpads Synaptics
+
 > (Driver en modo mantenimiento)
+
 - **xf86-input-libinput**: Driver moderno y predeterminado para touchpads
+
 > y otros dispositivos de entrada similares (libinput, etc.)
 
 > **Nota:** La mayoría de touchpads modernos funcionan bien con el driver
@@ -1403,16 +1481,19 @@ lo que significa que recibes actualizaciones continuas.
 Es importante mantener el sistema actualizado regularmente.
 
 **Actualizar paquetes oficiales:**
+
 ```bash
 sudo pacman -Syu
 ```
 
 **Actualizar paquetes del AUR y oficiales:**
+
 ```bash
 yay -Syu
 ```
 
 **Recomendaciones:**
+
 - Actualiza al menos una vez por semana
 - Lee las noticias en [https://archlinux.org/](https://archlinux.org/) antes de
   actualizar para estar al tanto de cambios importantes
@@ -1422,6 +1503,7 @@ yay -Syu
   sistema
 
 **Limpiar caché de paquetes (opcional):**
+
 ```bash
 sudo pacman -Sc
 ```

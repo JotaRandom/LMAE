@@ -1,4 +1,5 @@
 # LMAE: Linux Mint Arch Edition
+
 *逐步指南：在 Arch Linux (Cinnamon) 上重现 Linux Mint 的视觉和功能体验。*
 *包括基础安装、桌面设置、应用、缩略图和笔记本优化。*
 **注意：** 文档包含英文、西班牙文和中文版本。翻译为自动生成，可能包含错误；如有疑问，请参考英文原文。
@@ -45,9 +46,12 @@
 结果是一个保持 Arch 灵活性的系统，同时提供 Linux Mint 的视觉和功能体验。
 
 过程分为三个主要阶段：
+
 - Arch Linux 安装
 - Cinnamon 桌面环境配置
 - 安装 Linux Mint 的特色应用程序
+
+可选部分（缩略图、笔记本优化和高级配置）涵盖了自定义和优化系统的附加步骤。
 
 每个部分包括必要命令和配置的清晰解释。
 
@@ -96,6 +100,7 @@
 ### 创建安装媒体
 
 下载 ISO 后，使用以下工具之一将其刻录到 USB 或 DVD：
+
 - **balenaEtcher**：直观且跨平台
 - **Rufus**：快速且高效的 Windows 工具
 - **Win32 Disk Imager**：经典且可靠的选项
@@ -111,11 +116,13 @@
 ### 将键盘调整为您的语言
 
 默认情况下，键盘配置为英语。要更改它，首先列出可用的键盘映射：
+
 ```bash
 ls /usr/share/kbd/keymaps/**/*.map.gz
 ```
 
 然后应用您需要的映射。例如，对于英国键盘：
+
 ```bash
 loadkeys uk
 ```
@@ -128,11 +135,13 @@ loadkeys uk
 
 Arch Linux 在安装期间需要互联网连接以下载软件包。
 验证您的网络接口是否可用：
+
 ```bash
 ip link
 ```
 
 如果使用 Wi-Fi，请使用以下命令配置：
+
 ```bash
 iwctl
 ```
@@ -140,6 +149,7 @@ iwctl
 按照屏幕上的说明连接到您的网络。
 
 确认连接正常工作：
+
 ```bash
 ping 8.8.8.8
 ```
@@ -189,22 +199,26 @@ fdisk -l
 我们将使用 GPT 分区方案。配置取决于启动模式：
 
 **对于 UEFI 系统与 GPT：**
+
 - `/dev/sda1`：EFI 系统，1024 MiB 或更多，挂载：`/mnt/boot`
 - `/dev/sda2`：Linux swap，请参见注释，挂载：（swap）
 - `/dev/sda3`：Linux 文件系统，其余磁盘，挂载：`/mnt`
 
 **对于 BIOS 系统与 GPT：**
+
 - `/dev/sda1`：BIOS 引导，8 MiB，挂载：（未挂载）
 - `/dev/sda2`：EFI 引导，1024 MiB 或更多，挂载：`/mnt/boot`
 - `/dev/sda3`：Linux swap，请参见注释，挂载：（swap）
 - `/dev/sda4`：Linux 文件系统，其余磁盘，挂载：`/mnt`
 
 **对于 BIOS 系统与 MBR（DOS 分区表）：**
+
 - `/dev/sda1`：引导加载器，1024 MiB 或更多，挂载：`/mnt/boot`
 - `/dev/sda2`：Linux swap，请参见注释，挂载：（swap）
 - `/dev/sda3`：Linux，其余磁盘，挂载：`/mnt`
 
 **Swap 大小建议：**
+
 - **RAM 最多 4 GB**：Swap = 1.5 × RAM（如果想要休眠）或等于 RAM（没有休眠）
 - **4-16 GB RAM**：4 GB swap 通常足够
 - **超过 16 GB RAM**：4 GB + (0.1 × 总 RAM) 是一个很好的通用规则
@@ -223,6 +237,7 @@ cfdisk /dev/sda
 > **注意：** 将 `/dev/sda` 替换为您的磁盘。
 
 cfdisk 中的步骤：
+
 1. 如果磁盘为空，选择表类型：
    - **"gpt"** 用于 UEFI 或现代 BIOS 系统（推荐）
    - **"msdos"** 仅用于需要 MBR 的旧 BIOS 系统
@@ -235,6 +250,7 @@ cfdisk 中的步骤：
 使用适当的文件系统格式化分区：
 
 **对于 UEFI 系统与 GPT：**
+
 ```bash
 mkfs.fat -F 32 /dev/sda1  # EFI 分区 (FAT32)
 mkswap /dev/sda2          # Swap 分区
@@ -242,6 +258,7 @@ mkfs.ext4 /dev/sda3       # 主文件系统 (ext4)
 ```
 
 **对于 BIOS 系统与 GPT：**
+
 ```bash
 # BIOS 引导分区 (/dev/sda1) 不格式化
 mkfs.fat -F 32 /dev/sda2  # EFI 引导分区 (FAT32)
@@ -250,6 +267,7 @@ mkfs.ext4 /dev/sda4       # 主文件系统 (ext4)
 ```
 
 **对于 BIOS 系统与 MBR：**
+
 ```bash
 mkfs.fat -F 32 /dev/sda1  # 引导加载器分区 (FAT32)
 mkswap /dev/sda2          # Swap 分区
@@ -261,12 +279,14 @@ mkfs.ext4 /dev/sda3       # 主文件系统 (ext4)
 如果您想探索其他格式化选项，这里是最常见的命令及其推荐选项：
 
 *EFI/ESP 分区（包：dosfstools）：*
+
 ```bash
 mkfs.fat -F 32 /dev/sdaX               # EFI 分区始终 FAT32 (-F 32)
 mkfs.fat -F 32 -n "EFI" /dev/sdaX      # 带卷标 (-n)
 ```
 
 *Swap 分区（包：util-linux - 包含在 base 中）：*
+
 ```bash
 mkswap /dev/sdaX                       # 无附加选项
 mkswap -L "swap" /dev/sdaX             # 带卷标 (-L)
@@ -275,6 +295,7 @@ mkswap -L "swap" /dev/sdaX             # 带卷标 (-L)
 *主文件系统：*
 
 - **ext4**（包：e2fsprogs - 包含在 base 中）- 大多数推荐，稳定且成熟：
+
 ```bash
 mkfs.ext4 /dev/sdaX                              # 默认选项（推荐）
 mkfs.ext4 -L "ArchLinux" /dev/sdaX               # 带卷标 (-L)
@@ -283,6 +304,7 @@ lazy_journal_init=0 /dev/sdaX  # SSD 优化选项
 ```
 
 - **XFS**（包：xfsprogs）- 适用于大文件和高性能，无法缩小：
+
 ```bash
 mkfs.xfs /dev/sdaX                               # 默认选项
 mkfs.xfs -L "ArchLinux" /dev/sdaX                # 带卷标 (-L)
@@ -290,6 +312,7 @@ mkfs.xfs -L "ArchLinux" -m crc=1,finobt=1 /dev/sdaX  # 推荐现代选项
 ```
 
 - **Btrfs**（包：btrfs-progs）- 现代，具有快照和压缩，需要更多知识：
+
 ```bash
 mkfs.btrfs /dev/sdaX                             # 默认选项
 mkfs.btrfs -L "ArchLinux" /dev/sdaX              # 带卷标 (-L)
@@ -298,6 +321,7 @@ mkfs.btrfs -L "ArchLinux" -f /dev/sdaX           # 强制格式化 (-f)
 ```
 
 *选项解释：*
+
 - `-L` 或 `-n`：设置卷标（用于识别和按标签挂载）
 - `-f`：强制格式化，即使有数据（谨慎使用）
 - ext4 在 SSD 上：`metadata_csum` 提高完整性，`lazy_*=0` 立即初始化一切
@@ -311,6 +335,7 @@ mkfs.btrfs -L "ArchLinux" -f /dev/sdaX           # 强制格式化 (-f)
 > 但需要维护和恢复的更多知识。
 
 **关于 Timeshift 的备份重要考虑：**
+
 - **Btrfs**：Timeshift 可以使用 Btrfs 本机功能创建即时系统快照。
   这非常快且空间高效。
 - **ext4/XFS/其他**：Timeshift 使用 rsync 创建完整文件副本，
@@ -321,6 +346,7 @@ mkfs.btrfs -L "ArchLinux" -f /dev/sdaX           # 强制格式化 (-f)
 挂载分区以使用它们：
 
 **对于 UEFI 系统与 GPT：**
+
 ```bash
 mount /dev/sda3 /mnt      # 挂载主文件系统
 swapon /dev/sda2          # 激活 swap 分区
@@ -329,6 +355,7 @@ mount /dev/sda1 /mnt/boot # 挂载 EFI 分区
 ```
 
 **对于 BIOS 系统与 GPT：**
+
 ```bash
 mount /dev/sda4 /mnt      # 挂载主文件系统
 swapon /dev/sda3          # 激活 swap 分区
@@ -338,6 +365,7 @@ mount /dev/sda2 /mnt/boot # 挂载 EFI 引导分区
 ```
 
 **对于 BIOS 系统与 MBR：**
+
 ```bash
 mount /dev/sda3 /mnt      # 挂载主文件系统
 swapon /dev/sda2          # 激活 swap 分区
@@ -360,6 +388,7 @@ reflector --country "China, Japan, South Korea" --age 12 --protocol https \
 
 **Reflector 自动化（可选）：** 如果您希望每周自动更新镜像，
 您可以在安装基础系统后启用 reflector 计时器：
+
 ```bash
 systemctl enable reflector.timer
 ```
@@ -372,12 +401,14 @@ systemctl enable reflector.timer
 安装 Arch Linux 基础系统和基本软件包：
 
 **对于 BIOS 系统：**
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager \
 grub vim sudo nano
 ```
 
 **对于 UEFI 系统（添加 efibootmgr）：**
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr \
 vim sudo nano
@@ -386,18 +417,21 @@ vim sudo nano
 **对于双启动系统（添加 os-prober）：**
 
 如果您有 BIOS：
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub os-prober \
 vim sudo nano
 ```
 
 如果您有 UEFI：
+
 ```bash
 pacstrap /mnt base linux linux-firmware networkmanager grub efibootmgr \
 os-prober vim sudo nano
 ```
 
 已安装组件：
+
 - **base**：Arch Linux 基础系统
 - **linux**：Linux 内核
 - **linux-firmware**：常见硬件的固件驱动
@@ -440,11 +474,13 @@ ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
 ```
 
 墨西哥城示例：
+
 ```bash
 ln -sf /usr/share/zoneinfo/America/Mexico_City /etc/localtime
 ```
 
 同步硬件时钟：
+
 ```bash
 hwclock --systohc
 ```
@@ -455,11 +491,13 @@ hwclock --systohc
 并取消注释您需要的语言。至少包括 `en_US.UTF-8` 和您的本地语言（例如，`zh_CN.UTF-8`）。
 
 生成语言：
+
 ```bash
 locale-gen
 ```
 
 为您的主要语言创建 `/etc/locale.conf`：
+
 ```bash
 echo "LANG=zh_CN.UTF-8" > /etc/locale.conf
 ```
@@ -467,6 +505,7 @@ echo "LANG=zh_CN.UTF-8" > /etc/locale.conf
 > **注意：** 您可以使用 `LANG=en_US.UTF-8` 或其他语言作为您喜欢的。
 
 在 `/etc/vconsole.conf` 中永久配置键盘：
+
 ```bash
 echo "KEYMAP=us" > /etc/vconsole.conf
 ```
@@ -474,11 +513,13 @@ echo "KEYMAP=us" > /etc/vconsole.conf
 ### 网络配置
 
 在 `/etc/hostname` 中为您的计算机分配名称：
+
 ```bash
 echo "my-arch-mint" > /etc/hostname
 ```
 
 配置 `/etc/hosts`：
+
 ```bash
 cat >> /etc/hosts << EOF
 127.0.0.1      localhost
@@ -492,6 +533,7 @@ EOF
 ### 配置管理员密码
 
 为 root 用户设置密码：
+
 ```bash
 passwd
 ```
@@ -501,11 +543,13 @@ passwd
 **在 pacman 中启用颜色：**
 
 编辑 `/etc/pacman.conf` 并取消注释 Color 行：
+
 ```bash
 nano /etc/pacman.conf
 ```
 
 查找并取消注释（删除 `#`）：
+
 ```ini
 # Misc options
 #UseSyslog
@@ -519,12 +563,14 @@ Color
 您需要启用 multilib。
 
 在同一个 `/etc/pacman.conf` 文件中，在文件末尾取消注释这些行：
+
 ```ini
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 ```
 
 然后更新软件包数据库：
+
 ```bash
 pacman -Syu
 ```
@@ -555,6 +601,7 @@ grub-install --verbose --target=x86_64-efi --efi-directory=/boot
 现代处理器受益于微码更新以提高稳定性和安全性：
 
 **对于 Intel 处理器：**
+
 ```bash
 pacman -S intel-ucode
 ```
@@ -562,6 +609,7 @@ pacman -S intel-ucode
 - **intel-ucode**：Intel 处理器的微码更新
 
 **对于 AMD 处理器：**
+
 ```bash
 pacman -S amd-ucode
 ```
@@ -575,6 +623,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 **如果您为双启动安装了 `os-prober`**，请先启用它：
+
 ```bash
 echo "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -606,6 +655,7 @@ systemctl enable --now NetworkManager
 ```
 
 要在文本模式下配置网络，请使用：
+
 ```bash
 nmtui
 ```
@@ -642,6 +692,7 @@ xdg-user-dirs-gtk
 ```
 
 已安装组件：
+
 - **xorg**：X11 图形服务器
 - **xorg-apps**：X11 的基本应用程序
 - **xorg-drivers**：X11 的输入驱动
@@ -717,16 +768,19 @@ systemctl enable lightdm
 sudo 软件包已安装，但您需要配置它以便您的用户可以执行管理命令。
 
 切换到 root 用户：
+
 ```bash
 su
 ```
 
 编辑 sudoers 配置：
+
 ```bash
 EDITOR=vim visudo
 ```
 
 **基本 vim 指令：**
+
 1. 使用箭头键在文件中移动
 2. 查找 " ## User privilege specification " 部分
 3. 在该部分的末尾按 `o` 创建新行
@@ -735,6 +789,7 @@ EDITOR=vim visudo
 6. 输入 `:wq` 并按 Enter 保存并退出
 
 **它应该看起来像这样：**
+
 ```bash
 ## User privilege specification
 ##
@@ -746,6 +801,7 @@ user ALL=(ALL) ALL
 则可以取消注释 `%wheel ALL=(ALL) ALL` 行而不是单独添加您的用户。*
 
 如果您更喜欢使用 nano 而不是 vim：
+
 ```bash
 EDITOR=nano visudo
 ```
@@ -753,6 +809,7 @@ EDITOR=nano visudo
 使用 nano 更简单：编辑文件，按 `Ctrl+O` 保存，Enter 确认，`Ctrl+X` 退出。
 
 返回您的用户：
+
 ```bash
 su user
 ```
@@ -773,6 +830,7 @@ yay -Syy
 ```
 
 已安装软件包：
+
 - **git**：版本控制系统（需要克隆 AUR 仓库）
 - **base-devel**：具有基本构建工具的软件包组
 - **yay**：简化从 AUR 安装社区软件包的 AUR 助手
@@ -790,7 +848,7 @@ yay -Syy
 ```bash
 yay -S --needed noto-fonts noto-fonts-emoji noto-fonts-cjk \
 noto-fonts-extra
-yay -S --needed ttf-ubuntu-font-family
+yay -S --needed ttf-ubuntu-font-family ttf-dejavu
 ```
 
 - **noto-fonts**：Noto 字体家族（广泛语言覆盖）
@@ -798,14 +856,15 @@ yay -S --needed ttf-ubuntu-font-family
 - **noto-fonts-cjk**：CJK 语言的 Noto 字体（中文、日语、韩语）
 - **noto-fonts-extra**：附加 Noto 字体
 - **ttf-ubuntu-font-family**：Ubuntu 字体家族（Linux Mint 的默认）
+- **ttf-dejavu**：DejaVu 字体家族，Linux Mint 用作等宽字体
 
 在 **Cinnamon 菜单 → 字体选择** 中配置它们：
 
-- 默认字体：        Ubuntu Regular,    大小 10
-- 桌面字体：        Ubuntu Regular,    大小 10
-- 文档字体：        Sans Regular,      大小 10
-- 等宽字体：        Monospace Regular, 大小 10
-- 窗口标题字体：    Ubuntu Medium,     大小 10
+- 默认字体：        Ubuntu Regular,        大小 10
+- 桌面字体：        Ubuntu Regular,        大小 10
+- 文档字体：        Sans Regular,          大小 10
+- 等宽字体：        DejaVu Sans Mono Book, 大小 10
+- 窗口标题字体：    Ubuntu Medium,         大小 10
 
 ### 安装官方主题和图标
 
@@ -827,6 +886,7 @@ mint-l-icons bibata-cursor-theme xapp-symbolic-icons
 在 **Cinnamon 菜单 → 主题** 中选择主题。
 
 对于登录屏幕：
+
 ```bash
 yay -S --needed lightdm-settings
 ```
@@ -875,6 +935,7 @@ pipewire-jack
 ```
 
 已安装组件：
+
 - **pipewire-audio**：包含 PipeWire、WirePlumber 和 ALSA/PulseAudio/JACK 支持的元软件包
 - **wireplumber**：PipeWire 的推荐会话管理器（替换 pipewire-media-session）
 - **pipewire-alsa**：PipeWire 的 ALSA 支持
@@ -908,6 +969,7 @@ sudo systemctl enable --now bluetooth
 ```
 
 已安装组件：
+
 - **bluez**：Linux 的蓝牙协议栈
 - **bluez-utils**：命令行工具（bluetoothctl 等）
 
@@ -918,6 +980,7 @@ bluetoothctl
 ```
 
 bluetoothctl 中的基本命令：
+
 - `power on` - 开启蓝牙适配器
 - `scan on` - 搜索附近设备
 - `pair XX:XX:XX:XX:XX:XX` - 与设备配对（将 XX... 替换为 MAC 地址）
@@ -937,7 +1000,8 @@ bluetoothctl 中的基本命令：
 
 # 第3章：完成体验 - Linux Mint 应用程序
 
-本章涵盖默认在 Linux Mint 中安装的应用程序。
+在本章中，我们将安装 Linux Mint 的默认应用程序以完成用户体验。
+从生产力工具到多媒体和笔记本优化，您将实现功能完整的系统。
 
 ## 3.1 生产力应用程序和实用工具
 
@@ -953,6 +1017,7 @@ gnome-calculator
 ```
 
 每个应用程序的功能：
+
 - **file-roller**：归档管理器
 - **yelp**：系统帮助查看器
 - **warpinator**：网络设备之间的文件传输
@@ -1066,6 +1131,7 @@ yay -S --needed gufw blueberry mintlocale gnome-online-accounts-gtk
 - **gnome-online-accounts-gtk**：在线账户集成（Google、Microsoft 等）
 
 启用防火墙：
+
 ```bash
 sudo systemctl enable --now ufw
 ```
@@ -1088,6 +1154,7 @@ yay -S --needed ntfs-3g dosfstools mtools exfatprogs
 - **exfatprogs**：exFAT 文件系统的支持
 
 *高级文件系统的可选：*
+
 ```bash
 yay -S --needed btrfs-progs xfsprogs e2fsprogs
 ```
@@ -1136,11 +1203,13 @@ gvfs-onedrive gvfs-google
 缩略图（即文件预览）通过在文件管理器中显示图像、视频、文档等文件的小型预览来改善文件浏览体验。本节介绍为 x-app 和常见格式推荐的 thumbnailers、如何启用它们以及故障排除建议。
 
 为何安装缩略图
+
 - 在 Nemo、Nautilus、Thunar 等文件管理器中提升浏览体验。
 - 为 AppImage、EPUB、GIMP、RAW、JXL 等专门格式提供预览。
 - 有些缩略图生成器会提取音频文件的嵌入封面或元数据用于显示。
 
 推荐软件包
+
 ```bash
 # X-Apps 缩略图生成器（Linux Mint 专用）
 yay -S --needed xapp-vorbiscomment-thumbnailer xapp-appimage-thumbnailer \
@@ -1156,6 +1225,7 @@ yay -S --needed appimagelauncher
 ```
 
 每个软件包的功能
+
 - **xapp-vorbiscomment-thumbnailer**：提取音频文件中的封面和 Vorbis 注释以生成缩略图。
 - **xapp-appimage-thumbnailer**：为 AppImage 文件生成缩略图，通常使用嵌入的图标或启动闪屏。
 - **xapp-epub-thumbnailer**：显示 EPUB 文件封面作为缩略图。
@@ -1167,16 +1237,19 @@ yay -S --needed appimagelauncher
 - **xapp-raw-thumbnailer**：为相机 RAW 格式生成缩略图。
 
 附加软件包
+
 - **ffmpegthumbnailer**：快速、高效的视频缩略图生成器。
 - **poppler**：用于渲染 PDF 以供文件管理器预览的库。
 - **appimagelauncher**：将 AppImage 集成到系统（创建图标、菜单项并进行文件关联）。
 
 在 Nemo（Cinnamon）中启用预览
+
 - 打开 `编辑 → 首选项 → 预览`
 - 在 "显示缩略图" 中选择 `始终` 或 `仅本地文件`，按需调整。
 - 如果需要可调整最大文件大小。
 
 重建或清空缩略图缓存
+
 ```bash
 # 删除旧缓存以强制重新生成
 rm -rf ~/.cache/thumbnails/*
@@ -1186,11 +1259,13 @@ nemo -q
 ```
 
 故障排除
+
 - 视频缩略图不可见：安装 `ffmpegthumbnailer` 并重启文件管理器。
 - PDF 缩略图不可见：确保已安装 `poppler` 并在文件管理器中启用了预览功能。
 - 缩略图过大或生成缓慢：在文件管理器中减少最大预览文件大小或者使用 `ffmpegthumbnailer` 获取更快的预览。
 
 安全性
+
 - 缩略图生成器需要读取文件来创建预览，某些情况下可能存在安全问题。请勿把缩略图作为评估可疑文件的安全性依据。
 
 这些工具将补全桌面体验，让您无需打开文件即可快速识别文件。根据需要调整要安装的软件包（例如若不处理 RAW 图像可省略 `xapp-raw-thumbnailer`）。
@@ -1291,6 +1366,7 @@ yay -S --needed xf86-input-synaptics xf86-input-libinput
 - [ ] 管理工具安装
 - [ ] 配置和偏好安装
 - [ ] 系统工具安装
+- [ ] 缩略图
 - [ ] 笔记本优化应用（如果适用）
 
 ---
@@ -1318,16 +1394,19 @@ Arch Linux 是一个滚动发布发行版，这意味着您接收连续更新。
 重要的是定期保持系统更新。
 
 **更新官方软件包：**
+
 ```bash
 sudo pacman -Syu
 ```
 
 **更新 AUR 和官方软件包：**
+
 ```bash
 yay -Syu
 ```
 
 **建议：**
+
 - 至少每周更新一次
 - 更新前阅读 [https://archlinux.org/](https://archlinux.org/) 的新闻，
   以了解重要变化
@@ -1335,6 +1414,7 @@ yay -Syu
 - 重要内核更新后，考虑重启系统
 
 **清理软件包缓存（可选）：**
+
 ```bash
 sudo pacman -Sc
 ```
